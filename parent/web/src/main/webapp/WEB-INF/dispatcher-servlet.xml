@@ -11,17 +11,24 @@
       http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 
-	<context:component-scan base-package="by.house.keikom.spring.web.controller" />
+	<context:component-scan base-package="by.itacademy.keikom.taxi.web.controller" />
 
 	<mvc:annotation-driven />
+	<mvc:default-servlet-handler />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
 
 	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:prefix="/WEB-INF/jsp/" p:suffix=".jspx" />
-
-	<bean id="localeResolver"
-		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-		<property name="defaultLocale" value="en"></property>
+		class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
 	</bean>
-
+	
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles-definitions/layouts.xml</value>
+				<value>/WEB-INF/tiles-definitions/views.xml</value>
+			</list>
+		</property>
+	</bean>
 </beans>
