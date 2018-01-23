@@ -22,7 +22,7 @@ public class Car2CarOptionDaoImpl extends AbstractDaoImpl implements ICar2CarOpt
 	private static final Logger LOGGER = LoggerFactory.getLogger(Car2CarOptionDaoImpl.class);
 
 	@Override
-	public Car2CarOption create(Car2CarOption obj) {
+	public void create(Car2CarOption obj) {
 
 		try (Connection connect = getConnection();
 				PreparedStatement pst = connect.prepareStatement(
@@ -34,14 +34,12 @@ public class Car2CarOptionDaoImpl extends AbstractDaoImpl implements ICar2CarOpt
 			pst.setInt(2, obj.getCarOptionId());
 			pst.executeUpdate();
 
-			Car2CarOption result = new Car2CarOption();
-			ResultSet rs = pst.getGeneratedKeys();
-			rs.next();
-			Integer carId = rs.getInt("car_id");
-			Integer carOptionId = rs.getInt("car_option_id");
-			result.setCarId(carId);
-			result.setCarOptionId(carOptionId);
-			return result;
+			/*
+			 * Car2CarOption result = new Car2CarOption(); ResultSet rs =
+			 * pst.getGeneratedKeys(); rs.next(); Integer carId = rs.getInt(1); Integer
+			 * carOptionId = rs.getInt(2); result.setCarId(carId);
+			 * result.setCarOptionId(carOptionId); return result;
+			 */
 		} catch (SQLException e) {
 			throw new SQLExecutionException(e);
 		}

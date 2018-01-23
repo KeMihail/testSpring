@@ -8,7 +8,7 @@ import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
 
 public interface ICar2CarOptionDao {
 
-	Car2CarOption create(Car2CarOption obj);
+	void create(Car2CarOption obj);
 
 	void delete(Car2CarOption obj);
 

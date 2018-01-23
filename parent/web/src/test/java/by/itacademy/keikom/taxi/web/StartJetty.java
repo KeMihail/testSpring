@@ -1,4 +1,4 @@
-package by.house.keikom.spring.web;
+package by.itacademy.keikom.taxi.web;
 
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;

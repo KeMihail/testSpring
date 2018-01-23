@@ -27,20 +27,20 @@ public class UserDaoImpl extends AbstractDaoImpl implements IUserDao {
 
 		try (Connection connect = getConnection();
 				PreparedStatement pst = connect.prepareStatement(
-						"insert into user(name,last_name,birthday,address,phone_number,email,created,modified,role)\r\n"
+						"insert into user(role,name,last_name,birthday,address,phone_number,email,created,modified)\r\n"
 								+ "values (?,?,?,?,?,?,?,?,?)",
 						Statement.RETURN_GENERATED_KEYS)) {
 			LOGGER.info("execute SQL: create new User");
 
-			pst.setString(1, user.getName());
-			pst.setString(2, user.getLastName());
-			pst.setTimestamp(3, user.getBirthday());
-			pst.setString(4, user.getAddress());
-			pst.setString(5, user.getPhoneNumber());
-			pst.setString(6, user.getEmail());
-			pst.setTimestamp(7, user.getCreated());
-			pst.setTimestamp(8, user.getModified());
-			pst.setString(9, user.getRole().toString());
+			pst.setString(1, user.getRole().toString());
+			pst.setString(2, user.getName());
+			pst.setString(3, user.getLastName());
+			pst.setTimestamp(4, user.getBirthday());
+			pst.setString(5, user.getAddress());
+			pst.setString(6, user.getPhoneNumber());
+			pst.setString(7, user.getEmail());
+			pst.setTimestamp(8, user.getCreated());
+			pst.setTimestamp(9, user.getModified());
 			pst.executeUpdate();
 
 			ResultSet rs = pst.getGeneratedKeys();
@@ -97,7 +97,7 @@ public class UserDaoImpl extends AbstractDaoImpl implements IUserDao {
 	public User getById(Integer id) {
 
 		try (Connection connect = getConnection();
-				PreparedStatement pst = connect.prepareStatement("select * from user where id = ?;")) {
+				PreparedStatement pst = connect.prepareStatement("select * from user where id = ?")) {
 			LOGGER.info("execute SQL: show one User");
 
 			pst.setInt(1, id);
@@ -133,18 +133,19 @@ public class UserDaoImpl extends AbstractDaoImpl implements IUserDao {
 	}
 
 	private User parseUser(ResultSet rs) throws SQLException {
+
 		User user = new User();
 		user.setId(rs.getInt(1));
-		user.setName(rs.getString(2));
-		user.setLastName(rs.getString(3));
-		user.setBirthday(rs.getTimestamp(4));
-		user.setAddress(rs.getString(5));
-		user.setPhoneNumber(rs.getString(6));
-		user.setEmail(rs.getString(7));
-		user.setDeleted(rs.getBoolean(8));
-		user.setCreated(rs.getTimestamp(9));
-		user.setModified(rs.getTimestamp(10));
-		user.setRole(UserRole.valueOf(rs.getString(11)));
+		user.setRole(UserRole.valueOf(rs.getString(2)));
+		user.setName(rs.getString(3));
+		user.setLastName(rs.getString(4));
+		user.setBirthday(rs.getTimestamp(5));
+		user.setAddress(rs.getString(6));
+		user.setPhoneNumber(rs.getString(7));
+		user.setEmail(rs.getString(8));
+		user.setDeleted(rs.getBoolean(9));
+		user.setCreated(rs.getTimestamp(10));
+		user.setModified(rs.getTimestamp(11));
 		return user;
 	}
 }

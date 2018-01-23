@@ -41,7 +41,7 @@ public class RateDaoImpl extends AbstractDaoImpl implements IRateDao {
 
 			ResultSet rs = pst.getGeneratedKeys();
 			rs.next();
-			Integer id = rs.getInt("id");
+			Integer id = rs.getInt(1);
 			return id;
 		} catch (SQLException e) {
 			throw new SQLExecutionException(e);

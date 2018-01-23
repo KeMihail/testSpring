@@ -29,19 +29,19 @@ public class CarServicesTest extends AbstractServicesTest {
 	private ICarServices services;
 	private List<Car> list;
 
-	private static Model model = new Model();
+	private Model model = new Model();
 	@Autowired
 	private IModelServices modelServices;
 
-	private static LegalEntity legalEntity;
+	private LegalEntity legalEntity;
 	@Autowired
 	private ILegalEntityServices legalEntityServices;
 
-	private static User user;
+	private User user;
 	@Autowired
 	private IUserServices userServisec;
 
-	private static Brand brand;
+	private Brand brand;
 	@Autowired
 	private IBrandServices brandServices;
 
@@ -94,8 +94,6 @@ public class CarServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(car1.getModelId(), car.getModelId());
 		Assert.assertEquals(car1.getLegalEntityId(), car.getLegalEntityId());
 		Assert.assertEquals(car1.getStatus(), car.getStatus());
-		Assert.assertEquals(car1.getCreated(), car.getCreated());
-		Assert.assertEquals(car1.getModified(), car.getModified());
 
 		car.setReleaseYear(2010);
 		services.save(car);
@@ -108,8 +106,6 @@ public class CarServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(car2.getModelId(), car.getModelId());
 		Assert.assertEquals(car2.getLegalEntityId(), car.getLegalEntityId());
 		Assert.assertEquals(car2.getStatus(), car.getStatus());
-		Assert.assertEquals(car2.getCreated(), car.getCreated());
-		Assert.assertEquals(car2.getModified(), car.getModified());
 
 		list = services.getAll();
 		Assert.assertNotNull(list);

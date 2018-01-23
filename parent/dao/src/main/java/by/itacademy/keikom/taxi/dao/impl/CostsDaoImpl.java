@@ -22,7 +22,7 @@ public class CostsDaoImpl extends AbstractDaoImpl implements ICostsDao {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CostsDaoImpl.class);
 
 	@Override
-	public Integer create(Costs costs) {
+	public void create(Costs costs) {
 
 		try (Connection connect = getConnection();
 				PreparedStatement pst = connect.prepareStatement(
@@ -45,10 +45,6 @@ public class CostsDaoImpl extends AbstractDaoImpl implements ICostsDao {
 			pst.setTimestamp(11, costs.getModified());
 			pst.executeUpdate();
 
-			ResultSet rs = pst.getGeneratedKeys();
-			rs.next();
-			Integer id = rs.getInt(1);
-			return id;
 		} catch (SQLException e) {
 			throw new SQLExecutionException(e);
 		}

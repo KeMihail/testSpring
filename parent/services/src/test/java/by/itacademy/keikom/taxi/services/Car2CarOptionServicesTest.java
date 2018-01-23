@@ -33,31 +33,31 @@ public class Car2CarOptionServicesTest extends AbstractServicesTest {
 
 	@Autowired
 	private ICarServices carServices;
-	private static Car car;
+	private Car car;
 
 	@Autowired
 	private ICarOptionServices carOptionServices;
-	private static CarOption carOption;
-	private static CarOption carOptionUpdate;
+	private CarOption carOption;
+	private CarOption carOptionUpdate;
 
 	@Autowired
 	private IModelServices modelServices;
-	private static Model model;
+	private Model model;
 
 	@Autowired
 	private ILegalEntityServices legalEntityServices;
-	private static LegalEntity legalEntity;
+	private LegalEntity legalEntity;
 
 	@Autowired
 	private IUserServices userServisec;
-	private static User user;
+	private User user;
 
 	@Autowired
 	private IBrandServices brandServices;
-	private static Brand brand;
+	private Brand brand;
 
-	private static List<Integer> getByIdOption;
-	private static List<Integer> getByIdCar;
+	private List<Integer> getByIdOption;
+	private List<Integer> getByIdCar;
 
 	@PostConstruct
 	public void prepareTestData() throws ParseException {

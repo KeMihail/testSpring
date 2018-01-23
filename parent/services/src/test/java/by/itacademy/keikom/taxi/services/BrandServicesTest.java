@@ -40,16 +40,12 @@ public class BrandServicesTest extends AbstractServicesTest {
 		Brand brand2 = services.getById(brand.getId());
 		Assert.assertEquals(brand.getId(), brand2.getId());
 		Assert.assertEquals(brand.getName(), brand2.getName());
-		Assert.assertEquals(brand.getCreated(), brand2.getCreated());
-		Assert.assertEquals(brand.getModified(), brand2.getModified());
 
 		brand.setName("Ауди");
 		services.save(brand);
 		Brand brand3 = services.getById(brand.getId());
 		Assert.assertEquals(brand.getId(), brand3.getId());
 		Assert.assertEquals(brand.getName(), brand3.getName());
-		Assert.assertEquals(brand.getCreated(), brand3.getCreated());
-		Assert.assertEquals(brand.getModified(), brand3.getModified());
 
 		list = services.getAll();
 		Assert.assertNotNull(list);

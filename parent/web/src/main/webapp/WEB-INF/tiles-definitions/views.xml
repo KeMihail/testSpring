@@ -9,8 +9,8 @@
 		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
 	</definition>
 
-	<definition name="cover.list" extends="DefaultTemplate">
-		<put-attribute name="body" value="/WEB-INF/views/cover/list.jsp" />
+	<definition name="user.list" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/user/list.jsp" />
 	</definition>
 
 </tiles-definitions>

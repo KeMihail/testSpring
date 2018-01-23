@@ -6,7 +6,7 @@ import by.itacademy.keikom.taxi.dao.dbmodel.Costs;
 
 public interface ICostsDao {
 
-	Integer create(Costs costs);
+	void create(Costs costs);
 
 	void delete(Integer id);
 

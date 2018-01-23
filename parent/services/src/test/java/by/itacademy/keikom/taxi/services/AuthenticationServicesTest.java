@@ -18,8 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:context.xml")
 public class AuthenticationServicesTest extends AbstractServicesTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationServicesTest.class);
@@ -64,8 +62,6 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(authentication1.getUserId(), authentication.getUserId());
 		Assert.assertEquals(authentication1.getLogin(), authentication.getLogin());
 		Assert.assertEquals(authentication1.getPassword(), authentication.getPassword());
-		Assert.assertEquals(authentication1.getCreated(), authentication.getCreated());
-		Assert.assertEquals(authentication1.getModified(), authentication.getModified());
 
 		authentication.setLogin("login_update");
 		services.save(authentication);
@@ -75,8 +71,6 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(authentication2.getUserId(), authentication.getUserId());
 		Assert.assertEquals(authentication2.getLogin(), authentication.getLogin());
 		Assert.assertEquals(authentication2.getPassword(), authentication.getPassword());
-		Assert.assertEquals(authentication2.getCreated(), authentication.getCreated());
-		Assert.assertEquals(authentication2.getModified(), authentication.getModified());
 
 		list = services.getAll();
 		Assert.assertNotNull(list);

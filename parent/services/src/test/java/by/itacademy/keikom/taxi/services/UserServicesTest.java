@@ -1,6 +1,7 @@
 package by.itacademy.keikom.taxi.services;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -20,7 +21,7 @@ public class UserServicesTest extends AbstractServicesTest {
 	@Autowired
 	private IUserServices services;
 
-	private List<User> list;
+	private List<User> list = new ArrayList<User>();
 
 	@Test
 	public void testGRUD() throws ParseException {
@@ -47,8 +48,6 @@ public class UserServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(user.getBirthday(), user1.getBirthday());
 		Assert.assertEquals(user.getRole(), user1.getRole());
 		Assert.assertEquals(user.getDeleted(), user1.getDeleted());
-		Assert.assertEquals(user.getCreated(), user1.getCreated());
-		Assert.assertEquals(user.getModified(), user1.getModified());
 
 		user.setName("Оля");
 		services.save(user);
@@ -64,8 +63,6 @@ public class UserServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(user2.getBirthday(), user.getBirthday());
 		Assert.assertEquals(user2.getRole(), user.getRole());
 		Assert.assertEquals(user2.getDeleted(), user.getDeleted());
-		Assert.assertEquals(user2.getCreated(), user.getCreated());
-		Assert.assertEquals(user2.getModified(), user.getModified());
 
 		list = services.getAll();
 		Assert.assertNotNull(list);

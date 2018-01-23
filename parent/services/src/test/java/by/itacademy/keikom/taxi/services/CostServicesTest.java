@@ -31,23 +31,23 @@ public class CostServicesTest extends AbstractServicesTest {
 	private CostsServicesImpl services;
 	private List<Costs> list;
 
-	private static Brand brand;
+	private Brand brand;
 	@Autowired
 	private IBrandServices brandServices;
 
-	private static Model model = new Model();
+	private Model model;
 	@Autowired
 	private IModelServices modelServices;
 
-	private static LegalEntity legalEntity;
+	private LegalEntity legalEntity;
 	@Autowired
 	private ILegalEntityServices legalEntityServices;
 
-	private static Car car;
+	private Car car;
 	@Autowired
 	private ICarServices carServices;
 
-	private static User userDriver;
+	private User userDriver;
 	@Autowired
 	private IUserServices userServisec;
 
@@ -104,8 +104,6 @@ public class CostServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(costs1.getSalaryDriver(), costs.getSalaryDriver());
 		Assert.assertEquals(costs1.getTaxes(), costs.getTaxes());
 		Assert.assertEquals(costs1.getTechnicalInspection(), costs.getTechnicalInspection());
-		Assert.assertEquals(costs1.getCreated(), costs.getCreated());
-		Assert.assertEquals(costs1.getModified(), costs.getModified());
 
 		costs.setCarService(300.0);
 		services.save(costs);
@@ -121,8 +119,6 @@ public class CostServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(costs2.getSalaryDriver(), costs.getSalaryDriver());
 		Assert.assertEquals(costs2.getTaxes(), costs.getTaxes());
 		Assert.assertEquals(costs2.getTechnicalInspection(), costs.getTechnicalInspection());
-		Assert.assertEquals(costs2.getCreated(), costs.getCreated());
-		Assert.assertEquals(costs2.getModified(), costs.getModified());
 
 		list = services.getAll();
 		Assert.assertNotNull(list);

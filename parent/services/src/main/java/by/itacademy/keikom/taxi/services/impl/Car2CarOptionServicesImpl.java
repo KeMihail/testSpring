@@ -17,7 +17,8 @@ public class Car2CarOptionServicesImpl implements ICar2CarOptionServices {
 
 	@Override
 	public Car2CarOption create(Car2CarOption obj) {
-		return dao.create(obj);
+		dao.create(obj);
+		return obj;
 	}
 
 	@Override

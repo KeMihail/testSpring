@@ -25,7 +25,7 @@ public class ModelServicesTest extends AbstractServicesTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ModelServicesTest.class);
 
-	private static Brand brand;
+	private Brand brand;
 	@Autowired
 	private IBrandServices brandServices;
 
@@ -69,8 +69,6 @@ public class ModelServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(model1.getCarCit(), model.getCarCit());
 		Assert.assertEquals(model1.getEngineType(), model.getEngineType());
 		Assert.assertEquals(model1.getBrandId(), model.getBrandId());
-		Assert.assertEquals(model1.getCreated(), model.getCreated());
-		Assert.assertEquals(model1.getModified(), model.getModified());
 
 		model.setName("Опель");
 		services.save(model);
@@ -83,8 +81,6 @@ public class ModelServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(model2.getCarCit(), model.getCarCit());
 		Assert.assertEquals(model2.getEngineType(), model.getEngineType());
 		Assert.assertEquals(model2.getBrandId(), model.getBrandId());
-		Assert.assertEquals(model2.getCreated(), model.getCreated());
-		Assert.assertEquals(model2.getModified(), model.getModified());
 
 		list = services.getAll();
 		Assert.assertNotNull(list);
