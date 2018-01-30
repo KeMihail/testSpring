@@ -28,20 +28,19 @@ public class RateServicesImpl implements IRateServices {
 			dao.update(rate);
 		} else {
 			rate.setCreated(new Timestamp(new Date().getTime()));
-			Integer id = dao.create(rate);
-			rate.setId(id);
+			dao.insert(rate);
 		}
 		return rate;
 	}
 
 	@Override
 	public void delete(Integer id) {
-		dao.delete(id);
+		dao.remove(id);
 	}
 
 	@Override
 	public Rate getById(Integer id) {
-		return dao.getById(id);
+		return dao.get(id);
 	}
 
 	@Override

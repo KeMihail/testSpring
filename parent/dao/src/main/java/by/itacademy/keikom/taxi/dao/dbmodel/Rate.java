@@ -1,15 +1,30 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-public class Rate {
+@Entity
+public class Rate implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Column
 	private String name;
+	@Column
 	private Double priceLanding;
+	@Column
 	private Double priceKilometr;
+	@Column
 	private Double priceMinuteWait;
+	@Column
 	private Timestamp created;
+	@Column
 	private Timestamp modified;
 
 	public Rate() {

@@ -1,18 +1,7 @@
 package by.itacademy.keikom.taxi.dao;
 
-import java.util.List;
-
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 
-public interface IRateDao {
+public interface IRateDao extends IHibernateDao<Rate, Integer> {
 
-	Integer create(Rate rate);
-
-	void delete(Integer id);
-
-	void update(Rate rate);
-
-	Rate getById(Integer id);
-
-	List<Rate> getAll();
 }

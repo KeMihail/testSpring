@@ -9,7 +9,17 @@
 
 
 	<context:annotation-config />
-                                          
+
 	<context:component-scan base-package="by.itacademy.keikom.taxi.dao.impl" />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" p:driverClassName="com.mysql.cj.jdbc.Driver"
+		p:url="jdbc:mysql://${host}:${port}/${dbname}?useSSL=false"
+		p:username="${login}" p:password="${password}" />
+
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		p:dataSource-ref="dataSource" />
 
 </beans>

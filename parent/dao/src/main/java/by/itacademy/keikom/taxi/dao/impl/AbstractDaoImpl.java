@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class AbstractDaoImpl {
 
-	@Value("jdbc:mysql://${host}:${port}/${dbName}?useSSL=false")
+	@Value("jdbc:mysql://${host}:${port}/${dbname}?useSSL=false")
 	private String dbURL;
 
 	@Value("${login}")
