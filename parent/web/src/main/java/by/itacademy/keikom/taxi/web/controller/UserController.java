@@ -28,10 +28,10 @@ public class UserController {
 	private IUserServices userService;
 
 	@Autowired
-	private UserToDTOConverter toDTOConverter;
+	private UserToDTOConverter toDTOConverter;;
 
 	@Autowired
-	private UserFromDTOConverter fromDTOConverter;
+	private UserFromDTOConverter fromDTOConverter;;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView viewList() {

@@ -11,5 +11,9 @@ public interface IRateServices {
 
 	Rate getById(Integer id);
 
-	List<Rate> getAll();
+	public List<Rate> getAll();
+
+	public List<Rate> getAll(final String sortColumn, final boolean sortAscending, final int limit, final int offset);
+
+	public Integer getCount();
 }

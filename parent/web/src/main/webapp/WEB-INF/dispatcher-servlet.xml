@@ -11,7 +11,7 @@
       http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 
-	<context:component-scan base-package="by.itacademy.keikom.taxi.web.controller" />
+	<context:component-scan base-package="by.itacademy.keikom.taxi.web" />
 
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />

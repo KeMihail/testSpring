@@ -4,6 +4,17 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
+	<definition name="DefaultTemplate" template="/WEB-INF/views/template/main-template.jsp">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="header" value="/WEB-INF/views/template/header.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/template/menu.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp" />
+	</definition>
+
+
+	<definition name="login" template="/WEB-INF/views/login.jsp">
+	</definition>
 
 	<definition name="index" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
@@ -11,6 +22,31 @@
 
 	<definition name="user.list" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/user/list.jsp" />
+	</definition>
+	<definition name="user.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/user/form.jsp" />
+	</definition>
+	<definition name="user.details" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/user/details.jsp" />
+	</definition>
+
+
+	<definition name="rate.list" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/rate/list.jsp" />
+	</definition>
+	<definition name="rate.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/rate/form.jsp" />
+	</definition>
+
+
+	<definition name="brand.list" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/brand/list.jsp" />
+	</definition>
+	<definition name="brand.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/brand/form.jsp" />
+	</definition>
+	<definition name="brand.details" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/brand/details.jsp" />
 	</definition>
 
 </tiles-definitions>

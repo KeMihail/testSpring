@@ -16,7 +16,7 @@ public class UserDTO {
 	private Boolean deleted;
 	private Timestamp created;
 	private Timestamp modified;
-	private UserRole role;
+	private String role;
 
 	public UserDTO() {
 	}
@@ -101,11 +101,11 @@ public class UserDTO {
 		this.modified = modified;
 	}
 
-	public UserRole getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(UserRole role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 
