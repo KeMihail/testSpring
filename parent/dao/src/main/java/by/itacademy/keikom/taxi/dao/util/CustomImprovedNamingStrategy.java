@@ -10,5 +10,4 @@ public class CustomImprovedNamingStrategy extends ImprovedNamingStrategy {
         final String base = super.foreignKeyColumnName(propertyName, propertyEntityName, propertyTableName, referencedColumnName);
         return ((base != null) && (base.length() > 0)) ? base + "_id" : base;
     }
-
 }

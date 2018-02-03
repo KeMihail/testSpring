@@ -31,6 +31,8 @@ import by.itacademy.keikom.taxi.web.util.SortModel;
 @RequestMapping(value = "/rate")
 public class RateController {
 
+	private static final String LOCAL_LIST_MODEL_NAME = "rateListModel";
+
 	@Autowired
 	private IRateServices servicesRate;
 
@@ -46,13 +48,15 @@ public class RateController {
 			@RequestParam(name = "page", required = false) final Integer pageNumber) {
 
 		ListModel<RateDTO> listModel;
-		if (req.getSession().getAttribute(ListModel.SESSION_ATTR_NAME) == null) {
+		if (req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME) == null) {
 			listModel = new ListModel<>();
 			listModel.setSort(new SortModel("id"));
-			req.getSession().setAttribute(ListModel.SESSION_ATTR_NAME, listModel);
+			req.getSession().setAttribute(LOCAL_LIST_MODEL_NAME, listModel);
 		} else {
-			listModel = (ListModel<RateDTO>) req.getSession().getAttribute(ListModel.SESSION_ATTR_NAME);
+			listModel = (ListModel<RateDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);
 		}
+
+		req.getSession().setAttribute(ListModel.SESSION_ATTR_NAME, listModel);
 
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);

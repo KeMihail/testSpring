@@ -6,14 +6,22 @@ import by.itacademy.keikom.taxi.dao.enums.EngineType;
 
 import java.sql.Timestamp;
 
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.ManyToAny;
+
 public class Model {
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Brand brand;
 
 	private Integer id;
 	private String name;
 	private CarKit carCit;
 	private EngineType engineType;
 	private BodyType BodyType;
-	private Integer brandId;
+	// private Integer brandId;
 	private Timestamp created;
 	private Timestamp modified;
 
@@ -60,12 +68,18 @@ public class Model {
 		BodyType = eBodyType;
 	}
 
-	public Integer getBrandId() {
-		return brandId;
+	/*
+	 * public Integer getBrandId() { return brandId; }
+	 * 
+	 * public void setBrandId(Integer brandId) { this.brandId = brandId; }
+	 */
+
+	public Brand getBrand() {
+		return brand;
 	}
 
-	public void setBrandId(Integer brandId) {
-		this.brandId = brandId;
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
 	public Timestamp getCreated() {
@@ -82,12 +96,5 @@ public class Model {
 
 	public void setModified(Timestamp modified) {
 		this.modified = modified;
-	}
-
-	@Override
-	public String toString() {
-		return "Model [id=" + id + ", name=" + name + ", carCit=" + carCit + ", engineType=" + engineType
-				+ ", EBodyType=" + BodyType + ", brandId=" + brandId + ", created=" + created + ", modified=" + modified
-				+ "]";
 	}
 }

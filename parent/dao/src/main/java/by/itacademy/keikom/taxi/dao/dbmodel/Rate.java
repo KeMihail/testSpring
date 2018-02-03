@@ -22,7 +22,8 @@ public class Rate implements Serializable {
 	private Double priceKilometr;
 	@Column
 	private Double priceMinuteWait;
-	@Column
+
+	@Column(updatable = false)
 	private Timestamp created;
 	@Column
 	private Timestamp modified;

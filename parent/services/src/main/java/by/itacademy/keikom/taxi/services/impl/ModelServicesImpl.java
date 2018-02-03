@@ -1,6 +1,8 @@
 package by.itacademy.keikom.taxi.services.impl;
 
 import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -27,24 +29,55 @@ public class ModelServicesImpl implements IModelServices {
 			dao.update(model);
 		} else {
 			model.setCreated(new Timestamp(new Date().getTime()));
-			Integer id = dao.create(model);
-			model.setId(id);
+			dao.insert(model);
 		}
 		return model;
 	}
 
 	@Override
 	public void delete(Integer id) {
-		dao.delete(id);
+		dao.remove(id);
 	}
 
 	@Override
 	public Model getById(Integer id) {
-		return dao.getById(id);
+		return dao.get(id);
 	}
 
 	@Override
 	public List<Model> getAll() {
 		return dao.getAll();
+	}
+
+	@Override
+	public List<Model> getAll(String sortColumn, boolean sortAscending, int limit, int offset) {
+		final List<Model> all = getAll();
+
+		// FIXME: Do not use code below. use an appropriate DAO method instead:
+		// return dao.getAll(sortColumn,sortAscending,limit,offset)
+
+		Collections.sort(all, new Comparator<Model>() {
+			@Override
+			public int compare(Model o1, Model o2) {
+				if (sortAscending) {
+					final Model temp = o1;
+					o1 = o2;
+					o2 = temp;
+				}
+
+				if ("id".equals(sortColumn)) {
+					return o1.getId().compareTo(o2.getId());
+				} else if ("name".equals(sortColumn)) {
+					return o1.getName().compareTo(o2.getName());
+				}
+				throw new IllegalArgumentException("unsupported sort column:" + sortColumn);
+			}
+		});
+		return all.subList(Math.min(offset, all.size()), Math.min(offset + limit, all.size()));
+	}
+
+	@Override
+	public Integer getCount() {
+		return getAll().size();
 	}
 }
