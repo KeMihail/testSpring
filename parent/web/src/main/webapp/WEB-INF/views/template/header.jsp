@@ -12,6 +12,9 @@
 			<ul id="nav-mobile" class="left hide-on-med-and-down">
 				<li><a href="/">Home</a></li>
 				<li><a href="/rate">Rates List</a></li>
+				<li><a href="/brand">Brand List</a></li>
+				<li><a href="/legalEntity">legalEnity List</a></li>
+				<li><a href="/model">Model List</a></li>
 			</ul>
 		</div>
 	</nav>

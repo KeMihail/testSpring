@@ -69,6 +69,16 @@ public class ModelServicesImpl implements IModelServices {
 					return o1.getId().compareTo(o2.getId());
 				} else if ("name".equals(sortColumn)) {
 					return o1.getName().compareTo(o2.getName());
+				} else if ("name".equals(sortColumn)) {
+					return o1.getName().compareTo(o2.getName());
+				} else if ("carCit".equals(sortColumn)) {
+					return o1.getCarCit().compareTo(o2.getCarCit());
+				} else if ("engineType".equals(sortColumn)) {
+					return o1.getEngineType().compareTo(o2.getEngineType());
+				} else if ("BodyType".equals(sortColumn)) {
+					return o1.getBodyType().compareTo(o2.getBodyType());
+				} else if ("brandId".equals(sortColumn)) {
+					return o1.getBrandId().compareTo(o2.getBrandId());
 				}
 				throw new IllegalArgumentException("unsupported sort column:" + sortColumn);
 			}

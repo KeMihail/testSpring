@@ -2,7 +2,6 @@ package by.itacademy.keikom.taxi.web.controller;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,39 +17,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
-import by.itacademy.keikom.taxi.services.IBrandServices;
-import by.itacademy.keikom.taxi.web.converter.BrandToDTOConverter;
-import by.itacademy.keikom.taxi.web.dto.BrandDTO;
+import by.itacademy.keikom.taxi.dao.dbmodel.Model;
+import by.itacademy.keikom.taxi.services.IModelServices;
+import by.itacademy.keikom.taxi.web.converter.ModelFromDTOConverter;
+import by.itacademy.keikom.taxi.web.converter.ModelToDTOConverter;
+import by.itacademy.keikom.taxi.web.dto.ModelDTO;
 import by.itacademy.keikom.taxi.web.util.ListModel;
 import by.itacademy.keikom.taxi.web.util.SortModel;
-import by.itacademy.keikom.taxi.web.converter.BrandFromDTOConverter;
 
 @Controller
-@RequestMapping(value = "/brand")
-public class BrandController {
+@RequestMapping(value = "/model")
+public class ModelController {
 
-	private static final String LOCAL_LIST_MODEL_NAME = "brandListModel";
+	private static final String LOCAL_LIST_MODEL_NAME = "modelListModel";
 
 	@Autowired
-	private IBrandServices brandServices;
+	private IModelServices servicesModel;
+
 	@Autowired
-	private BrandToDTOConverter toDTOConverter;
+	private ModelFromDTOConverter fromDTOConverter;
+
 	@Autowired
-	private BrandFromDTOConverter fromDTOConverter;
+	private ModelToDTOConverter toDTOConverter;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView viewList(final HttpServletRequest req,
 			@RequestParam(name = "sort", required = false) final String sort,
 			@RequestParam(name = "page", required = false) final Integer pageNumber) {
 
-		ListModel<BrandDTO> listModel;
+		ListModel<ModelDTO> listModel;
 		if (req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME) == null) {
 			listModel = new ListModel<>();
 			listModel.setSort(new SortModel("id"));
 			req.getSession().setAttribute(LOCAL_LIST_MODEL_NAME, listModel);
 		} else {
-			listModel = (ListModel<BrandDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);
+			listModel = (ListModel<ModelDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);
 		}
 
 		req.getSession().setAttribute(ListModel.SESSION_ATTR_NAME, listModel);
@@ -60,49 +61,50 @@ public class BrandController {
 
 		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
 		final SortModel sortModel = listModel.getSort();
-		final List<Brand> currentPageList = brandServices.getAll(sortModel.getColumn(), sortModel.isAscending(),
+		final List<Model> currentPageList = servicesModel.getAll(sortModel.getColumn(), sortModel.isAscending(),
 				listModel.getItemsPerPage(), offset);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(brandServices.getCount());
+		listModel.setTotalCount(servicesModel.getCount());
 
-		final ModelAndView mv = new ModelAndView("brand.list");
+		final ModelAndView mv = new ModelAndView("model.list");
 		return mv;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView showForm() {
-		return new ModelAndView("brand.edit", "brandForm", new BrandDTO());
+		return new ModelAndView("model.edit", "modelForm", new ModelDTO());
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String save(@Validated @ModelAttribute("brandForm") final BrandDTO brandForm, final BindingResult result) {
+	public String save(@Validated @ModelAttribute("modelForm") final ModelDTO modelForm, final BindingResult result) {
 		if (result.hasErrors()) {
-			return "brand.edit";
+			return "model.edit";
 		} else {
-			final Brand brand = fromDTOConverter.apply(brandForm);
-			brandServices.save(brand);
-			return "redirect:/brand";
+			final Model model = fromDTOConverter.apply(modelForm);
+			servicesModel.save(model);
+			return "redirect:/model";
 		}
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		brandServices.delete(id);
-		return "redirect:/brand";
+		servicesModel.delete(id);
+		return "redirect:/model";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final BrandDTO dto = toDTOConverter.apply(brandServices.getById(id));
+		final ModelDTO dto = toDTOConverter.apply(servicesModel.getById(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("brandForm", dto);
+		hashMap.put("modelForm", dto);
 		hashMap.put("readonly", true);
-		return new ModelAndView("brand.edit", hashMap);
+		return new ModelAndView("model.edit", hashMap);
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final BrandDTO dto = toDTOConverter.apply(brandServices.getById(id));
-		return new ModelAndView("brand.edit", "brandForm", dto);
+		final ModelDTO dto = toDTOConverter.apply(servicesModel.getById(id));
+		return new ModelAndView("model.edit", "modelForm", dto);
 	}
+
 }

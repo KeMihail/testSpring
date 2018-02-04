@@ -45,8 +45,21 @@
 	<definition name="brand.edit" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/brand/form.jsp" />
 	</definition>
-	<definition name="brand.details" extends="DefaultTemplate">
-		<put-attribute name="body" value="/WEB-INF/views/brand/details.jsp" />
+
+	<definition name="legalEntity.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/legalEntity/list.jsp" />
+	</definition>
+	<definition name="legalEntity.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/legalEntity/form.jsp" />
+	</definition>
+
+	<definition name="model.list" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/model/list.jsp" />
+	</definition>
+	<definition name="model.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/model/form.jsp" />
 	</definition>
 
 </tiles-definitions>

@@ -18,14 +18,14 @@
 			<div class="input-field col s12">
 				<form:input path="priceLanding" type="text" disabled="${readonly}" />
 				<form:errors path="priceLanding" cssClass="red-text" />
-				<label for="width">priceLanding»</label>
+				<label for="priceLanding">priceLanding</label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="input-field col s12">
 				<form:input path="priceKilometr" type="text" disabled="${readonly}" />
 				<form:errors path="priceKilometr" cssClass="red-text" />
-				<label for="width">priceKilometr»</label>
+				<label for="width">priceKilometr</label>
 			</div>
 		</div>
 		<div class="row">

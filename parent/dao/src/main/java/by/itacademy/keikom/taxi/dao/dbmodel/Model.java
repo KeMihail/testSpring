@@ -13,19 +13,28 @@ import org.hibernate.annotations.ManyToAny;
 
 public class Model {
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Brand brand;
+	/*
+	 * @ManyToOne(fetch = FetchType.LAZY) private Brand brand;
+	 */
 
 	private Integer id;
 	private String name;
 	private CarKit carCit;
 	private EngineType engineType;
 	private BodyType BodyType;
-	// private Integer brandId;
+	private Integer brandId;
 	private Timestamp created;
 	private Timestamp modified;
 
 	public Model() {
+	}
+
+	public Integer getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(Integer brandId) {
+		this.brandId = brandId;
 	}
 
 	public Integer getId() {
@@ -73,14 +82,6 @@ public class Model {
 	 * 
 	 * public void setBrandId(Integer brandId) { this.brandId = brandId; }
 	 */
-
-	public Brand getBrand() {
-		return brand;
-	}
-
-	public void setBrand(Brand brand) {
-		this.brand = brand;
-	}
 
 	public Timestamp getCreated() {
 		return created;
