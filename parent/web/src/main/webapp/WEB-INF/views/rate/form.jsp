@@ -1,8 +1,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <h4 class="header">Edit rate</h4>
 <div class="row">
+
 	<form:form class="col s12" method="POST" action="/rate"
 		modelAttribute="rateForm">
 		<form:input path="id" type="hidden" />

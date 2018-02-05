@@ -85,9 +85,13 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/car2CarOption/list.jsp" />
 	</definition>
-	<definition name="car2CarOption.edit" extends="DefaultTemplate">
-		<put-attribute name="body"
-			value="/WEB-INF/views/car2CarOption/form.jsp" />
+
+	<definition name="carOption.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/carOption/form.jsp" />
+	</definition>
+
+	<definition name="carOption.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/carOption/form.jsp" />
 	</definition>
 
 </tiles-definitions>

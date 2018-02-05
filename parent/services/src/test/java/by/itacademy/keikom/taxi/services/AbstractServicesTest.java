@@ -43,7 +43,7 @@ public abstract class AbstractServicesTest {
 		Model model = new Model();
 		model.setName("Лагуна");
 		model.setBodyType(BodyType.Minivan);
-		// model.setBrandId(brand.getId());
+		model.setBrandId(brand.getId());
 		model.setCarCit(CarKit.Classic);
 		model.setEngineType(EngineType.Diesel);
 		return model;

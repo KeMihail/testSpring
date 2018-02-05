@@ -6,6 +6,7 @@ import by.itacademy.keikom.taxi.dao.enums.EngineType;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 

@@ -29,19 +29,20 @@ public class ModelServicesImpl implements IModelServices {
 			dao.update(model);
 		} else {
 			model.setCreated(new Timestamp(new Date().getTime()));
-			dao.insert(model);
+			Integer id = dao.create(model);
+			model.setId(id);
 		}
 		return model;
 	}
 
 	@Override
 	public void delete(Integer id) {
-		dao.remove(id);
+		dao.delete(id);
 	}
 
 	@Override
 	public Model getById(Integer id) {
-		return dao.get(id);
+		return dao.getById(id);
 	}
 
 	@Override
