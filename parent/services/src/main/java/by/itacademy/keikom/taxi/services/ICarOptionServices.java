@@ -3,6 +3,7 @@ package by.itacademy.keikom.taxi.services;
 import java.util.List;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
+import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 
 public interface ICarOptionServices {
 
@@ -13,4 +14,5 @@ public interface ICarOptionServices {
 	CarOption getById(Integer id);
 
 	List<CarOption> getAll();
+
 }

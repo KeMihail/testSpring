@@ -1,39 +1,82 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<h4 class="header">Edit User</h4>
 
-<form:form method="POST" action="/user" modelAttribute="userForm">
-	<table>
-		<tr>
-			<td>Имя</td>
-			<td><form:input path="name" type="text" /></td>
-		</tr>
-		<tr>
-			<td>Фамилия</td>
-			<td><form:input path="lastName" type="text" /></td>
-		</tr>
-		<tr>
-			<td>Роль</td>
-			<td><form:input path="role" type="text" /></td>
-		</tr>
+<div class="row">
+	<form:form class="col s12" method="POST" action="/user"
+		modelAttribute="userForm">
+		<form:input path="id" type="hidden" />
 
-		<!--  <tr>
-			<td>День Рождения</td>
-			<td><form:input path="birthday" type="text" /></td>
-		</tr>-->
-		<tr>
-			<td>Адресс</td>
-			<td><form:input path="address" type="text" /></td>
-		</tr>
-		<tr>
-			<td>Номер телефона</td>
-			<td><form:input path="phoneNumber" type="text" /></td>
-		</tr>
-		<tr>
-			<td>Email</td>
-			<td><form:input path="email" type="text" /></td>
-		</tr>
-		<tr>
-			<td colspan="2"><input type="submit" value="Сохранить" /></td>
-		</tr>
-	</table>
-</form:form>
+		<div class="row">
+			<div class="input-field col s12">
+				<form:input path="name" type="text" disabled="${readonly}" />
+				<form:errors path="name" cssClass="red-text" />
+				<label for="name">name</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+				<form:input path="lastName" type="text" disabled="${readonly}" />
+				<form:errors path="lastName" cssClass="red-text" />
+				<label for="lastName">lastName</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+				<form:input path="birthday" type="text" disabled="${readonly}" />
+				<form:errors path="birthday" cssClass="red-text" />
+				<label for="birthday">birthday</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+				<form:input path="address" type="text" disabled="${readonly}" />
+				<form:errors path="address" cssClass="red-text" />
+				<label for="address">address»</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+				<form:input path="phoneNumber" type="text" disabled="${readonly}" />
+				<form:errors path="phoneNumber" cssClass="red-text" />
+				<label for="phoneNumber">phoneNumber»</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+				<form:input path="email" type="text" disabled="${readonly}" />
+				<form:errors path="email" cssClass="red-text" />
+				<label for="email">email»</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+				<form:input path="role" type="text" disabled="${readonly}" />
+				<form:errors path="role" cssClass="red-text" />
+				<label for="role">address»</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col s6"></div>
+			<div class="col s3">
+				<c:if test="${!readonly}">
+					<button class="btn waves-effect waves-light right" type="submit">Сохранить</button>
+				</c:if>
+			</div>
+
+			<div class="col s3">
+				<a class="btn waves-effect waves-light right" href="/user"> К
+					списку <i class="material-icons right"></i>
+				</a>
+			</div>
+		</div>
+	</form:form>
+</div>

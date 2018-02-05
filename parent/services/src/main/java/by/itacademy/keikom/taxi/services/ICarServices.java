@@ -13,4 +13,8 @@ public interface ICarServices {
 	Car getById(Integer id);
 
 	List<Car> getAll();
+
+	public List<Car> getAll(final String sortColumn, final boolean sortAscending, final int limit, final int offset);
+
+	public Integer getCount();
 }

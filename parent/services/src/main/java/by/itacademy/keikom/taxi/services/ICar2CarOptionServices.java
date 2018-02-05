@@ -3,6 +3,7 @@ package by.itacademy.keikom.taxi.services;
 import java.util.List;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Car2CarOption;
+import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 
 public interface ICar2CarOptionServices {
 
@@ -19,4 +20,9 @@ public interface ICar2CarOptionServices {
 	List<Car2CarOption> getAll();
 
 	Car2CarOption getById(Car2CarOption obj);
+
+	public List<Car2CarOption> getAll(final String sortColumn, final boolean sortAscending, final int limit,
+			final int offset);
+
+	public Integer getCount();
 }

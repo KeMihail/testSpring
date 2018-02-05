@@ -17,41 +17,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.Car;
-import by.itacademy.keikom.taxi.services.ICarServices;
-import by.itacademy.keikom.taxi.web.converter.CarFromDTOConverter;
-import by.itacademy.keikom.taxi.web.converter.CarToDTOConverter;
-import by.itacademy.keikom.taxi.web.dto.CarDTO;
+import by.itacademy.keikom.taxi.dao.dbmodel.Costs;
+import by.itacademy.keikom.taxi.services.ICostsServices;
+import by.itacademy.keikom.taxi.web.converter.CostsFromDTOConverter;
+import by.itacademy.keikom.taxi.web.converter.CostsToDTOConverter;
+import by.itacademy.keikom.taxi.web.dto.CostsDTO;
 import by.itacademy.keikom.taxi.web.util.ListModel;
 import by.itacademy.keikom.taxi.web.util.SortModel;
 
 @Controller
-@RequestMapping(value = "/car")
-public class CarController {
+@RequestMapping(value = "/costs")
+public class CostsControler {
 
-	private static final String LOCAL_LIST_MODEL_NAME = "carListModel";
-
-	@Autowired
-	private ICarServices servicesCar;
+	private static final String LOCAL_LIST_MODEL_NAME = "costsListModel";
 
 	@Autowired
-	private CarFromDTOConverter fromDTOConverter;
+	private ICostsServices servicesCosts;
 
 	@Autowired
-	private CarToDTOConverter toDTOConverter;
+	private CostsFromDTOConverter fromDTOConverter;
+
+	@Autowired
+	private CostsToDTOConverter toDTOConverter;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView viewList(final HttpServletRequest req,
 			@RequestParam(name = "sort", required = false) final String sort,
 			@RequestParam(name = "page", required = false) final Integer pageNumber) {
 
-		ListModel<CarDTO> listModel;
+		ListModel<CostsDTO> listModel;
 		if (req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME) == null) {
 			listModel = new ListModel<>();
-			listModel.setSort(new SortModel("id"));
+			listModel.setSort(new SortModel("carId"));
 			req.getSession().setAttribute(LOCAL_LIST_MODEL_NAME, listModel);
 		} else {
-			listModel = (ListModel<CarDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);
+			listModel = (ListModel<CostsDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);
 		}
 
 		req.getSession().setAttribute(ListModel.SESSION_ATTR_NAME, listModel);
@@ -61,50 +61,49 @@ public class CarController {
 
 		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
 		final SortModel sortModel = listModel.getSort();
-		final List<Car> currentPageList = servicesCar.getAll(sortModel.getColumn(), sortModel.isAscending(),
+		final List<Costs> currentPageList = servicesCosts.getAll(sortModel.getColumn(), sortModel.isAscending(),
 				listModel.getItemsPerPage(), offset);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(servicesCar.getCount());
+		listModel.setTotalCount(servicesCosts.getCount());
 
-		final ModelAndView mv = new ModelAndView("car.list");
+		final ModelAndView mv = new ModelAndView("costs.list");
 		return mv;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView showForm() {
-		return new ModelAndView("car.edit", "carForm", new CarDTO());
+		return new ModelAndView("costs.edit", "costsForm", new CostsDTO());
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String save(@Validated @ModelAttribute("carForm") final CarDTO carForm, final BindingResult result) {
+	public String save(@Validated @ModelAttribute("costsForm") final CostsDTO costsForm, final BindingResult result) {
 		if (result.hasErrors()) {
-			return "car.edit";
+			return "costs.edit";
 		} else {
-			final Car car = fromDTOConverter.apply(carForm);
-			servicesCar.save(car);
-			return "redirect:/car";
+			final Costs costs = fromDTOConverter.apply(costsForm);
+			servicesCosts.save(costs);
+			return "redirect:/costs";
 		}
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		servicesCar.delete(id);
-		return "redirect:/car";
+		servicesCosts.delete(id);
+		return "redirect:/costs";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final CarDTO dto = toDTOConverter.apply(servicesCar.getById(id));
+		final CostsDTO dto = toDTOConverter.apply(servicesCosts.getById(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("carForm", dto);
+		hashMap.put("costsForm", dto);
 		hashMap.put("readonly", true);
-		return new ModelAndView("car.edit", hashMap);
+		return new ModelAndView("costs.edit", hashMap);
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final CarDTO dto = toDTOConverter.apply(servicesCar.getById(id));
-		return new ModelAndView("car.edit", "carForm", dto);
+		final CostsDTO dto = toDTOConverter.apply(servicesCosts.getById(id));
+		return new ModelAndView("costs.edit", "costsForm", dto);
 	}
-
 }

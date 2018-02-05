@@ -13,4 +13,8 @@ public interface IUserServices {
 	User getById(Integer id);
 
 	List<User> getAll();
+
+	public List<User> getAll(final String sortColumn, final boolean sortAscending, final int limit, final int offset);
+
+	public Integer getCount();
 }

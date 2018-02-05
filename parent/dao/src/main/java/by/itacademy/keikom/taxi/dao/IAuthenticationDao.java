@@ -12,7 +12,7 @@ public interface IAuthenticationDao {
 
 	void update(Authentication authentication);
 
-	Authentication getById(Integer id);
+	public Authentication getById(Integer id);
 
-	List<Authentication> getAll();
+	public List<Authentication> getAll();
 }

@@ -15,6 +15,11 @@
 				<li><a href="/brand">Brand List</a></li>
 				<li><a href="/legalEntity">legalEnity List</a></li>
 				<li><a href="/model">Model List</a></li>
+				<li><a href="/car">Car List</a></li>
+				<li><a href="/user">User List</a></li>
+				<li><a href="/costs">Costs List</a></li>
+				<li><a href="/authentication">Authentication List</a></li>
+				<li><a href="/car2CarOption">Car2CarOption List</a></li>
 			</ul>
 		</div>
 	</nav>

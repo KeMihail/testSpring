@@ -1,11 +1,15 @@
 package by.itacademy.keikom.taxi.web.converter;
 
 import java.util.function.Function;
+
+import org.springframework.stereotype.Component;
+
 import by.itacademy.keikom.taxi.dao.enums.CarStatus;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 import by.itacademy.keikom.taxi.web.dto.CarDTO;
 
+@Component
 public class CarFromDTOConverter implements Function<CarDTO, Car> {
 
 	@Override

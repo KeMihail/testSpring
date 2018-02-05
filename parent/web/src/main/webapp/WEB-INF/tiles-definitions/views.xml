@@ -20,17 +20,6 @@
 		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
 	</definition>
 
-	<definition name="user.list" extends="DefaultTemplate">
-		<put-attribute name="body" value="/WEB-INF/views/user/list.jsp" />
-	</definition>
-	<definition name="user.edit" extends="DefaultTemplate">
-		<put-attribute name="body" value="/WEB-INF/views/user/form.jsp" />
-	</definition>
-	<definition name="user.details" extends="DefaultTemplate">
-		<put-attribute name="body" value="/WEB-INF/views/user/details.jsp" />
-	</definition>
-
-
 	<definition name="rate.list" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/rate/list.jsp" />
 	</definition>
@@ -60,6 +49,45 @@
 	</definition>
 	<definition name="model.edit" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/model/form.jsp" />
+	</definition>
+
+	<definition name="car.list" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/car/list.jsp" />
+	</definition>
+	<definition name="car.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/car/form.jsp" />
+	</definition>
+
+	<definition name="user.list" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/user/list.jsp" />
+	</definition>
+	<definition name="user.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/user/form.jsp" />
+	</definition>
+
+	<definition name="costs.list" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/costs/list.jsp" />
+	</definition>
+	<definition name="costs.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/costs/form.jsp" />
+	</definition>
+
+	<definition name="authentication.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/authentication/list.jsp" />
+	</definition>
+	<definition name="authentication.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/authentication/form.jsp" />
+	</definition>
+
+	<definition name="car2CarOption.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/car2CarOption/list.jsp" />
+	</definition>
+	<definition name="car2CarOption.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/car2CarOption/form.jsp" />
 	</definition>
 
 </tiles-definitions>

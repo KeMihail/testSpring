@@ -1,6 +1,8 @@
 package by.itacademy.keikom.taxi.services.impl;
 
 import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import by.itacademy.keikom.taxi.dao.ICarOptionDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
+import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 import by.itacademy.keikom.taxi.services.ICarOptionServices;
 
 @Service

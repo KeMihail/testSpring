@@ -13,4 +13,9 @@ public interface IAuthenticationServices {
 	Authentication getById(Integer id);
 
 	List<Authentication> getAll();
+
+	List<Authentication> getAll(final String sortColumn, final boolean sortAscending, final int limit,
+			final int offset);
+
+	Integer getCount();
 }
