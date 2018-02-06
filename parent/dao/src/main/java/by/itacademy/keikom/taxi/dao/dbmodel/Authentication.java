@@ -1,13 +1,26 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Authentication {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
+public class Authentication implements Serializable {
+
+	@Id
 	private Integer userId;
+	@Column
 	private String login;
+	@Column
 	private String password;
+	@Column
 	private Timestamp created;
+	@Column
 	private Timestamp modified;
 
 	public Authentication() {

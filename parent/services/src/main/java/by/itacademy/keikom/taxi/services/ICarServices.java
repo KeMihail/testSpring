@@ -2,19 +2,24 @@ package by.itacademy.keikom.taxi.services;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
+import by.itacademy.keikom.taxi.dao.filter.CarFilter;
 
 public interface ICarServices {
 
+	@Transactional
+	void remove(Integer id);
+
+	@Transactional
 	Car save(Car car);
-
-	void delete(Integer id);
-
-	Car getById(Integer id);
 
 	List<Car> getAll();
 
-	public List<Car> getAll(final String sortColumn, final boolean sortAscending, final int limit, final int offset);
+	Car get(Integer id);
 
-	public Integer getCount();
+	Long getCount(CarFilter filter);
+
+	List<Car> getAll(CarFilter filter);
 }

@@ -1,21 +1,41 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import by.itacademy.keikom.taxi.dao.enums.UserRole;
 
-public class User {
+@Entity
+public class User implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Column
 	private String name;
+	@Column
 	private String lastName;
+	@Column
 	private Timestamp birthday;
+	@Column
 	private String address;
+	@Column
 	private String phoneNumber;
+	@Column
 	private String email;
+	@Column
 	private Boolean deleted;
+	@Column
 	private Timestamp created;
+	@Column
 	private Timestamp modified;
+	@Column
 	private UserRole role;
 
 	public User() {

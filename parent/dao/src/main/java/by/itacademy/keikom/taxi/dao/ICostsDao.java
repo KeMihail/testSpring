@@ -3,16 +3,11 @@ package by.itacademy.keikom.taxi.dao;
 import java.util.List;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Costs;
+import by.itacademy.keikom.taxi.dao.filter.CostsFilter;
 
-public interface ICostsDao {
+public interface ICostsDao extends IHibernateDao<Costs, Integer> {
 
-	void create(Costs costs);
+	Long count(CostsFilter filter);
 
-	void delete(Integer id);
-
-	void update(Costs costs);
-
-	Costs getById(Integer id);
-
-	List<Costs> getAll();
+	List<Costs> find(CostsFilter filter);
 }

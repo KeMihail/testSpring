@@ -1,18 +1,35 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import by.itacademy.keikom.taxi.dao.enums.CarStatus;
 
-public class Car {
+@Entity
+public class Car implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Column
 	private Integer userId;
+	@Column
 	private Integer releaseYear;
+	@Column
 	private Integer modelId;
+	@Column
 	private Integer legalEntityId;
+	@Column
 	private CarStatus status;
+	@Column
 	private Timestamp created;
+	@Column
 	private Timestamp modified;
 
 	public Car() {

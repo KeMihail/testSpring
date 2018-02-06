@@ -1,12 +1,25 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class CarOption {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
+public class CarOption implements Serializable {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Column
 	private String name;
+	@Column
 	private Timestamp created;
+	@Column
 	private Timestamp modified;
 
 	public CarOption() {

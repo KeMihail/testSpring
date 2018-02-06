@@ -3,16 +3,11 @@ package by.itacademy.keikom.taxi.dao;
 import java.util.List;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
+import by.itacademy.keikom.taxi.dao.filter.LegalEntityFilter;
 
-public interface ILegalEntityDao {
+public interface ILegalEntityDao extends IHibernateDao<LegalEntity, Integer> {
 
-	Integer create(LegalEntity obj);
+	Long count(LegalEntityFilter filter);
 
-	void delete(Integer id);
-
-	void update(LegalEntity obj);
-
-	LegalEntity getById(Integer id);
-
-	List<LegalEntity> getAll();
+	List<LegalEntity> find(LegalEntityFilter filter);
 }

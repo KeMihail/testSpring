@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import by.itacademy.keikom.taxi.dao.IModelDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
+import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
 import by.itacademy.keikom.taxi.services.IModelServices;
 
 @Service
@@ -21,28 +22,19 @@ public class ModelServicesImpl implements IModelServices {
 	private IModelDao dao;
 
 	@Override
-	public Model save(Model model) {
+	public void remove(final Integer id) {
+		dao.remove(id);
 
-		model.setModified(new Timestamp(new Date().getTime()));
+	}
 
-		if (model.getId() != null) {
-			dao.update(model);
+	@Override
+	public Model save(final Model model) {
+		if (model.getId() == null) {
+			dao.insert(model);
 		} else {
-			model.setCreated(new Timestamp(new Date().getTime()));
-			Integer id = dao.create(model);
-			model.setId(id);
+			dao.update(model);
 		}
 		return model;
-	}
-
-	@Override
-	public void delete(Integer id) {
-		dao.delete(id);
-	}
-
-	@Override
-	public Model getById(Integer id) {
-		return dao.getById(id);
 	}
 
 	@Override
@@ -51,44 +43,17 @@ public class ModelServicesImpl implements IModelServices {
 	}
 
 	@Override
-	public List<Model> getAll(String sortColumn, boolean sortAscending, int limit, int offset) {
-		final List<Model> all = getAll();
-
-		// FIXME: Do not use code below. use an appropriate DAO method instead:
-		// return dao.getAll(sortColumn,sortAscending,limit,offset)
-
-		Collections.sort(all, new Comparator<Model>() {
-			@Override
-			public int compare(Model o1, Model o2) {
-				if (sortAscending) {
-					final Model temp = o1;
-					o1 = o2;
-					o2 = temp;
-				}
-
-				if ("id".equals(sortColumn)) {
-					return o1.getId().compareTo(o2.getId());
-				} else if ("name".equals(sortColumn)) {
-					return o1.getName().compareTo(o2.getName());
-				} else if ("name".equals(sortColumn)) {
-					return o1.getName().compareTo(o2.getName());
-				} else if ("carCit".equals(sortColumn)) {
-					return o1.getCarCit().compareTo(o2.getCarCit());
-				} else if ("engineType".equals(sortColumn)) {
-					return o1.getEngineType().compareTo(o2.getEngineType());
-				} else if ("BodyType".equals(sortColumn)) {
-					return o1.getBodyType().compareTo(o2.getBodyType());
-				} else if ("brandId".equals(sortColumn)) {
-					return o1.getBrandId().compareTo(o2.getBrandId());
-				}
-				throw new IllegalArgumentException("unsupported sort column:" + sortColumn);
-			}
-		});
-		return all.subList(Math.min(offset, all.size()), Math.min(offset + limit, all.size()));
+	public Model get(final Integer id) {
+		return dao.get(id);
 	}
 
 	@Override
-	public Integer getCount() {
-		return getAll().size();
+	public Long getCount(ModelFilter filter) {
+		return dao.count(filter);
+	}
+
+	@Override
+	public List<Model> getAll(ModelFilter filter) {
+		return dao.find(filter);
 	}
 }

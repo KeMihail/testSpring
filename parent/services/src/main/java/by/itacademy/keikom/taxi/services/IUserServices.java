@@ -2,19 +2,24 @@ package by.itacademy.keikom.taxi.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
+import by.itacademy.keikom.taxi.dao.filter.UserFilter;
 
 public interface IUserServices {
 
+	@Transactional
+	void remove(Integer id);
+
+	@Transactional
 	User save(User user);
-
-	void delete(Integer id);
-
-	User getById(Integer id);
 
 	List<User> getAll();
 
-	public List<User> getAll(final String sortColumn, final boolean sortAscending, final int limit, final int offset);
+	User get(Integer id);
 
-	public Integer getCount();
+	Long getCount(UserFilter filter);
+
+	List<User> getAll(UserFilter filter);
 }

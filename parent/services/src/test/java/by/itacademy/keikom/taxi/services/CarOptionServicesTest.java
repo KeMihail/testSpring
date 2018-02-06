@@ -38,24 +38,24 @@ public class CarOptionServicesTest extends AbstractServicesTest {
 
 		carOption = createCarOption();
 		services.save(carOption);
-		Assert.assertNotNull(services.getById(carOption.getId()));
+		Assert.assertNotNull(services.get(carOption.getId()));
 
-		CarOption carOption1 = services.getById(carOption.getId());
+		CarOption carOption1 = services.get(carOption.getId());
 		Assert.assertEquals(carOption1.getId(), carOption.getId());
 		Assert.assertEquals(carOption1.getName(), carOption.getName());
 
 		carOption.setName("Коженный салон");
 		services.save(carOption);
-		Assert.assertNotNull(services.getById(carOption.getId()));
+		Assert.assertNotNull(services.get(carOption.getId()));
 
-		CarOption carOption2 = services.getById(carOption.getId());
+		CarOption carOption2 = services.get(carOption.getId());
 		Assert.assertEquals(carOption2.getId(), carOption.getId());
 		Assert.assertEquals(carOption2.getName(), carOption.getName());
 
 		list = services.getAll();
 		Assert.assertNotNull(list);
 
-		services.delete(carOption.getId());
-		Assert.assertNull(services.getById(carOption.getId()));
+		services.remove(carOption.getId());
+		Assert.assertNull(services.get(carOption.getId()));
 	}
 }

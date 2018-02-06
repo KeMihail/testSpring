@@ -5,20 +5,21 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
+import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
 
 public interface IModelServices {
 
 	@Transactional
-	Model save(Model model);
+	void remove(Integer id);
 
 	@Transactional
-	void delete(Integer id);
+	Model save(Model model);
 
-	Model getById(Integer id);
+	List<Model> getAll();
 
-	public List<Model> getAll();
+	Model get(Integer id);
 
-	public List<Model> getAll(final String sortColumn, final boolean sortAscending, final int limit, final int offset);
+	Long getCount(ModelFilter filter);
 
-	public Integer getCount();
+	List<Model> getAll(ModelFilter filter);
 }

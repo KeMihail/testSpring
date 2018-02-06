@@ -39,7 +39,7 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 
 	@PreDestroy
 	public void cleanTestData() {
-		userServices.delete(user.getId());
+		userServices.remove(user.getId());
 	}
 
 	@Test
@@ -56,18 +56,18 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 
 		authentication = createAuthentication(user);
 		services.save(authentication);
-		Assert.assertNotNull(services.getById(authentication.getUserId()));
+		Assert.assertNotNull(services.get(authentication.getUserId()));
 
-		Authentication authentication1 = services.getById(authentication.getUserId());
+		Authentication authentication1 = services.get(authentication.getUserId());
 		Assert.assertEquals(authentication1.getUserId(), authentication.getUserId());
 		Assert.assertEquals(authentication1.getLogin(), authentication.getLogin());
 		Assert.assertEquals(authentication1.getPassword(), authentication.getPassword());
 
 		authentication.setLogin("login_update");
 		services.save(authentication);
-		Assert.assertNotNull(services.getById(authentication.getUserId()));
+		Assert.assertNotNull(services.get(authentication.getUserId()));
 
-		Authentication authentication2 = services.getById(authentication.getUserId());
+		Authentication authentication2 = services.get(authentication.getUserId());
 		Assert.assertEquals(authentication2.getUserId(), authentication.getUserId());
 		Assert.assertEquals(authentication2.getLogin(), authentication.getLogin());
 		Assert.assertEquals(authentication2.getPassword(), authentication.getPassword());
@@ -75,7 +75,7 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 		list = services.getAll();
 		Assert.assertNotNull(list);
 
-		services.delete(authentication.getUserId());
-		Assert.assertNull(services.getById(authentication.getUserId()));
+		services.remove(authentication.getUserId());
+		Assert.assertNull(services.get(authentication.getUserId()));
 	}
 }

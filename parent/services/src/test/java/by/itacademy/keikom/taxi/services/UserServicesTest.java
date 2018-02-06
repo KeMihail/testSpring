@@ -36,9 +36,9 @@ public class UserServicesTest extends AbstractServicesTest {
 
 		user = createUser();
 		services.save(user);
-		Assert.assertNotNull(services.getById(user.getId()));
+		Assert.assertNotNull(services.get(user.getId()));
 
-		User user1 = services.getById(user.getId());
+		User user1 = services.get(user.getId());
 		Assert.assertEquals(user.getId(), user1.getId());
 		Assert.assertEquals(user.getAddress(), user1.getAddress());
 		Assert.assertEquals(user.getEmail(), user1.getEmail());
@@ -51,9 +51,9 @@ public class UserServicesTest extends AbstractServicesTest {
 
 		user.setName("Оля");
 		services.save(user);
-		Assert.assertNotNull(services.getById(user.getId()));
+		Assert.assertNotNull(services.get(user.getId()));
 
-		User user2 = services.getById(user.getId());
+		User user2 = services.get(user.getId());
 		Assert.assertEquals(user2.getId(), user.getId());
 		Assert.assertEquals(user2.getAddress(), user.getAddress());
 		Assert.assertEquals(user2.getEmail(), user.getEmail());
@@ -67,7 +67,7 @@ public class UserServicesTest extends AbstractServicesTest {
 		list = services.getAll();
 		Assert.assertNotNull(list);
 
-		services.delete(user.getId());
-		Assert.assertNull(services.getById(user.getId()));
+		services.remove(user.getId());
+		Assert.assertNull(services.get(user.getId()));
 	}
 }

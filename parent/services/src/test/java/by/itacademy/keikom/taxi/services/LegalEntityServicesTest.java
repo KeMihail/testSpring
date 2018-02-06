@@ -37,9 +37,9 @@ public class LegalEntityServicesTest extends AbstractServicesTest {
 		legalEntity = createLegalEntity();
 
 		services.save(legalEntity);
-		Assert.assertNotNull(services.getById(legalEntity.getId()));
+		Assert.assertNotNull(services.get(legalEntity.getId()));
 
-		LegalEntity legalEntity1 = services.getById(legalEntity.getId());
+		LegalEntity legalEntity1 = services.get(legalEntity.getId());
 		Assert.assertEquals(legalEntity1.getId(), legalEntity.getId());
 		Assert.assertEquals(legalEntity1.getName(), legalEntity.getName());
 		Assert.assertEquals(legalEntity1.getAddress(), legalEntity.getAddress());
@@ -48,9 +48,9 @@ public class LegalEntityServicesTest extends AbstractServicesTest {
 
 		legalEntity.setName("OAO Такси");
 		services.save(legalEntity);
-		Assert.assertNotNull(services.getById(legalEntity.getId()));
+		Assert.assertNotNull(services.get(legalEntity.getId()));
 
-		LegalEntity legalEntity2 = services.getById(legalEntity.getId());
+		LegalEntity legalEntity2 = services.get(legalEntity.getId());
 		Assert.assertEquals(legalEntity2.getId(), legalEntity.getId());
 		Assert.assertEquals(legalEntity2.getName(), legalEntity.getName());
 		Assert.assertEquals(legalEntity2.getAddress(), legalEntity.getAddress());
@@ -60,7 +60,7 @@ public class LegalEntityServicesTest extends AbstractServicesTest {
 		list = services.getAll();
 		Assert.assertNotNull(list);
 
-		services.delete(legalEntity.getId());
-		Assert.assertNull(services.getById(legalEntity.getId()));
+		services.remove(legalEntity.getId());
+		Assert.assertNull(services.get(legalEntity.getId()));
 	}
 }

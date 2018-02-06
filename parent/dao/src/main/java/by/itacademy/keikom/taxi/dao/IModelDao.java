@@ -3,17 +3,12 @@ package by.itacademy.keikom.taxi.dao;
 import java.util.List;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
+import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
 
-public interface IModelDao {
+public interface IModelDao extends IHibernateDao<Model, Integer> {
 
-	Integer create(Model model);
+	Long count(ModelFilter filter);
 
-	void delete(Integer id);
-
-	void update(Model model);
-
-	Model getById(Integer id);
-
-	List<Model> getAll();
+	List<Model> find(ModelFilter filter);
 
 }

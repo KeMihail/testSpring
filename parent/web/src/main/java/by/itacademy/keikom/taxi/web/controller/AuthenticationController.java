@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.itacademy.jd2.dz.library.dao.dbmodel.Cover;
+import com.itacademy.jd2.dz.library.dao.filter.CoverFilter;
+import com.itacademy.jd2.dz.library.web.dto.CoverDTO;
+
 import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
+import by.itacademy.keikom.taxi.dao.filter.AuthenticationFilter;
 import by.itacademy.keikom.taxi.services.IAuthenticationServices;
 import by.itacademy.keikom.taxi.web.converter.AuthenticationFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.AuthenticationToDTOConverter;
@@ -48,7 +54,7 @@ public class AuthenticationController {
 		ListModel<AuthenticationDTO> listModel;
 		if (req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME) == null) {
 			listModel = new ListModel<>();
-			listModel.setSort(new SortModel("carId"));
+			listModel.setSort(new SortModel("id"));
 			req.getSession().setAttribute(LOCAL_LIST_MODEL_NAME, listModel);
 		} else {
 			listModel = (ListModel<AuthenticationDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);
@@ -59,15 +65,42 @@ public class AuthenticationController {
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);
 
-		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
-		final SortModel sortModel = listModel.getSort();
-		final List<Authentication> currentPageList = servicesAuthentication.getAll(sortModel.getColumn(),
-				sortModel.isAscending(), listModel.getItemsPerPage(), offset);
+		AuthenticationFilter authenticationFilter = buildFilter(listModel);
+
+		final List<Authentication> currentPageList = servicesAuthentication.getAll(authenticationFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(servicesAuthentication.getCount());
+		listModel.setTotalCount(servicesAuthentication.getCount(authenticationFilter));
 
 		final ModelAndView mv = new ModelAndView("authentication.list");
 		return mv;
+	}
+
+	private AuthenticationFilter buildFilter(ListModel<AuthenticationDTO> listModel) {
+
+		SortModel sortModel = listModel.getSort();
+		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
+
+		AuthenticationFilter coverFilter = new AuthenticationFilter();
+		coverFilter.setLimit(listModel.getItemsPerPage());
+		coverFilter.setOffset(offset);
+		coverFilter.setSortOrder(sortModel.isAscending());
+
+		SingularAttribute sortAttribute;
+		switch (sortModel.getColumn()) {
+		case "id":
+			sortAttribute = AuthenticationFilter_.id;
+			break;
+		case "width":
+			sortAttribute = Cover_.width;
+			break;
+		case "material":
+			sortAttribute = Cover_.material;
+			break;
+		default:
+			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
+		}
+		coverFilter.setSortProperty(sortAttribute);
+		return coverFilter;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)

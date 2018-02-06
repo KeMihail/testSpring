@@ -1,18 +1,34 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class LegalEntity {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class LegalEntity implements Serializable {
 
 	public LegalEntity() {
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Column
 	private String name;
+	@Column
 	private String address;
+	@Column
 	private String phoneNumber;
+	@Column
 	private String email;
+	@Column
 	private Timestamp created;
+	@Column
 	private Timestamp modified;
 
 	public void setId(Integer id) {

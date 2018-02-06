@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.dbmodel.Rate_;
+import by.itacademy.keikom.taxi.dao.filter.RateFilter;
 import by.itacademy.keikom.taxi.services.IRateServices;
 import by.itacademy.keikom.taxi.web.converter.RateFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.RateToDTOConverter;
@@ -61,42 +64,59 @@ public class RateController {
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);
 
-		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
-		final SortModel sortModel = listModel.getSort();
-		final List<Rate> currentPageList = servicesRate.getAll(sortModel.getColumn(), sortModel.isAscending(),
-				listModel.getItemsPerPage(), offset);
+		RateFilter rateFilter = buildFilter(listModel);
+
+		final List<Rate> currentPageList = servicesRate.getAll(rateFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(servicesRate.getCount());
+		listModel.setTotalCount(servicesRate.getCount(rateFilter));
 
 		final ModelAndView mv = new ModelAndView("rate.list");
 		return mv;
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public ModelAndView showForm() {
-		return new ModelAndView("rate.edit", "rateForm", new RateDTO());
-	}
+	private RateFilter buildFilter(ListModel<RateDTO> listModel) {
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String save(@Validated @ModelAttribute("rateForm") final RateDTO rateForm, final BindingResult result) {
-		if (result.hasErrors()) {
-			return "rate.edit";
-		} else {
-			final Rate rate = fromDTOConverter.apply(rateForm);
-			servicesRate.save(rate);
-			return "redirect:/rate";
+		SortModel sortModel = listModel.getSort();
+		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
+
+		RateFilter coverFilter = new RateFilter();
+		coverFilter.setLimit(listModel.getItemsPerPage());
+		coverFilter.setOffset(offset);
+		coverFilter.setSortOrder(sortModel.isAscending());
+
+		SingularAttribute sortAttribute;
+		switch (sortModel.getColumn()) {
+		case "id":
+			sortAttribute = Rate_.id;
+			break;
+		case "name":
+			sortAttribute = Rate_.name;
+			break;
+		case "priceLanding":
+			sortAttribute = Rate_.priceLanding;
+			break;
+		case "priceKilometr":
+			sortAttribute = Rate_.priceKilometr;
+			break;
+		case "priceMinuteWait":
+			sortAttribute = Rate_.priceMinuteWait;
+			break;
+		default:
+			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
 		}
+		coverFilter.setSortProperty(sortAttribute);
+		return coverFilter;
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		servicesRate.delete(id);
+		servicesRate.remove(id);
 		return "redirect:/rate";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final RateDTO dto = toDTOConverter.apply(servicesRate.getById(id));
+		final RateDTO dto = toDTOConverter.apply(servicesRate.get(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("rateForm", dto);
 		hashMap.put("readonly", true);
@@ -105,7 +125,7 @@ public class RateController {
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final RateDTO dto = toDTOConverter.apply(servicesRate.getById(id));
+		final RateDTO dto = toDTOConverter.apply(servicesRate.get(id));
 		return new ModelAndView("rate.edit", "rateForm", dto);
 	}
 }

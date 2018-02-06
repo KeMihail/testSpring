@@ -5,20 +5,21 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.filter.RateFilter;
 
 public interface IRateServices {
 
 	@Transactional
-	Rate save(Rate rate);
+	void remove(Integer id);
 
 	@Transactional
-	void delete(Integer id);
+	Rate save(Rate cover);
 
-	Rate getById(Integer id);
+	List<Rate> getAll();
 
-	public List<Rate> getAll();
+	Rate get(Integer id);
 
-	public List<Rate> getAll(final String sortColumn, final boolean sortAscending, final int limit, final int offset);
+	Long getCount(RateFilter filter);
 
-	public Integer getCount();
+	List<Rate> getAll(RateFilter filter);
 }

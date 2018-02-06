@@ -2,20 +2,24 @@ package by.itacademy.keikom.taxi.services;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import by.itacademy.keikom.taxi.dao.dbmodel.Costs;
-import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.filter.CostsFilter;
 
 public interface ICostsServices {
 
+	@Transactional
+	void remove(Integer id);
+
+	@Transactional
 	Costs save(Costs costs);
-
-	void delete(Integer id);
-
-	Costs getById(Integer id);
 
 	List<Costs> getAll();
 
-	public List<Costs> getAll(final String sortColumn, final boolean sortAscending, final int limit, final int offset);
+	Costs get(Integer id);
 
-	public Integer getCount();
+	Long getCount(CostsFilter filter);
+
+	List<Costs> getAll(CostsFilter filter);
 }

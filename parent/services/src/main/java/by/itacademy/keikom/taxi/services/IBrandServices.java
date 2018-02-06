@@ -5,20 +5,21 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
+import by.itacademy.keikom.taxi.dao.filter.BrandFilter;
 
 public interface IBrandServices {
 
 	@Transactional
-	Brand save(Brand brand);
+	void remove(Integer id);
 
 	@Transactional
-	void delete(Integer id);
+	Brand save(Brand brand);
 
-	Brand getById(Integer id);
+	List<Brand> getAll();
 
-	public List<Brand> getAll();
+	Brand get(Integer id);
 
-	public List<Brand> getAll(final String sortColumn, final boolean sortAscending, final int limit, final int offset);
+	Long getCount(BrandFilter filter);
 
-	public Integer getCount();
+	List<Brand> getAll(BrandFilter filter);
 }

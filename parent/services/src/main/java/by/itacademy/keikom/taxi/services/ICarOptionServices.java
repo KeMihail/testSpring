@@ -2,20 +2,24 @@ package by.itacademy.keikom.taxi.services;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
+import by.itacademy.keikom.taxi.dao.filter.CarOptionFilter;
 
 public interface ICarOptionServices {
 
+	@Transactional
+	void remove(Integer id);
+
+	@Transactional
 	CarOption save(CarOption carOption);
-
-	void delete(Integer id);
-
-	CarOption getById(Integer id);
 
 	List<CarOption> getAll();
 
-	List<CarOption> getAll(final String sortColumn, final boolean sortAscending, final int limit, final int offset);
+	CarOption get(Integer id);
 
-	Integer getCount();
+	Long getCount(CarOptionFilter filter);
 
+	List<CarOption> getAll(CarOptionFilter filter);
 }

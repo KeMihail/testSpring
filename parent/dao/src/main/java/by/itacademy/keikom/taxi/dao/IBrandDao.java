@@ -3,16 +3,11 @@ package by.itacademy.keikom.taxi.dao;
 import java.util.List;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
+import by.itacademy.keikom.taxi.dao.filter.BrandFilter;
 
-public interface IBrandDao {
+public interface IBrandDao extends IHibernateDao<Brand, Integer> {
 
-	Integer create(Brand brand);
+	Long count(BrandFilter filter);
 
-	void delete(Integer id);
-
-	void update(Brand brand);
-
-	Brand getById(Integer id);
-
-	List<Brand> getAll();
+	List<Brand> find(BrandFilter filter);
 }

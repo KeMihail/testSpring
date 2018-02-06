@@ -2,11 +2,10 @@ package by.itacademy.keikom.taxi.dao;
 
 import java.util.List;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car2CarOption;
-import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
+import by.itacademy.keikom.taxi.dao.filter.Car2CarOptionFilter;
 
-public interface ICar2CarOptionDao {
+public interface ICar2CarOptionDao extends IHibernateDao<Car2CarOption, Integer> {
 
 	void create(Car2CarOption obj);
 
@@ -21,4 +20,8 @@ public interface ICar2CarOptionDao {
 	List<Integer> getCarsByOption(Integer carOptionId);
 
 	List<Car2CarOption> getAll();
+
+	Long count(Car2CarOptionFilter filter);
+
+	List<Car2CarOption> find(Car2CarOptionFilter filter);
 }

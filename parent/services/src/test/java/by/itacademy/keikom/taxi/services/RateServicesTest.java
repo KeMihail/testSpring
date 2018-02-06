@@ -35,9 +35,9 @@ public class RateServicesTest extends AbstractServicesTest {
 		}
 		rate = createRate();
 		services.save(rate);
-		Assert.assertNotNull(services.getById(rate.getId()));
+		Assert.assertNotNull(services.get(rate.getId()));
 
-		Rate rate1 = services.getById(rate.getId());
+		Rate rate1 = services.get(rate.getId());
 		Assert.assertEquals(rate1.getId(), rate.getId());
 		Assert.assertEquals(rate1.getName(), rate.getName());
 		Assert.assertEquals(rate1.getPriceLanding(), rate.getPriceLanding());
@@ -46,9 +46,9 @@ public class RateServicesTest extends AbstractServicesTest {
 
 		rate.setName("Ночной");
 		services.save(rate);
-		Assert.assertNotNull(services.getById(rate.getId()));
+		Assert.assertNotNull(services.get(rate.getId()));
 
-		Rate rate2 = services.getById(rate.getId());
+		Rate rate2 = services.get(rate.getId());
 		Assert.assertEquals(rate2.getId(), rate.getId());
 		Assert.assertEquals(rate2.getName(), rate.getName());
 		Assert.assertEquals(rate2.getPriceLanding(), rate.getPriceLanding());
@@ -58,8 +58,8 @@ public class RateServicesTest extends AbstractServicesTest {
 		list = services.getAll();
 		Assert.assertNotNull(list);
 
-		services.delete(rate.getId());
+		services.remove(rate.getId());
 
-		Assert.assertNull(services.getById(rate.getId()));
+		Assert.assertNull(services.get(rate.getId()));
 	}
 }

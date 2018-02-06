@@ -1,11 +1,23 @@
 package by.itacademy.keikom.taxi.dao.impl;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.jpa.criteria.OrderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import by.itacademy.keikom.taxi.dao.IRateDao;
+import by.itacademy.keikom.taxi.dao.dbmodel.Model;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
+import by.itacademy.keikom.taxi.dao.filter.RateFilter;
 
 @Repository
 public class RateDaoImpl extends AbstractHibernateDaoImpl<Rate, Integer> implements IRateDao {
@@ -16,74 +28,32 @@ public class RateDaoImpl extends AbstractHibernateDaoImpl<Rate, Integer> impleme
 		super(Rate.class);
 	}
 
-	/*
-	 * @Override public Integer create(Rate rate) {
-	 * 
-	 * try (Connection connect = getConnection(); PreparedStatement pst =
-	 * connect.prepareStatement(
-	 * "insert into rate (name,price_landing,price_kilometr,price_minute_wait,created,modified)"
-	 * + "values (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-	 * 
-	 * LOGGER.info("execute SQL: create new Rate"); pst.setString(1,
-	 * rate.getName()); pst.setDouble(2, rate.getPriceLanding()); pst.setDouble(3,
-	 * rate.getPriceKilometr()); pst.setDouble(4, rate.getPriceMinuteWait());
-	 * pst.setTimestamp(5, rate.getCreated()); pst.setTimestamp(6,
-	 * rate.getModified()); pst.executeUpdate();
-	 * 
-	 * ResultSet rs = pst.getGeneratedKeys(); rs.next(); Integer id = rs.getInt(1);
-	 * return id; } catch (SQLException e) { throw new SQLExecutionException(e); } }
-	 * 
-	 * @Override public void delete(Integer id) {
-	 * 
-	 * try (Connection connect = getConnection(); PreparedStatement pst =
-	 * connect.prepareStatement("delete from rate where id = ?")) {
-	 * LOGGER.info("execute SQL: delete one Rate");
-	 * 
-	 * pst.setInt(1, id); pst.executeUpdate(); } catch (SQLException e) {
-	 * LOGGER.error("Error from method delete {}", e.getMessage()); } }
-	 * 
-	 * @Override public void update(Rate rate) {
-	 * 
-	 * try (Connection connect = getConnection(); PreparedStatement pst = connect
-	 * .prepareStatement("update rate set name = ?, price_landing = ?, price_kilometr = ?,\r\n"
-	 * + "price_minute_wait = ?, modified = ? where id = ?")) {
-	 * LOGGER.info("execute SQL: update one Rate");
-	 * 
-	 * pst.setString(1, rate.getName()); pst.setDouble(2, rate.getPriceLanding());
-	 * pst.setDouble(3, rate.getPriceKilometr()); pst.setDouble(4,
-	 * rate.getPriceMinuteWait()); pst.setTimestamp(5, rate.getModified());
-	 * pst.setInt(6, rate.getId()); pst.executeUpdate(); } catch (Exception e) {
-	 * LOGGER.error("Error from method update {}", e.getMessage()); } }
-	 * 
-	 * @Override public Rate getById(Integer id) {
-	 * 
-	 * try (Connection connect = getConnection(); PreparedStatement pst =
-	 * connect.prepareStatement("select * from rate where id = ?")) {
-	 * LOGGER.info("execute SQL: show one Rate");
-	 * 
-	 * pst.setInt(1, id); ResultSet rs = pst.executeQuery(); if (rs.next()) { return
-	 * parseRate(rs); } } catch (SQLException e) {
-	 * LOGGER.error("Error from method getById {}", e.getMessage()); } return null;
-	 * }
-	 * 
-	 * @Override public List<Rate> getAll() {
-	 * 
-	 * List<Rate> list = new ArrayList<Rate>();
-	 * 
-	 * try (Connection connect = getConnection(); Statement st =
-	 * connect.createStatement()) { ResultSet rs =
-	 * st.executeQuery("select * from rate");
-	 * LOGGER.info("execute SQL: show all Rate");
-	 * 
-	 * while (rs.next()) { list.add(parseRate(rs)); } } catch (SQLException e) {
-	 * LOGGER.error("Error from method getAll {}", e.getMessage()); } return list; }
-	 * 
-	 * private Rate parseRate(ResultSet rs) throws SQLException { Rate rate = new
-	 * Rate(); rate.setId(rs.getInt(1)); rate.setName(rs.getString(2));
-	 * rate.setPriceLanding(rs.getDouble(3));
-	 * rate.setPriceKilometr(rs.getDouble(4));
-	 * rate.setPriceMinuteWait(rs.getDouble(5));
-	 * rate.setCreated(rs.getTimestamp(6)); rate.setModified(rs.getTimestamp(7));
-	 * return rate; }
-	 */
+	@Override
+	public Long count(RateFilter filter) {
+		EntityManager em = getEntityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		Root<Rate> from = cq.from(Rate.class);
+		cq.select(cb.count(from));
+		TypedQuery<Long> q = em.createQuery(cq);
+		return q.getSingleResult();
+	}
+
+	@Override
+	public List<Rate> find(RateFilter filter) {
+		EntityManager em = getEntityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Rate> cq = cb.createQuery(Rate.class);
+		Root<Rate> from = cq.from(Rate.class);
+		cq.select(from);
+		// set sort params
+
+		if (filter.getSortProperty() != null) {
+			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));
+		}
+
+		TypedQuery<Rate> q = em.createQuery(cq);
+		setPaging(filter, q);
+		return q.getResultList();
+	}
 }

@@ -64,10 +64,10 @@ public class CarServicesTest extends AbstractServicesTest {
 	@PreDestroy
 	public void cleanTestData() {
 
-		brandServices.delete(brand.getId());
-		modelServices.delete(model.getId());
-		legalEntityServices.delete(legalEntity.getId());
-		userServisec.delete(user.getId());
+		brandServices.remove(brand.getId());
+		modelServices.remove(model.getId());
+		legalEntityServices.remove(legalEntity.getId());
+		userServisec.remove(user.getId());
 
 	}
 
@@ -85,9 +85,9 @@ public class CarServicesTest extends AbstractServicesTest {
 
 		car = createCar(user, model, legalEntity);
 		services.save(car);
-		Assert.assertNotNull(services.getById(car.getId()));
+		Assert.assertNotNull(services.get(car.getId()));
 
-		Car car1 = services.getById(car.getId());
+		Car car1 = services.get(car.getId());
 		Assert.assertEquals(car1.getId(), car.getId());
 		Assert.assertEquals(car1.getUserId(), car.getUserId());
 		Assert.assertEquals(car1.getReleaseYear(), car.getReleaseYear());
@@ -97,9 +97,9 @@ public class CarServicesTest extends AbstractServicesTest {
 
 		car.setReleaseYear(2010);
 		services.save(car);
-		Assert.assertNotNull(services.getById(car.getId()));
+		Assert.assertNotNull(services.get(car.getId()));
 
-		Car car2 = services.getById(car.getId());
+		Car car2 = services.get(car.getId());
 		Assert.assertEquals(car2.getId(), car.getId());
 		Assert.assertEquals(car2.getUserId(), car.getUserId());
 		Assert.assertEquals(car2.getReleaseYear(), car.getReleaseYear());
@@ -110,8 +110,8 @@ public class CarServicesTest extends AbstractServicesTest {
 		list = services.getAll();
 		Assert.assertNotNull(list);
 
-		services.delete(car.getId());
+		services.remove(car.getId());
 
-		Assert.assertNull(services.getById(car.getId()));
+		Assert.assertNull(services.get(car.getId()));
 	}
 }

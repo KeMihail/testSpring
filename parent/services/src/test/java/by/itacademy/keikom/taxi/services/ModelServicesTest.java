@@ -43,7 +43,7 @@ public class ModelServicesTest extends AbstractServicesTest {
 
 	@PreDestroy
 	public void cleanTestData() {
-		brandServices.delete(brand.getId());
+		brandServices.remove(brand.getId());
 	}
 
 	@Test
@@ -61,7 +61,7 @@ public class ModelServicesTest extends AbstractServicesTest {
 		services.save(model);
 		Assert.assertNotNull(model);
 
-		Model model1 = services.getById(model.getId());
+		Model model1 = services.get(model.getId());
 		Assert.assertNotNull(model1);
 		Assert.assertEquals(model1.getId(), model.getId());
 		Assert.assertEquals(model1.getName(), model.getName());
@@ -71,9 +71,9 @@ public class ModelServicesTest extends AbstractServicesTest {
 
 		model.setName("Опель");
 		services.save(model);
-		Assert.assertNotNull(services.getById(model.getId()));
+		Assert.assertNotNull(services.get(model.getId()));
 
-		Model model2 = services.getById(model.getId());
+		Model model2 = services.get(model.getId());
 		Assert.assertEquals(model2.getId(), model.getId());
 		Assert.assertEquals(model2.getName(), model.getName());
 		Assert.assertEquals(model2.getBodyType(), model.getBodyType());
@@ -83,7 +83,7 @@ public class ModelServicesTest extends AbstractServicesTest {
 		list = services.getAll();
 		Assert.assertNotNull(list);
 
-		services.delete(model.getId());
-		Assert.assertNull(services.getById(model.getId()));
+		services.remove(model.getId());
+		Assert.assertNull(services.get(model.getId()));
 	}
 }

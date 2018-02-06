@@ -1,9 +1,5 @@
 package by.itacademy.keikom.taxi.services.impl;
 
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +8,7 @@ import org.springframework.stereotype.Service;
 import by.itacademy.keikom.taxi.dao.IAuthenticationDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.filter.AuthenticationFilter;
 import by.itacademy.keikom.taxi.services.IAuthenticationServices;
 
 @Service
@@ -21,27 +18,19 @@ public class AuthenticationServicesImpl implements IAuthenticationServices {
 	private IAuthenticationDao dao;
 
 	@Override
-	public Authentication save(Authentication authentication) {
+	public void remove(final Integer id) {
+		dao.remove(id);
 
-		authentication.setModified(new Timestamp(new Date().getTime()));
+	}
 
-		if (authentication.getCreated() != null) {
-			dao.update(authentication);
+	@Override
+	public Authentication save(final Authentication authentication) {
+		if (authentication.getUserId() == null) {
+			dao.insert(authentication);
 		} else {
-			authentication.setCreated(new Timestamp(new Date().getTime()));
-			dao.create(authentication);
+			dao.update(authentication);
 		}
 		return authentication;
-	}
-
-	@Override
-	public void delete(Integer id) {
-		dao.delete(id);
-	}
-
-	@Override
-	public Authentication getById(Integer id) {
-		return dao.getById(id);
 	}
 
 	@Override
@@ -50,40 +39,17 @@ public class AuthenticationServicesImpl implements IAuthenticationServices {
 	}
 
 	@Override
-	public Integer getCount() {
-		return getAll().size(); // FIXME: it is invalid implementation. use the
-								// 'select count from...' SQL query from DAO
-								// layer
+	public Authentication get(final Integer id) {
+		return dao.get(id);
 	}
 
 	@Override
-	public List<Authentication> getAll(final String sortColumn, final boolean sortAscending, final int limit,
-			final int offset) {
-		final List<Authentication> all = getAll();
+	public Long getCount(AuthenticationFilter filter) {
+		return dao.count(filter);
+	}
 
-		// FIXME: Do not use code below. use an appropriate DAO method instead:
-		// return dao.getAll(sortColumn,sortAscending,limit,offset)
-
-		Collections.sort(all, new Comparator<Authentication>() {
-			@Override
-			public int compare(Authentication o1, Authentication o2) {
-				if (sortAscending) {
-					final Authentication temp = o1;
-					o1 = o2;
-					o2 = temp;
-				}
-
-				if ("userId".equals(sortColumn)) {
-					return o1.getUserId().compareTo(o2.getUserId());
-				} else if ("login".equals(sortColumn)) {
-					return o1.getLogin().compareTo(o2.getLogin());
-				} else if ("password".equals(sortColumn)) {
-					return o1.getPassword().compareTo(o2.getPassword());
-				}
-				throw new IllegalArgumentException("unsupported sort column:" + sortColumn);
-			}
-		});
-
-		return all.subList(Math.min(offset, all.size()), Math.min(offset + limit, all.size()));
+	@Override
+	public List<Authentication> getAll(AuthenticationFilter filter) {
+		return dao.find(filter);
 	}
 }

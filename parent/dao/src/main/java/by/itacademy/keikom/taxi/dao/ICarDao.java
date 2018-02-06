@@ -3,16 +3,11 @@ package by.itacademy.keikom.taxi.dao;
 import java.util.List;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
+import by.itacademy.keikom.taxi.dao.filter.CarFilter;
 
-public interface ICarDao {
+public interface ICarDao extends IHibernateDao<Car, Integer> {
 
-	Integer create(Car car);
+	Long count(CarFilter filter);
 
-	void delete(Integer id);
-
-	void update(Car car);
-
-	Car getById(Integer id);
-
-	List<Car> getAll();
+	List<Car> find(CarFilter filter);
 }

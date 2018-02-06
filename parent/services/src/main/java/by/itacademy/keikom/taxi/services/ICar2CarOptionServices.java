@@ -2,27 +2,24 @@ package by.itacademy.keikom.taxi.services;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import by.itacademy.keikom.taxi.dao.dbmodel.Car2CarOption;
-import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.filter.Car2CarOptionFilter;
 
 public interface ICar2CarOptionServices {
 
-	Car2CarOption create(Car2CarOption obj);
+	@Transactional
+	void remove(Integer id);
 
-	void update(Car2CarOption obj, Car2CarOption newObj);
-
-	void delete(Car2CarOption obj);
-
-	List<Integer> getByIdOption(Integer carId);
-
-	List<Integer> getByIdCar(Integer carOptionId);
+	@Transactional
+	Car2CarOption save(Car2CarOption car2CarOption);
 
 	List<Car2CarOption> getAll();
 
-	Car2CarOption getById(Car2CarOption obj);
+	Car2CarOption get(Integer id);
 
-	public List<Car2CarOption> getAll(final String sortColumn, final boolean sortAscending, final int limit,
-			final int offset);
+	Long getCount(Car2CarOptionFilter filter);
 
-	public Integer getCount();
+	List<Car2CarOption> getAll(Car2CarOptionFilter filter);
 }

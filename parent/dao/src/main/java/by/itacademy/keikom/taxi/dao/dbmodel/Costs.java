@@ -1,19 +1,37 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Costs {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class Costs implements Serializable {
+
+	@Id
+	@Column
 	private Integer carId;
+	@Column
 	private Double taxes;
+	@Column
 	private Double technicalInspection;
+	@Column
 	private Double insurance;
+	@Column
 	private Double carService;
+	@Column
 	private Double pretripInspection;
+	@Column
 	private Double salaryDriver;
+	@Column
 	private Double fuelConsumption;
+	@Column
 	private Double other;
+	@Column
 	private Timestamp created;
+	@Column
 	private Timestamp modified;
 
 	public Costs() {

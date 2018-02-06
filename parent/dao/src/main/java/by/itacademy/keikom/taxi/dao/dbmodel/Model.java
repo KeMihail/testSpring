@@ -4,27 +4,38 @@ import by.itacademy.keikom.taxi.dao.enums.BodyType;
 import by.itacademy.keikom.taxi.dao.enums.CarKit;
 import by.itacademy.keikom.taxi.dao.enums.EngineType;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ManyToAny;
 
-public class Model {
+@Entity
+public class Model implements Serializable {
 
-	/*
-	 * @ManyToOne(fetch = FetchType.LAZY) private Brand brand;
-	 */
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Column
 	private String name;
+	@Column
 	private CarKit carCit;
+	@Column
 	private EngineType engineType;
+	@Column
 	private BodyType BodyType;
+	@Column
 	private Integer brandId;
+	@Column
 	private Timestamp created;
+	@Column
 	private Timestamp modified;
 
 	public Model() {

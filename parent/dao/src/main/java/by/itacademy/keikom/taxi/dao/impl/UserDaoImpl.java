@@ -1,151 +1,57 @@
 package by.itacademy.keikom.taxi.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.jpa.criteria.OrderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import by.itacademy.keikom.taxi.dao.IUserDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
-import by.itacademy.keikom.taxi.dao.enums.UserRole;
-import by.itacademy.keikom.taxi.dao.exeption.SQLExecutionException;
+import by.itacademy.keikom.taxi.dao.filter.UserFilter;
 
 @Repository
-public class UserDaoImpl extends AbstractDaoImpl implements IUserDao {
+public class UserDaoImpl extends AbstractHibernateDaoImpl<User, Integer> implements IUserDao {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
 
-	@Override
-	public Integer create(User user) {
-
-		try (Connection connect = getConnection();
-				PreparedStatement pst = connect.prepareStatement(
-						"insert into user(role,name,last_name,birthday,address,phone_number,email,created,modified)\r\n"
-								+ "values (?,?,?,?,?,?,?,?,?)",
-						Statement.RETURN_GENERATED_KEYS)) {
-			LOGGER.info("execute SQL: create new User");
-
-			pst.setString(1, user.getRole().toString());
-			pst.setString(2, user.getName());
-			pst.setString(3, user.getLastName());
-			pst.setTimestamp(4, user.getBirthday());
-			pst.setString(5, user.getAddress());
-			pst.setString(6, user.getPhoneNumber());
-			pst.setString(7, user.getEmail());
-			pst.setTimestamp(8, user.getCreated());
-			pst.setTimestamp(9, user.getModified());
-			pst.executeUpdate();
-
-			ResultSet rs = pst.getGeneratedKeys();
-			rs.next();
-			Integer id = rs.getInt(1);
-			return id;
-		} catch (SQLException e) {
-			throw new SQLExecutionException(e);
-		}
+	protected UserDaoImpl() {
+		super(User.class);
 	}
 
 	@Override
-	public void delete(Integer id) {
-
-		try (Connection connect = getConnection();
-				PreparedStatement pst = connect.prepareStatement("delete from user where id = ?")) {
-			LOGGER.info("execute SQL: delete User");
-
-			pst.setInt(1, id);
-			pst.executeUpdate();
-		} catch (SQLException e) {
-			LOGGER.error("Error from method delete {}", e.getMessage());
-		}
+	public Long count(UserFilter filter) {
+		EntityManager em = getEntityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		Root<User> from = cq.from(User.class);
+		cq.select(cb.count(from));
+		TypedQuery<Long> q = em.createQuery(cq);
+		return q.getSingleResult();
 	}
 
 	@Override
-	public void update(User user) {
+	public List<User> find(UserFilter filter) {
+		EntityManager em = getEntityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> from = cq.from(User.class);
+		cq.select(from);
+		// set sort params
 
-		try (Connection connect = getConnection();
-				PreparedStatement pst = connect
-						.prepareStatement("update user set name = ?, last_name = ?, birthday = ?, address = ?,\r\n"
-								+ "phone_number = ?, email = ?, deleted = ?, modified = ?, role = ? where id = ?")) {
-
-			LOGGER.info("execute SQL: update User");
-
-			pst.setString(1, user.getName());
-			pst.setString(2, user.getLastName());
-			pst.setTimestamp(3, user.getBirthday());
-			pst.setString(4, user.getAddress());
-			pst.setString(5, user.getPhoneNumber());
-			pst.setString(6, user.getEmail());
-			pst.setBoolean(7, user.getDeleted());
-			pst.setTimestamp(8, user.getModified());
-			pst.setString(9, user.getRole().toString());
-			pst.setInt(10, user.getId());
-			pst.executeUpdate();
-
-		} catch (SQLException e) {
-			LOGGER.error("Error from method update {}", e.getMessage());
+		if (filter.getSortProperty() != null) {
+			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));
 		}
-	}
 
-	@Override
-	public User getById(Integer id) {
-
-		try (Connection connect = getConnection();
-				PreparedStatement pst = connect.prepareStatement("select * from user where id = ?")) {
-			LOGGER.info("execute SQL: show one User");
-
-			pst.setInt(1, id);
-			ResultSet rs = pst.executeQuery();
-
-			if (rs.next()) {
-
-				return parseUser(rs);
-			}
-		} catch (SQLException e) {
-			LOGGER.error("Error from method getById {}", e.getMessage());
-		}
-		return null;
-	}
-
-	@Override
-	public List<User> getAll() {
-		// select * from users;
-
-		List<User> list = new ArrayList<User>();
-		try (Connection connect = getConnection(); Statement st = connect.createStatement()) {
-			LOGGER.info("execute SQL: show all user");
-			ResultSet rs = st.executeQuery("select * from user");
-
-			while (rs.next()) {
-				list.add(parseUser(rs));
-			}
-
-		} catch (SQLException e) {
-			LOGGER.error("Error from method getAll {}", e.getMessage());
-		}
-		return list;
-	}
-
-	private User parseUser(ResultSet rs) throws SQLException {
-
-		User user = new User();
-		user.setId(rs.getInt(1));
-		user.setRole(UserRole.valueOf(rs.getString(2)));
-		user.setName(rs.getString(3));
-		user.setLastName(rs.getString(4));
-		user.setBirthday(rs.getTimestamp(5));
-		user.setAddress(rs.getString(6));
-		user.setPhoneNumber(rs.getString(7));
-		user.setEmail(rs.getString(8));
-		user.setDeleted(rs.getBoolean(9));
-		user.setCreated(rs.getTimestamp(10));
-		user.setModified(rs.getTimestamp(11));
-		return user;
+		TypedQuery<User> q = em.createQuery(cq);
+		setPaging(filter, q);
+		return q.getResultList();
 	}
 }

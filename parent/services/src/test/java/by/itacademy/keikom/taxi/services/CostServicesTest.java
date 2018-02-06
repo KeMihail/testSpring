@@ -73,11 +73,11 @@ public class CostServicesTest extends AbstractServicesTest {
 	@PreDestroy
 	public void cleanTestData() {
 
-		brandServices.delete(brand.getId());
-		modelServices.delete(model.getId());
-		legalEntityServices.delete(legalEntity.getId());
-		userServisec.delete(userDriver.getId());
-		carServices.delete(car.getId());
+		brandServices.remove(brand.getId());
+		modelServices.remove(model.getId());
+		legalEntityServices.remove(legalEntity.getId());
+		userServisec.remove(userDriver.getId());
+		carServices.remove(car.getId());
 	}
 
 	@Test
@@ -92,9 +92,9 @@ public class CostServicesTest extends AbstractServicesTest {
 		}
 		costs = createCosts(car);
 		services.save(costs);
-		Assert.assertNotNull(services.getById(costs.getCarId()));
+		Assert.assertNotNull(services.get(costs.getCarId()));
 
-		Costs costs1 = services.getById(costs.getCarId());
+		Costs costs1 = services.get(costs.getCarId());
 		Assert.assertEquals(costs1.getCarId(), costs.getCarId());
 		Assert.assertEquals(costs1.getCarService(), costs.getCarService());
 		Assert.assertEquals(costs1.getFuelConsumption(), costs.getFuelConsumption());
@@ -109,7 +109,7 @@ public class CostServicesTest extends AbstractServicesTest {
 		services.save(costs);
 		Assert.assertNotNull(costs);
 
-		Costs costs2 = services.getById(costs.getCarId());
+		Costs costs2 = services.get(costs.getCarId());
 		Assert.assertEquals(costs2.getCarId(), costs.getCarId());
 		Assert.assertEquals(costs2.getCarService(), costs.getCarService());
 		Assert.assertEquals(costs2.getFuelConsumption(), costs.getFuelConsumption());
@@ -123,7 +123,7 @@ public class CostServicesTest extends AbstractServicesTest {
 		list = services.getAll();
 		Assert.assertNotNull(list);
 
-		services.delete(costs.getCarId());
-		Assert.assertNull(services.getById(costs.getCarId()));
+		services.remove(costs.getCarId());
+		Assert.assertNull(services.get(costs.getCarId()));
 	}
 }

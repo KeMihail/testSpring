@@ -8,7 +8,7 @@ public class ListModel<T> {
 
 	private List<T> list;
 
-	private int pageCount;
+	private long pageCount;
 
 	private SortModel sort;
 
@@ -79,11 +79,11 @@ public class ListModel<T> {
 		return getPage() >= this.pageCount;
 	}
 
-	public int getPageCount() {
+	public long getPageCount() {
 		return pageCount;
 	}
 
-	public void setTotalCount(final int totalCount) {
+	public void setTotalCount(final long totalCount) {
 		this.pageCount = (totalCount / itemsPerPage);
 		if ((totalCount % itemsPerPage) > 0) {
 			this.pageCount++;

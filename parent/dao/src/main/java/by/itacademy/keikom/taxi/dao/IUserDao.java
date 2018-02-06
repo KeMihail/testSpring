@@ -3,16 +3,11 @@ package by.itacademy.keikom.taxi.dao;
 import java.util.List;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
+import by.itacademy.keikom.taxi.dao.filter.UserFilter;
 
-public interface IUserDao {
+public interface IUserDao extends IHibernateDao<User, Integer> {
 
-	Integer create(User user);
+	Long count(UserFilter filter);
 
-	void delete(Integer id);
-
-	void update(User user);
-
-	User getById(Integer id);
-
-	List<User> getAll();
+	List<User> find(UserFilter filter);
 }

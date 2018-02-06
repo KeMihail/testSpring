@@ -5,22 +5,21 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
-import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.filter.LegalEntityFilter;
 
 public interface ILegalEntityServices {
 
 	@Transactional
-	LegalEntity save(LegalEntity legalEntity);
+	void remove(Integer id);
 
 	@Transactional
-	void delete(Integer id);
+	LegalEntity save(LegalEntity legalEntity);
 
-	LegalEntity getById(Integer id);
+	List<LegalEntity> getAll();
 
-	public List<LegalEntity> getAll();
+	LegalEntity get(Integer id);
 
-	public List<LegalEntity> getAll(final String sortColumn, final boolean sortAscending, final int limit,
-			final int offset);
+	Long getCount(LegalEntityFilter filter);
 
-	public Integer getCount();
+	List<LegalEntity> getAll(LegalEntityFilter filter);
 }
