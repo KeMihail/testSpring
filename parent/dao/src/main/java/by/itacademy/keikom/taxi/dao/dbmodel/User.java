@@ -2,12 +2,15 @@ package by.itacademy.keikom.taxi.dao.dbmodel;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import by.itacademy.keikom.taxi.dao.enums.UserRole;
 
@@ -37,6 +40,12 @@ public class User implements Serializable {
 	private Timestamp modified;
 	@Column
 	private UserRole role;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<Order> orders;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<Car> cars;
 
 	public User() {
 	}

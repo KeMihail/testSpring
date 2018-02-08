@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
+import by.itacademy.keikom.taxi.dao.dbmodel.Car_;
+import by.itacademy.keikom.taxi.dao.filter.CarFilter;
 import by.itacademy.keikom.taxi.services.ICarServices;
 import by.itacademy.keikom.taxi.web.converter.CarFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.CarToDTOConverter;
@@ -59,42 +62,59 @@ public class CarController {
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);
 
-		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
-		final SortModel sortModel = listModel.getSort();
-		final List<Car> currentPageList = servicesCar.getAll(sortModel.getColumn(), sortModel.isAscending(),
-				listModel.getItemsPerPage(), offset);
+		CarFilter carFilter = buildFilter(listModel);
+
+		final List<Car> currentPageList = servicesCar.getAll(carFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(servicesCar.getCount());
+		listModel.setTotalCount(servicesCar.getCount(carFilter));
 
 		final ModelAndView mv = new ModelAndView("car.list");
 		return mv;
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public ModelAndView showForm() {
-		return new ModelAndView("car.edit", "carForm", new CarDTO());
-	}
+	private CarFilter buildFilter(ListModel<CarDTO> listModel) {
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String save(@Validated @ModelAttribute("carForm") final CarDTO carForm, final BindingResult result) {
-		if (result.hasErrors()) {
-			return "car.edit";
-		} else {
-			final Car car = fromDTOConverter.apply(carForm);
-			servicesCar.save(car);
-			return "redirect:/car";
+		SortModel sortModel = listModel.getSort();
+		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
+
+		CarFilter carFilter = new CarFilter();
+		carFilter.setLimit(listModel.getItemsPerPage());
+		carFilter.setOffset(offset);
+		carFilter.setSortOrder(sortModel.isAscending());
+
+		SingularAttribute sortAttribute;
+		switch (sortModel.getColumn()) {
+		case "id":
+			sortAttribute = Car_.id;
+			break;
+		case "userId":
+			sortAttribute = Car_.user;
+			break;
+		case "releaseYear":
+			sortAttribute = Car_.releaseYear;
+			break;
+		case "modelId":
+			sortAttribute = Car_.model;
+			break;
+		case "legalEntityId":
+			sortAttribute = Car_.legalEntity;
+			break;
+		default:
+			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
 		}
+		carFilter.setSortProperty(sortAttribute);
+		return carFilter;
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		servicesCar.delete(id);
+		servicesCar.remove(id);
 		return "redirect:/car";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final CarDTO dto = toDTOConverter.apply(servicesCar.getById(id));
+		final CarDTO dto = toDTOConverter.apply(servicesCar.get(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("carForm", dto);
 		hashMap.put("readonly", true);
@@ -103,7 +123,7 @@ public class CarController {
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final CarDTO dto = toDTOConverter.apply(servicesCar.getById(id));
+		final CarDTO dto = toDTOConverter.apply(servicesCar.get(id));
 		return new ModelAndView("car.edit", "carForm", dto);
 	}
 

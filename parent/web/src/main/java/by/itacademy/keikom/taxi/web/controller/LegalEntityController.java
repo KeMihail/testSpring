@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
+import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity_;
+import by.itacademy.keikom.taxi.dao.filter.LegalEntityFilter;
 import by.itacademy.keikom.taxi.services.ILegalEntityServices;
 import by.itacademy.keikom.taxi.web.converter.LegalEntityFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.LegalEntityToDTOConverter;
@@ -58,15 +61,49 @@ public class LegalEntityController {
 
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);
-		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
-		final SortModel sortModel = listModel.getSort();
-		final List<LegalEntity> currentPageList = legalEntityServises.getAll(sortModel.getColumn(),
-				sortModel.isAscending(), listModel.getItemsPerPage(), offset);
+
+		LegalEntityFilter legalEntityFilter = buildFilter(listModel);
+
+		final List<LegalEntity> currentPageList = legalEntityServises.getAll(legalEntityFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(legalEntityServises.getCount());
+		listModel.setTotalCount(legalEntityServises.getCount(legalEntityFilter));
 
 		final ModelAndView mv = new ModelAndView("legalEntity.list");
 		return mv;
+	}
+
+	private LegalEntityFilter buildFilter(ListModel<LegalEntityDTO> listModel) {
+
+		SortModel sortModel = listModel.getSort();
+		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
+
+		LegalEntityFilter legalEntityFilter = new LegalEntityFilter();
+		legalEntityFilter.setLimit(listModel.getItemsPerPage());
+		legalEntityFilter.setOffset(offset);
+		legalEntityFilter.setSortOrder(sortModel.isAscending());
+
+		SingularAttribute sortAttribute;
+		switch (sortModel.getColumn()) {
+		case "id":
+			sortAttribute = LegalEntity_.id;
+			break;
+		case "name":
+			sortAttribute = LegalEntity_.name;
+			break;
+		case "address":
+			sortAttribute = LegalEntity_.address;
+			break;
+		case "phoneNumber":
+			sortAttribute = LegalEntity_.phoneNumber;
+			break;
+		case "email":
+			sortAttribute = LegalEntity_.email;
+			break;
+		default:
+			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
+		}
+		legalEntityFilter.setSortProperty(sortAttribute);
+		return legalEntityFilter;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -88,13 +125,13 @@ public class LegalEntityController {
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		legalEntityServises.delete(id);
+		legalEntityServises.remove(id);
 		return "redirect:/legalEntity";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final LegalEntityDTO dto = toDTOConverter.apply(legalEntityServises.getById(id));
+		final LegalEntityDTO dto = toDTOConverter.apply(legalEntityServises.get(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("legalEntityForm", dto);
 		hashMap.put("readonly", true);
@@ -103,7 +140,7 @@ public class LegalEntityController {
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final LegalEntityDTO dto = toDTOConverter.apply(legalEntityServises.getById(id));
+		final LegalEntityDTO dto = toDTOConverter.apply(legalEntityServises.get(id));
 		return new ModelAndView("legalEntity.edit", "legalEntityForm", dto);
 	}
 }

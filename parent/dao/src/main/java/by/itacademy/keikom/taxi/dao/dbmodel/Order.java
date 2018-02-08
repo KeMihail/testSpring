@@ -2,22 +2,76 @@ package by.itacademy.keikom.taxi.dao.dbmodel;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Order {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer carId;
-	private Integer userId;
+
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Rate.class)
+	private Rate rate;
+
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Car.class)
+	private Car car;
+
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+	private User user;
+
+	public Rate getRate() {
+		return rate;
+	}
+
+	public void setRate(Rate rate) {
+		this.rate = rate;
+	}
+
+	public Car getCar() {
+		return car;
+	}
+
+	public void setCar(Car car) {
+		this.car = car;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	@Column
 	private String departureAddress;
+	@Column
 	private String arrivalAddress;
+	@Column
 	private Timestamp orderBegin;
+	@Column
 	private Timestamp orderEnd;
+	@Column
 	private Double distanceOrder;
+	@Column
 	private Double distancePaid;
+	@Column
 	private Integer inactivityMinutes;
-	private Integer rateId;
+
+	@Column
 	private Double summ;
+	@Column
 	private Boolean deleted;
+	@Column
 	private Timestamp created;
+	@Column
 	private Timestamp modified;
 
 	public Order() {
@@ -29,22 +83,6 @@ public class Order {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getCarId() {
-		return carId;
-	}
-
-	public void setCarId(Integer carId) {
-		this.carId = carId;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
 	}
 
 	public String getDepartureAddress() {
@@ -103,14 +141,6 @@ public class Order {
 		this.inactivityMinutes = inactivityMinutes;
 	}
 
-	public Integer getRateId() {
-		return rateId;
-	}
-
-	public void setRateId(Integer rateId) {
-		this.rateId = rateId;
-	}
-
 	public Double getSumm() {
 		return summ;
 	}
@@ -141,14 +171,5 @@ public class Order {
 
 	public void setModified(Timestamp modified) {
 		this.modified = modified;
-	}
-
-	@Override
-	public String toString() {
-		return "Order [id=" + id + ", carId=" + carId + ", userId=" + userId + ", orderTime=" + ", orderBegin="
-				+ orderBegin + ", orderEnd=" + orderEnd + ", distance=" + distanceOrder + ", summ=" + summ + ", rateId="
-				+ rateId + ", departureAddress=" + departureAddress + ", arrivalAddress=" + arrivalAddress
-				+ ", inactivityMinutes=" + inactivityMinutes + ", deleted=" + deleted + ", created=" + created
-				+ ", modified=" + modified + "]";
 	}
 }

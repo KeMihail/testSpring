@@ -43,7 +43,7 @@ public abstract class AbstractServicesTest {
 		Model model = new Model();
 		model.setName("Лагуна");
 		model.setBodyType(BodyType.Minivan);
-		model.setBrandId(brand.getId());
+		model.setBrand(brand);
 		model.setCarCit(CarKit.Classic);
 		model.setEngineType(EngineType.Diesel);
 		return model;
@@ -91,9 +91,9 @@ public abstract class AbstractServicesTest {
 
 		Car car = new Car();
 		car.setReleaseYear(2001);
-		car.setUserId(user.getId());
-		car.setModelId(model.getId());
-		car.setLegalEntityId(legalEntity.getId());
+		car.setUser(user);
+		car.setModel(model);
+		car.setLegalEntity(legalEntity);
 		car.setStatus(CarStatus.Online);
 		return car;
 	}
@@ -145,8 +145,8 @@ public abstract class AbstractServicesTest {
 		Calendar instance = Calendar.getInstance();
 		instance.add(Calendar.MINUTE, 5);
 
-		order.setCarId(car.getId());
-		order.setUserId(userClient.getId());
+		order.setCar(car);
+		order.setUser(userClient);
 		order.setDepartureAddress("Соломовой 40/38");
 		order.setArrivalAddress("Клецкова 70/125");
 		order.setOrderBegin(new Timestamp(instance.getTimeInMillis()));
@@ -157,7 +157,7 @@ public abstract class AbstractServicesTest {
 		order.setDistanceOrder(12.3);
 		order.setDistancePaid(7.4);
 		order.setInactivityMinutes(5);
-		order.setRateId(rate.getId());
+		order.setRate(rate);
 		order.setDeleted(false);
 		return order;
 	}

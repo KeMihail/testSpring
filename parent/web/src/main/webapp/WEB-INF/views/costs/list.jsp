@@ -38,10 +38,10 @@
 				<td><c:out value="${costs.other}" /></td>
 
 				<td class="right"><a class="btn-floating"
-					href="/costs/${costs.id}"><i class="material-icons">info</i></a> <a
-					class="btn-floating" href="/costs/${costs.id}/edit"><i
+					href="/costs/${costs.carId}"><i class="material-icons">info</i></a>
+					<a class="btn-floating" href="/costs/${costs.carId}/edit"><i
 						class="material-icons">edit</i></a> <a class="btn-floating red"
-					href="/costs/${costs.id}/delete"><i class="material-icons">delete</i></a>
+					href="/costs/${costs.carId}/delete"><i class="material-icons">delete</i></a>
 			</tr>
 		</c:forEach>
 	</tbody>

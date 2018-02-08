@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Costs;
+import by.itacademy.keikom.taxi.dao.dbmodel.Costs_;
+import by.itacademy.keikom.taxi.dao.filter.CostsFilter;
 import by.itacademy.keikom.taxi.services.ICostsServices;
 import by.itacademy.keikom.taxi.web.converter.CostsFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.CostsToDTOConverter;
@@ -59,15 +62,60 @@ public class CostsControler {
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);
 
-		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
-		final SortModel sortModel = listModel.getSort();
-		final List<Costs> currentPageList = servicesCosts.getAll(sortModel.getColumn(), sortModel.isAscending(),
-				listModel.getItemsPerPage(), offset);
+		CostsFilter costsFilter = buildFilter(listModel);
+
+		final List<Costs> currentPageList = servicesCosts.getAll(costsFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(servicesCosts.getCount());
+		listModel.setTotalCount(servicesCosts.getCount(costsFilter));
 
 		final ModelAndView mv = new ModelAndView("costs.list");
 		return mv;
+	}
+
+	private CostsFilter buildFilter(ListModel<CostsDTO> listModel) {
+
+		SortModel sortModel = listModel.getSort();
+		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
+
+		CostsFilter costsFilter = new CostsFilter();
+		costsFilter.setLimit(listModel.getItemsPerPage());
+		costsFilter.setOffset(offset);
+		costsFilter.setSortOrder(sortModel.isAscending());
+
+		SingularAttribute sortAttribute;
+		switch (sortModel.getColumn()) {
+		case "carId":
+			sortAttribute = Costs_.carId;
+			break;
+		case "taxes":
+			sortAttribute = Costs_.taxes;
+			break;
+		case "technicalInspection":
+			sortAttribute = Costs_.technicalInspection;
+			break;
+		case "insurance":
+			sortAttribute = Costs_.insurance;
+			break;
+		case "carService":
+			sortAttribute = Costs_.carService;
+			break;
+		case "pretripInspection":
+			sortAttribute = Costs_.pretripInspection;
+			break;
+		case "salaryDriver":
+			sortAttribute = Costs_.salaryDriver;
+			break;
+		case "fuelConsumption":
+			sortAttribute = Costs_.fuelConsumption;
+			break;
+		case "other":
+			sortAttribute = Costs_.other;
+			break;
+		default:
+			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
+		}
+		costsFilter.setSortProperty(sortAttribute);
+		return costsFilter;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -88,13 +136,13 @@ public class CostsControler {
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		servicesCosts.delete(id);
+		servicesCosts.remove(id);
 		return "redirect:/costs";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final CostsDTO dto = toDTOConverter.apply(servicesCosts.getById(id));
+		final CostsDTO dto = toDTOConverter.apply(servicesCosts.get(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("costsForm", dto);
 		hashMap.put("readonly", true);
@@ -103,7 +151,7 @@ public class CostsControler {
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final CostsDTO dto = toDTOConverter.apply(servicesCosts.getById(id));
+		final CostsDTO dto = toDTOConverter.apply(servicesCosts.get(id));
 		return new ModelAndView("costs.edit", "costsForm", dto);
 	}
 }

@@ -18,11 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.itacademy.jd2.dz.library.dao.dbmodel.Cover;
-import com.itacademy.jd2.dz.library.dao.filter.CoverFilter;
-import com.itacademy.jd2.dz.library.web.dto.CoverDTO;
-
 import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
+import by.itacademy.keikom.taxi.dao.dbmodel.Authentication_;
 import by.itacademy.keikom.taxi.dao.filter.AuthenticationFilter;
 import by.itacademy.keikom.taxi.services.IAuthenticationServices;
 import by.itacademy.keikom.taxi.web.converter.AuthenticationFromDTOConverter;
@@ -87,14 +84,14 @@ public class AuthenticationController {
 
 		SingularAttribute sortAttribute;
 		switch (sortModel.getColumn()) {
-		case "id":
-			sortAttribute = AuthenticationFilter_.id;
+		case "userId":
+			sortAttribute = Authentication_.userId;
 			break;
-		case "width":
-			sortAttribute = Cover_.width;
+		case "login":
+			sortAttribute = Authentication_.login;
 			break;
-		case "material":
-			sortAttribute = Cover_.material;
+		case "password":
+			sortAttribute = Authentication_.password;
 			break;
 		default:
 			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
@@ -122,13 +119,13 @@ public class AuthenticationController {
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		servicesAuthentication.delete(id);
+		servicesAuthentication.remove(id);
 		return "redirect:/authentication";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final AuthenticationDTO dto = toDTOConverter.apply(servicesAuthentication.getById(id));
+		final AuthenticationDTO dto = toDTOConverter.apply(servicesAuthentication.get(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("authenticationForm", dto);
 		hashMap.put("readonly", true);
@@ -137,8 +134,7 @@ public class AuthenticationController {
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final AuthenticationDTO dto = toDTOConverter.apply(servicesAuthentication.getById(id));
+		final AuthenticationDTO dto = toDTOConverter.apply(servicesAuthentication.get(id));
 		return new ModelAndView("authentication.edit", "authenticationForm", dto);
 	}
-
 }

@@ -6,6 +6,7 @@ import by.itacademy.keikom.taxi.dao.enums.EngineType;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.ManyToAny;
 
@@ -23,30 +25,48 @@ public class Model implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	@Column
 	private String name;
-	@Column
+
+	@Column(name = "car_kit")
 	private CarKit carCit;
+
 	@Column
 	private EngineType engineType;
+
 	@Column
 	private BodyType BodyType;
-	@Column
-	private Integer brandId;
+
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Brand.class)
+	private Brand brand;
+
 	@Column
 	private Timestamp created;
+
 	@Column
 	private Timestamp modified;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "model")
+	List<Car> cars;
+
+	public List<Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(List<Car> cars) {
+		this.cars = cars;
+	}
 
 	public Model() {
 	}
 
-	public Integer getBrandId() {
-		return brandId;
+	public Brand getBrand() {
+		return brand;
 	}
 
-	public void setBrandId(Integer brandId) {
-		this.brandId = brandId;
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
 	public Integer getId() {

@@ -1,9 +1,5 @@
 package by.itacademy.keikom.taxi.services.impl;
 
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import by.itacademy.keikom.taxi.dao.ICostsDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.Costs;
-import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 import by.itacademy.keikom.taxi.dao.filter.CostsFilter;
 import by.itacademy.keikom.taxi.services.ICostsServices;
 

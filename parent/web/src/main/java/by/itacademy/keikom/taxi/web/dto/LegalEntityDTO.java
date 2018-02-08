@@ -39,7 +39,7 @@ public class LegalEntityDTO {
 		this.address = address;
 	}
 
-	public String getPhone_number() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 

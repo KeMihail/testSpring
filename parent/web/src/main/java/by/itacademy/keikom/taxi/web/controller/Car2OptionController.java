@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Car2CarOption;
+import by.itacademy.keikom.taxi.dao.dbmodel.Car2CarOption_;
+import by.itacademy.keikom.taxi.dao.filter.Car2CarOptionFilter;
 import by.itacademy.keikom.taxi.services.ICar2CarOptionServices;
 import by.itacademy.keikom.taxi.web.converter.Car2CarOptionFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.Car2CarOptionToDTOConverter;
@@ -48,7 +51,7 @@ public class Car2OptionController {
 		ListModel<Car2CarOptionDTO> listModel;
 		if (req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME) == null) {
 			listModel = new ListModel<>();
-			listModel.setSort(new SortModel("carId"));
+			listModel.setSort(new SortModel("id"));
 			req.getSession().setAttribute(LOCAL_LIST_MODEL_NAME, listModel);
 		} else {
 			listModel = (ListModel<Car2CarOptionDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);
@@ -59,15 +62,39 @@ public class Car2OptionController {
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);
 
-		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
-		final SortModel sortModel = listModel.getSort();
-		final List<Car2CarOption> currentPageList = servicesCar2CarOption.getAll(sortModel.getColumn(),
-				sortModel.isAscending(), listModel.getItemsPerPage(), offset);
-		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(servicesCar2CarOption.getCount());
+		Car2CarOptionFilter car2CarOptionFilter = buildFilter(listModel);
 
-		final ModelAndView mv = new ModelAndView("car2CarOption.list");
+		final List<Car2CarOption> currentPageList = servicesCar2CarOption.getAll(car2CarOptionFilter);
+		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
+		listModel.setTotalCount(servicesCar2CarOption.getCount(car2CarOptionFilter));
+
+		final ModelAndView mv = new ModelAndView("car2CarOptionDTO.list");
 		return mv;
+	}
+
+	private Car2CarOptionFilter buildFilter(ListModel<Car2CarOptionDTO> listModel) {
+
+		SortModel sortModel = listModel.getSort();
+		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
+
+		Car2CarOptionFilter car2CarOptionFilterFilter = new Car2CarOptionFilter();
+		car2CarOptionFilterFilter.setLimit(listModel.getItemsPerPage());
+		car2CarOptionFilterFilter.setOffset(offset);
+		car2CarOptionFilterFilter.setSortOrder(sortModel.isAscending());
+
+		SingularAttribute sortAttribute;
+		switch (sortModel.getColumn()) {
+		case "carId":
+			sortAttribute = Car2CarOption_.carId;
+			break;
+		case "carOptionId":
+			sortAttribute = Car2CarOption_.carOptionId;
+			break;
+		default:
+			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
+		}
+		car2CarOptionFilterFilter.setSortProperty(sortAttribute);
+		return car2CarOptionFilterFilter;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -82,7 +109,7 @@ public class Car2OptionController {
 			return "car2CarOption.edit";
 		} else {
 			final Car2CarOption car2CarOption = fromDTOConverter.apply(car2CarOptionForm);
-			servicesCar2CarOption.create(car2CarOption);
+			servicesCar2CarOption.save(car2CarOption);
 			return "redirect:/car2CarOption";
 		}
 	}

@@ -89,10 +89,10 @@ public class CarServicesTest extends AbstractServicesTest {
 
 		Car car1 = services.get(car.getId());
 		Assert.assertEquals(car1.getId(), car.getId());
-		Assert.assertEquals(car1.getUserId(), car.getUserId());
+		Assert.assertEquals(car1.getUser(), car.getUser());
 		Assert.assertEquals(car1.getReleaseYear(), car.getReleaseYear());
-		Assert.assertEquals(car1.getModelId(), car.getModelId());
-		Assert.assertEquals(car1.getLegalEntityId(), car.getLegalEntityId());
+		Assert.assertEquals(car1.getModel(), car.getModel());
+		Assert.assertEquals(car1.getLegalEntity(), car.getLegalEntity());
 		Assert.assertEquals(car1.getStatus(), car.getStatus());
 
 		car.setReleaseYear(2010);
@@ -101,10 +101,10 @@ public class CarServicesTest extends AbstractServicesTest {
 
 		Car car2 = services.get(car.getId());
 		Assert.assertEquals(car2.getId(), car.getId());
-		Assert.assertEquals(car2.getUserId(), car.getUserId());
+		Assert.assertEquals(car2.getUser(), car.getUser());
 		Assert.assertEquals(car2.getReleaseYear(), car.getReleaseYear());
-		Assert.assertEquals(car2.getModelId(), car.getModelId());
-		Assert.assertEquals(car2.getLegalEntityId(), car.getLegalEntityId());
+		Assert.assertEquals(car2.getModel(), car.getModel());
+		Assert.assertEquals(car2.getLegalEntity(), car.getLegalEntity());
 		Assert.assertEquals(car2.getStatus(), car.getStatus());
 
 		list = services.getAll();

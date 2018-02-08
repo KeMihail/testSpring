@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
+import by.itacademy.keikom.taxi.dao.dbmodel.Model_;
+import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
 import by.itacademy.keikom.taxi.services.IModelServices;
 import by.itacademy.keikom.taxi.web.converter.ModelFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.ModelToDTOConverter;
@@ -59,15 +62,51 @@ public class ModelController {
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);
 
-		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
-		final SortModel sortModel = listModel.getSort();
-		final List<Model> currentPageList = servicesModel.getAll(sortModel.getColumn(), sortModel.isAscending(),
-				listModel.getItemsPerPage(), offset);
+		ModelFilter modelFilter = buildFilter(listModel);
+
+		final List<Model> currentPageList = servicesModel.getAll(modelFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(servicesModel.getCount());
+		listModel.setTotalCount(servicesModel.getCount(modelFilter));
 
 		final ModelAndView mv = new ModelAndView("model.list");
 		return mv;
+	}
+
+	private ModelFilter buildFilter(ListModel<ModelDTO> listModel) {
+
+		SortModel sortModel = listModel.getSort();
+		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
+
+		ModelFilter modelFilter = new ModelFilter();
+		modelFilter.setLimit(listModel.getItemsPerPage());
+		modelFilter.setOffset(offset);
+		modelFilter.setSortOrder(sortModel.isAscending());
+
+		SingularAttribute sortAttribute;
+		switch (sortModel.getColumn()) {
+		case "id":
+			sortAttribute = Model_.id;
+			break;
+		case "name":
+			sortAttribute = Model_.name;
+			break;
+		case "carCit":
+			sortAttribute = Model_.carCit;
+			break;
+		case "engineType":
+			sortAttribute = Model_.engineType;
+			break;
+		case "BodyType":
+			sortAttribute = Model_.BodyType;
+			break;
+		case "brandId":
+			sortAttribute = Model_.brand;
+			break;
+		default:
+			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
+		}
+		modelFilter.setSortProperty(sortAttribute);
+		return modelFilter;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -88,13 +127,13 @@ public class ModelController {
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		servicesModel.delete(id);
+		servicesModel.remove(id);
 		return "redirect:/model";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final ModelDTO dto = toDTOConverter.apply(servicesModel.getById(id));
+		final ModelDTO dto = toDTOConverter.apply(servicesModel.get(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("modelForm", dto);
 		hashMap.put("readonly", true);
@@ -103,7 +142,7 @@ public class ModelController {
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final ModelDTO dto = toDTOConverter.apply(servicesModel.getById(id));
+		final ModelDTO dto = toDTOConverter.apply(servicesModel.get(id));
 		return new ModelAndView("model.edit", "modelForm", dto);
 	}
 

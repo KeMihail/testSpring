@@ -2,11 +2,15 @@ package by.itacademy.keikom.taxi.dao.dbmodel;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Rate implements Serializable {
@@ -22,11 +26,21 @@ public class Rate implements Serializable {
 	private Double priceKilometr;
 	@Column
 	private Double priceMinuteWait;
-
 	@Column(updatable = false)
 	private Timestamp created;
 	@Column
 	private Timestamp modified;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rate")
+	List<Order> orders;
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 
 	public Rate() {
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
+import by.itacademy.keikom.taxi.dao.dbmodel.Brand_;
+import by.itacademy.keikom.taxi.dao.filter.BrandFilter;
+import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
 import by.itacademy.keikom.taxi.services.IBrandServices;
 import by.itacademy.keikom.taxi.web.converter.BrandToDTOConverter;
 import by.itacademy.keikom.taxi.web.dto.BrandDTO;
+import by.itacademy.keikom.taxi.web.dto.ModelDTO;
 import by.itacademy.keikom.taxi.web.util.ListModel;
 import by.itacademy.keikom.taxi.web.util.SortModel;
 import by.itacademy.keikom.taxi.web.converter.BrandFromDTOConverter;
@@ -58,15 +63,39 @@ public class BrandController {
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);
 
-		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
-		final SortModel sortModel = listModel.getSort();
-		final List<Brand> currentPageList = brandServices.getAll(sortModel.getColumn(), sortModel.isAscending(),
-				listModel.getItemsPerPage(), offset);
+		BrandFilter coverFilter = buildFilter(listModel);
+
+		final List<Brand> currentPageList = brandServices.getAll(coverFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(brandServices.getCount());
+		listModel.setTotalCount(brandServices.getCount(coverFilter));
 
 		final ModelAndView mv = new ModelAndView("brand.list");
 		return mv;
+	}
+
+	private BrandFilter buildFilter(ListModel<BrandDTO> listModel) {
+
+		SortModel sortModel = listModel.getSort();
+		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
+
+		BrandFilter brandFilter = new BrandFilter();
+		brandFilter.setLimit(listModel.getItemsPerPage());
+		brandFilter.setOffset(offset);
+		brandFilter.setSortOrder(sortModel.isAscending());
+
+		SingularAttribute sortAttribute;
+		switch (sortModel.getColumn()) {
+		case "id":
+			sortAttribute = Brand_.id;
+			break;
+		case "name":
+			sortAttribute = Brand_.name;
+			break;
+		default:
+			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
+		}
+		brandFilter.setSortProperty(sortAttribute);
+		return brandFilter;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -87,13 +116,13 @@ public class BrandController {
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		brandServices.delete(id);
+		brandServices.remove(id);
 		return "redirect:/brand";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final BrandDTO dto = toDTOConverter.apply(brandServices.getById(id));
+		final BrandDTO dto = toDTOConverter.apply(brandServices.get(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("brandForm", dto);
 		hashMap.put("readonly", true);
@@ -102,7 +131,7 @@ public class BrandController {
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final BrandDTO dto = toDTOConverter.apply(brandServices.getById(id));
+		final BrandDTO dto = toDTOConverter.apply(brandServices.get(id));
 		return new ModelAndView("brand.edit", "brandForm", dto);
 	}
 }
