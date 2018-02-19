@@ -23,7 +23,7 @@ public class ModelFromDTOConverter implements Function<ModelDTO, Model> {
 		dbModel.setCarCit(CarKit.valueOf(dto.getCarCit()));
 		dbModel.setEngineType(EngineType.valueOf(dto.getEngineType()));
 		dbModel.setBodyType(BodyType.valueOf(dto.getBodyType()));
-		dbModel.setBrandId(dto.getBrandId());
+		dbModel.setBrand(dto.getBrand());
 		dbModel.setCreated(dto.getCreated());
 		dbModel.setModified(dto.getModified());
 

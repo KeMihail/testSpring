@@ -13,24 +13,34 @@ public class Costs implements Serializable {
 	@Id
 	@Column
 	private Integer carId;
+
 	@Column
 	private Double taxes;
+
 	@Column
 	private Double technicalInspection;
+
 	@Column
 	private Double insurance;
+
 	@Column
 	private Double carService;
+
 	@Column
 	private Double pretripInspection;
+
 	@Column
 	private Double salaryDriver;
+
 	@Column
 	private Double fuelConsumption;
+
 	@Column
 	private Double other;
+
 	@Column
 	private Timestamp created;
+
 	@Column
 	private Timestamp modified;
 

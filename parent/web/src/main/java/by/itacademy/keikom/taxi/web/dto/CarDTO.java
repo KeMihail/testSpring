@@ -2,20 +2,43 @@ package by.itacademy.keikom.taxi.web.dto;
 
 import java.sql.Timestamp;
 
-import by.itacademy.keikom.taxi.dao.enums.CarStatus;
+import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
+import by.itacademy.keikom.taxi.dao.dbmodel.Model;
+import by.itacademy.keikom.taxi.dao.dbmodel.User;
 
 public class CarDTO {
 
 	private Integer id;
-	private Integer userId;
+	private UserDTO user;
 	private Integer releaseYear;
-	private Integer modelId;
-	private Integer legalEntityId;
+	private Model model;
+	private LegalEntity legalEntity;
 	private String status;
 	private Timestamp created;
 	private Timestamp modified;
 
-	public CarDTO() {
+	public LegalEntity getLegalEntity() {
+		return legalEntity;
+	}
+
+	public void setLegalEntity(LegalEntity legalEntity) {
+		this.legalEntity = legalEntity;
+	}
+
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+	}
+
+	public UserDTO getUser() {
+		return user;
+	}
+
+	public void setUser(UserDTO user) {
+		this.user = user;
 	}
 
 	public Integer getId() {
@@ -26,36 +49,12 @@ public class CarDTO {
 		this.id = id;
 	}
 
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
 	public Integer getReleaseYear() {
 		return releaseYear;
 	}
 
 	public void setReleaseYear(Integer releaseYear) {
 		this.releaseYear = releaseYear;
-	}
-
-	public Integer getModelId() {
-		return modelId;
-	}
-
-	public void setModelId(Integer modelId) {
-		this.modelId = modelId;
-	}
-
-	public Integer getLegalEntityId() {
-		return legalEntityId;
-	}
-
-	public void setLegalEntityId(Integer legalEntityId) {
-		this.legalEntityId = legalEntityId;
 	}
 
 	public String getStatus() {
@@ -81,5 +80,4 @@ public class CarDTO {
 	public void setModified(Timestamp modified) {
 		this.modified = modified;
 	}
-
 }

@@ -51,7 +51,7 @@ public class Car2OptionController {
 		ListModel<Car2CarOptionDTO> listModel;
 		if (req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME) == null) {
 			listModel = new ListModel<>();
-			listModel.setSort(new SortModel("id"));
+			listModel.setSort(new SortModel("carId"));
 			req.getSession().setAttribute(LOCAL_LIST_MODEL_NAME, listModel);
 		} else {
 			listModel = (ListModel<Car2CarOptionDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);

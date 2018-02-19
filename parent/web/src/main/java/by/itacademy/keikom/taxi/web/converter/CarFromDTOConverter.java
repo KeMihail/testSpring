@@ -18,10 +18,12 @@ public class CarFromDTOConverter implements Function<CarDTO, Car> {
 		Car dbModel = new Car();
 
 		dbModel.setId(dto.getId());
-		dbModel.setUserId(dto.getUserId());
+		// посмотреть пример с cover  и cover deteilis 
+		
+		//dbModel.setUser(dto.getUser());
 		dbModel.setReleaseYear(dto.getReleaseYear());
-		dbModel.setModelId(dto.getModelId());
-		dbModel.setLegalEntityId(dto.getLegalEntityId());
+		dbModel.setModel(dto.getModel());
+		dbModel.setLegalEntity(dto.getLegalEntity());
 		dbModel.setStatus(CarStatus.valueOf(dto.getStatus()));
 		dbModel.setCreated(dto.getCreated());
 		dbModel.setModified(dto.getModified());

@@ -1,3 +1,4 @@
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="mytags" tagdir="/WEB-INF/tags"%>
@@ -17,7 +18,7 @@
 			<th><mytaglib:sort-link column="name">name</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="carCit">carCit</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="engineType">engineType</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="BodyType">BodyType</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="BodyType">bodyType</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="brandId">brandId</mytaglib:sort-link></th>
 			<th></th>
 		</tr>
@@ -29,8 +30,8 @@
 				<td><c:out value="${model.name}" /></td>
 				<td><c:out value="${model.carCit}" /></td>
 				<td><c:out value="${model.engineType}" /></td>
-				<td><c:out value="${model.BodyType}" /></td>
-				<td><c:out value="${model.brandId}" /></td>
+				<td><c:out value="${model.bodyType}" /></td>
+				<td><c:out value="${model.brand}" /></td>
 
 				<td class="right"><a class="btn-floating"
 					href="/model/${model.id}"><i class="material-icons">info</i></a> <a

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -72,6 +73,7 @@ public class CarServicesTest extends AbstractServicesTest {
 	}
 
 	@Test
+	@Transactional
 	public void testGRUD() {
 
 		Car car = null;

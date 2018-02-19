@@ -51,7 +51,7 @@ public class AuthenticationController {
 		ListModel<AuthenticationDTO> listModel;
 		if (req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME) == null) {
 			listModel = new ListModel<>();
-			listModel.setSort(new SortModel("id"));
+			listModel.setSort(new SortModel("userId"));
 			req.getSession().setAttribute(LOCAL_LIST_MODEL_NAME, listModel);
 		} else {
 			listModel = (ListModel<AuthenticationDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);

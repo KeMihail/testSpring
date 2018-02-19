@@ -13,9 +13,9 @@
 	<tbody>
 		<tr>
 			<th><mytaglib:sort-link column="id">id</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="userId">userId</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="userId">user</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="releaseYear">releaseYear</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="modelId">modelId</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="modelId">model</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="legalEntityId">legalEntityId</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="status">status</mytaglib:sort-link></th>
 
@@ -25,9 +25,9 @@
 		<c:forEach var="car" items="${listModel.list}" varStatus="loopCounter">
 			<tr>
 				<td><c:out value="${car.id}" /></td>
-				<td><c:out value="${car.userId}" /></td>
+				<td><c:out value="${car.user}" /></td>
 				<td><c:out value="${car.releaseYear}" /></td>
-				<td><c:out value="${car.modelId}" /></td>
+				<td><c:out value="${car.model}" /></td>
 				<td><c:out value="${car.legalEntityId}" /></td>
 				<td><c:out value="${car.status}" /></td>
 

@@ -28,7 +28,8 @@ public class CostServicesTest extends AbstractServicesTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CostServicesTest.class);
 
 	@Autowired
-	private CostsServicesImpl services;
+	private ICostsServices services;
+
 	private List<Costs> list;
 
 	private Brand brand;

@@ -28,8 +28,9 @@ public class Brand implements Serializable {
 	@Column
 	private Timestamp modified;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
-	List<Model> models;
+	// удолить:
+	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
+	// private List<Model> models;
 
 	public Brand() {
 	}

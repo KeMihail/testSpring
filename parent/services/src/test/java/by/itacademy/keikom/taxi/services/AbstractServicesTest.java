@@ -69,7 +69,7 @@ public abstract class AbstractServicesTest {
 		user.setLastName("Кейко");
 		user.setPhoneNumber("80297875512");
 		user.setDeleted(false);
-		user.setRole(UserRole.director);
+		user.setRole(UserRole.Director);
 		return user;
 	}
 
@@ -83,7 +83,7 @@ public abstract class AbstractServicesTest {
 		user.setLastName("Кейко");
 		user.setPhoneNumber("80445006793");
 		user.setDeleted(false);
-		user.setRole(UserRole.passenger);
+		user.setRole(UserRole.Passenger);
 		return user;
 	}
 

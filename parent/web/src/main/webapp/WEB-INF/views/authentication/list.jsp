@@ -26,11 +26,11 @@
 				<td><c:out value="${authentication.password}" /></td>
 
 				<td class="right"><a class="btn-floating"
-					href="/authentication/${authentication.id}"><i
+					href="/authentication/${authentication.userId}"><i
 						class="material-icons">info</i></a> <a class="btn-floating"
-					href="/authentication/${authentication.id}/edit"><i
+					href="/authentication/${authentication.userId}/edit"><i
 						class="material-icons">edit</i></a> <a class="btn-floating red"
-					href="/authentication/${authentication.id}/delete"><i
+					href="/authentication/${authentication.userId}/delete"><i
 						class="material-icons">delete</i></a>
 			</tr>
 		</c:forEach>

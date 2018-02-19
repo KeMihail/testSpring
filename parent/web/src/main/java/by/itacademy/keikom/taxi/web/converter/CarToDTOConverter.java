@@ -14,11 +14,12 @@ public class CarToDTOConverter implements Function<Car, CarDTO> {
 	public CarDTO apply(Car dbModel) {
 
 		CarDTO dto = new CarDTO();
+
 		dto.setId(dbModel.getId());
-		dto.setUserId(dbModel.getUserId());
+		//dto.setUser(dbModel.getUser());
 		dto.setReleaseYear(dbModel.getReleaseYear());
-		dto.setModelId(dbModel.getModelId());
-		dto.setLegalEntityId(dbModel.getLegalEntityId());
+		dto.setModel(dbModel.getModel());
+		dto.setLegalEntity(dbModel.getLegalEntity());
 		dto.setStatus(dbModel.getStatus().toString());
 		dto.setCreated(dbModel.getCreated());
 		dto.setModified(dbModel.getModified());

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,6 +40,8 @@ public class User implements Serializable {
 	private Timestamp created;
 	@Column
 	private Timestamp modified;
+
+	@Enumerated(value = EnumType.STRING)
 	@Column
 	private UserRole role;
 
@@ -136,12 +140,5 @@ public class User implements Serializable {
 
 	public void setRole(UserRole role) {
 		this.role = role;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", lastName=" + lastName + ", birthday=" + birthday + ", address="
-				+ address + ", phoneNumber=" + phoneNumber + ", email=" + email + ", deleted=" + deleted + ", created="
-				+ created + ", modified=" + modified + ", role=" + role + "]";
 	}
 }
