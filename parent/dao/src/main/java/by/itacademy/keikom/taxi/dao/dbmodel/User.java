@@ -13,37 +13,42 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import by.itacademy.keikom.taxi.dao.enums.UserRole;
 
 @Entity
-public class User implements Serializable {
+public class User extends AbstractModel implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 	@Column
 	private String name;
+
 	@Column
 	private String lastName;
+
 	@Column
 	private Timestamp birthday;
+
 	@Column
 	private String address;
+
 	@Column
 	private String phoneNumber;
+
 	@Column
 	private String email;
+
 	@Column
 	private Boolean deleted;
-	@Column
-	private Timestamp created;
-	@Column
-	private Timestamp modified;
 
 	@Enumerated(value = EnumType.STRING)
 	@Column
 	private UserRole role;
+
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@PrimaryKeyJoinColumn
+	private Authentication authentication;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<Order> orders;
@@ -54,12 +59,28 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public Integer getId() {
-		return id;
+	public Authentication getAuthentication() {
+		return authentication;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setAuthentication(Authentication authentication) {
+		this.authentication = authentication;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+	public List<Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(List<Car> cars) {
+		this.cars = cars;
 	}
 
 	public String getName() {
@@ -116,22 +137,6 @@ public class User implements Serializable {
 
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
-	}
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
 	}
 
 	public UserRole getRole() {

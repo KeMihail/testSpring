@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface IHibernateDao<T, ID> {
 
-    List<T> getAll();
+	List<T> getAll();
 
-    T get(final ID id);
+	T get(final ID id);
 
-    T insert(final T entity);
+	T insert(final T entity);
 
-    T update(T entity);
+	T update(T entity);
 
-    void remove(ID id);
+	void remove(ID id);
 }

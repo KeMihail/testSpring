@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -43,6 +45,8 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 	}
 
 	@Test
+	@Transactional
+	@Rollback // 
 	public void testGRUD() {
 
 		Authentication authentication = null;
@@ -56,26 +60,26 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 
 		authentication = createAuthentication(user);
 		services.save(authentication);
-		Assert.assertNotNull(services.get(authentication.getUserId()));
+		Assert.assertNotNull(services.get(authentication.getUser().getId()));
 
-		Authentication authentication1 = services.get(authentication.getUserId());
-		Assert.assertEquals(authentication1.getUserId(), authentication.getUserId());
+		Authentication authentication1 = services.get(authentication.getUser().getId());
+		Assert.assertEquals(authentication1.getUser().getId(), authentication.getUser().getId());
 		Assert.assertEquals(authentication1.getLogin(), authentication.getLogin());
 		Assert.assertEquals(authentication1.getPassword(), authentication.getPassword());
 
 		authentication.setLogin("login_update");
 		services.save(authentication);
-		Assert.assertNotNull(services.get(authentication.getUserId()));
+		Assert.assertNotNull(services.get(authentication.getUser().getId()));
 
-		Authentication authentication2 = services.get(authentication.getUserId());
-		Assert.assertEquals(authentication2.getUserId(), authentication.getUserId());
+		Authentication authentication2 = services.get(authentication.getUser().getId());
+		Assert.assertEquals(authentication2.getUser(), authentication.getUser());
 		Assert.assertEquals(authentication2.getLogin(), authentication.getLogin());
 		Assert.assertEquals(authentication2.getPassword(), authentication.getPassword());
 
 		list = services.getAll();
 		Assert.assertNotNull(list);
 
-		services.remove(authentication.getUserId());
-		Assert.assertNull(services.get(authentication.getUserId()));
+		services.remove(authentication.getUser().getId());
+		Assert.assertNull(services.get(authentication.getUser().getId()));
 	}
 }

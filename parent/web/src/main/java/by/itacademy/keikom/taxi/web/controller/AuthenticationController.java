@@ -85,7 +85,7 @@ public class AuthenticationController {
 		SingularAttribute sortAttribute;
 		switch (sortModel.getColumn()) {
 		case "userId":
-			sortAttribute = Authentication_.userId;
+			sortAttribute = Authentication_.user;
 			break;
 		case "login":
 			sortAttribute = Authentication_.login;

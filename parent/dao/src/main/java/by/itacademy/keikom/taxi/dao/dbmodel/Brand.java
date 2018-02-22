@@ -13,34 +13,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Brand implements Serializable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+public class Brand extends AbstractModel implements Serializable {
 
 	@Column
 	private String name;
 
-	@Column
-	private Timestamp created;
-
-	@Column
-	private Timestamp modified;
-
-	// удолить:
-	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
-	// private List<Model> models;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
+	private List<Model> models;
 
 	public Brand() {
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -49,26 +30,5 @@ public class Brand implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
-	}
-
-	@Override
-	public String toString() {
-		return "Brand [id=" + id + ", name=" + name + ", created=" + created + ", modified=" + modified + "]";
 	}
 }

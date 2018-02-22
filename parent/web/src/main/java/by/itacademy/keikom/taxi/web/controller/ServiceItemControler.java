@@ -18,43 +18,43 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.Costs;
-import by.itacademy.keikom.taxi.dao.dbmodel.Costs_;
-import by.itacademy.keikom.taxi.dao.filter.CostsFilter;
-import by.itacademy.keikom.taxi.services.ICostsServices;
-import by.itacademy.keikom.taxi.web.converter.CostsFromDTOConverter;
-import by.itacademy.keikom.taxi.web.converter.CostsToDTOConverter;
-import by.itacademy.keikom.taxi.web.dto.CostsDTO;
+import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem;
+import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem_;
+import by.itacademy.keikom.taxi.dao.filter.ServiceItemFilter;
+import by.itacademy.keikom.taxi.services.IServiceItem;
+import by.itacademy.keikom.taxi.web.converter.ServiceItemFromDTOConverter;
+import by.itacademy.keikom.taxi.web.converter.ServiceItemToDTOConverter;
+import by.itacademy.keikom.taxi.web.dto.ServiceItemDTO;
 import by.itacademy.keikom.taxi.web.util.ListModel;
 import by.itacademy.keikom.taxi.web.util.SortModel;
 
 @Controller
-@RequestMapping(value = "/costs")
-public class CostsControler {
+@RequestMapping(value = "/serviceItem")
+public class ServiceItemControler {
 
-	private static final String LOCAL_LIST_MODEL_NAME = "costsListModel";
-
-	@Autowired
-	private ICostsServices servicesCosts;
+	private static final String LOCAL_LIST_MODEL_NAME = "serviceItemListModel";
 
 	@Autowired
-	private CostsFromDTOConverter fromDTOConverter;
+	private IServiceItem servicesServiceItem;
 
 	@Autowired
-	private CostsToDTOConverter toDTOConverter;
+	private ServiceItemFromDTOConverter fromDTOConverter;
+
+	@Autowired
+	private ServiceItemToDTOConverter toDTOConverter;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView viewList(final HttpServletRequest req,
 			@RequestParam(name = "sort", required = false) final String sort,
 			@RequestParam(name = "page", required = false) final Integer pageNumber) {
 
-		ListModel<CostsDTO> listModel;
+		ListModel<ServiceItemDTO> listModel;
 		if (req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME) == null) {
 			listModel = new ListModel<>();
-			listModel.setSort(new SortModel("carId"));
+			listModel.setSort(new SortModel("id"));
 			req.getSession().setAttribute(LOCAL_LIST_MODEL_NAME, listModel);
 		} else {
-			listModel = (ListModel<CostsDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);
+			listModel = (ListModel<ServiceItemDTO>) req.getSession().getAttribute(LOCAL_LIST_MODEL_NAME);
 		}
 
 		req.getSession().setAttribute(ListModel.SESSION_ATTR_NAME, listModel);
@@ -62,96 +62,82 @@ public class CostsControler {
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);
 
-		CostsFilter costsFilter = buildFilter(listModel);
+		ServiceItemFilter serviceItemFilter = buildFilter(listModel);
 
-		final List<Costs> currentPageList = servicesCosts.getAll(costsFilter);
+		final List<ServiceItem> currentPageList = servicesServiceItem.getAll(serviceItemFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(servicesCosts.getCount(costsFilter));
+		listModel.setTotalCount(servicesServiceItem.getCount(serviceItemFilter));
 
-		final ModelAndView mv = new ModelAndView("costs.list");
+		final ModelAndView mv = new ModelAndView("serviceItem.list");
 		return mv;
 	}
 
-	private CostsFilter buildFilter(ListModel<CostsDTO> listModel) {
+	private ServiceItemFilter buildFilter(ListModel<ServiceItemDTO> listModel) {
 
 		SortModel sortModel = listModel.getSort();
 		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
 
-		CostsFilter costsFilter = new CostsFilter();
-		costsFilter.setLimit(listModel.getItemsPerPage());
-		costsFilter.setOffset(offset);
-		costsFilter.setSortOrder(sortModel.isAscending());
+		ServiceItemFilter serviceItemFilter = new ServiceItemFilter();
+		serviceItemFilter.setLimit(listModel.getItemsPerPage());
+		serviceItemFilter.setOffset(offset);
+		serviceItemFilter.setSortOrder(sortModel.isAscending());
 
 		SingularAttribute sortAttribute;
 		switch (sortModel.getColumn()) {
-		case "carId":
-			sortAttribute = Costs_.carId;
+		case "id":
+			sortAttribute = ServiceItem_.id;
 			break;
-		case "taxes":
-			sortAttribute = Costs_.taxes;
+		case "car":
+			sortAttribute = ServiceItem_.car;
 			break;
-		case "technicalInspection":
-			sortAttribute = Costs_.technicalInspection;
+		case "item":
+			sortAttribute = ServiceItem_.item;
 			break;
-		case "insurance":
-			sortAttribute = Costs_.insurance;
-			break;
-		case "carService":
-			sortAttribute = Costs_.carService;
-			break;
-		case "pretripInspection":
-			sortAttribute = Costs_.pretripInspection;
-			break;
-		case "salaryDriver":
-			sortAttribute = Costs_.salaryDriver;
-			break;
-		case "fuelConsumption":
-			sortAttribute = Costs_.fuelConsumption;
-			break;
-		case "other":
-			sortAttribute = Costs_.other;
+		case "summa":
+			sortAttribute = ServiceItem_.summa;
 			break;
 		default:
 			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
 		}
-		costsFilter.setSortProperty(sortAttribute);
-		return costsFilter;
+		serviceItemFilter.setSortProperty(sortAttribute);
+		return serviceItemFilter;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView showForm() {
-		return new ModelAndView("costs.edit", "costsForm", new CostsDTO());
+		return new ModelAndView("serviceItem.edit", "serviceItemForm", new ServiceItemDTO());
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String save(@Validated @ModelAttribute("costsForm") final CostsDTO costsForm, final BindingResult result) {
+	public String save(@Validated @ModelAttribute("serviceItemForm") final ServiceItemDTO serviceItemForm,
+			final BindingResult result) {
 		if (result.hasErrors()) {
-			return "costs.edit";
+			return "serviceItem.edit";
 		} else {
-			final Costs costs = fromDTOConverter.apply(costsForm);
-			servicesCosts.save(costs);
-			return "redirect:/costs";
+			final ServiceItem serviceItem = fromDTOConverter.apply(serviceItemForm);
+			servicesServiceItem.save(serviceItem);
+			return "redirect:/serviceItem";
 		}
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		servicesCosts.remove(id);
-		return "redirect:/costs";
+		servicesServiceItem.remove(id);
+		return "redirect:/serviceItem";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final CostsDTO dto = toDTOConverter.apply(servicesCosts.get(id));
+		final ServiceItemDTO dto = toDTOConverter.apply(servicesServiceItem.get(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("costsForm", dto);
+		hashMap.put("serviceItemForm", dto);
 		hashMap.put("readonly", true);
-		return new ModelAndView("costs.edit", hashMap);
+		return new ModelAndView("serviceItem.edit", hashMap);
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final CostsDTO dto = toDTOConverter.apply(servicesCosts.get(id));
-		return new ModelAndView("costs.edit", "costsForm", dto);
+		final ServiceItemDTO dto = toDTOConverter.apply(servicesServiceItem.get(id));
+		return new ModelAndView("serviceItem.edit", "serviceItemForm", dto);
 	}
 }

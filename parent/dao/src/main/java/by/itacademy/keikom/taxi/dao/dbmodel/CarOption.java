@@ -2,35 +2,36 @@ package by.itacademy.keikom.taxi.dao.dbmodel;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 
 @Entity
-public class CarOption implements Serializable {
+public class CarOption extends AbstractModel implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 	@Column
 	private String name;
-	@Column
-	private Timestamp created;
-	@Column
-	private Timestamp modified;
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "carOption")
+	@OrderBy("name ASC")
+	private Set<Car> cars;
+
+	public Set<Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(Set<Car> cars) {
+		this.cars = cars;
+	}
 
 	public CarOption() {
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -39,26 +40,5 @@ public class CarOption implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
-	}
-
-	@Override
-	public String toString() {
-		return "CarOption [id=" + id + ", name=" + name + ", created=" + created + ", modified=" + modified + "]";
 	}
 }

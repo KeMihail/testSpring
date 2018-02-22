@@ -2,9 +2,11 @@ package by.itacademy.keikom.taxi.web.dto;
 
 import java.sql.Timestamp;
 
+import by.itacademy.keikom.taxi.dao.dbmodel.User;
+
 public class AuthenticationDTO {
 
-	private Integer userId;
+	private User user;
 	private String login;
 	private String password;
 	private Timestamp created;
@@ -13,12 +15,12 @@ public class AuthenticationDTO {
 	public AuthenticationDTO() {
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getLogin() {

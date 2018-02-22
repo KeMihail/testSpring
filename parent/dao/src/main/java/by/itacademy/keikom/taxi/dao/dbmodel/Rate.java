@@ -13,23 +13,19 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Rate implements Serializable {
+public class Rate extends AbstractModel implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 	@Column
 	private String name;
+
 	@Column
 	private Double priceLanding;
+
 	@Column
 	private Double priceKilometr;
+
 	@Column
 	private Double priceMinuteWait;
-	@Column(updatable = false)
-	private Timestamp created;
-	@Column
-	private Timestamp modified;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rate")
 	List<Order> orders;
@@ -43,14 +39,6 @@ public class Rate implements Serializable {
 	}
 
 	public Rate() {
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -83,28 +71,5 @@ public class Rate implements Serializable {
 
 	public void setPriceMinuteWait(Double priceMinuteWait) {
 		this.priceMinuteWait = priceMinuteWait;
-	}
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
-	}
-
-	@Override
-	public String toString() {
-		return "Rate [id=" + id + ", name=" + name + ", priceLanding=" + priceLanding + ", priceKilometr="
-				+ priceKilometr + ", priceMinuteWait=" + priceMinuteWait + ", created=" + created + ", modified="
-				+ modified + "]";
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
+import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.dao.filter.AuthenticationFilter;
 
 public interface IAuthenticationServices {

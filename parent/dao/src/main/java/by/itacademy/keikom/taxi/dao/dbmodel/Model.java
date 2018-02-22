@@ -22,15 +22,11 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.ManyToAny;
 
 @Entity
-public class Model implements Serializable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+public class Model extends AbstractModel implements Serializable {
 
 	@Column
 	private String name;
-	
+
 	@Enumerated(value = EnumType.STRING)
 	@Column(name = "car_kit")
 	private CarKit carCit;
@@ -45,12 +41,6 @@ public class Model implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Brand.class)
 	private Brand brand;
-
-	@Column
-	private Timestamp created;
-
-	@Column
-	private Timestamp modified;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "model")
 	List<Car> cars;
@@ -72,14 +62,6 @@ public class Model implements Serializable {
 
 	public void setBrand(Brand brand) {
 		this.brand = brand;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -112,27 +94,5 @@ public class Model implements Serializable {
 
 	public void setBodyType(BodyType eBodyType) {
 		BodyType = eBodyType;
-	}
-
-	/*
-	 * public Integer getBrandId() { return brandId; }
-	 * 
-	 * public void setBrandId(Integer brandId) { this.brandId = brandId; }
-	 */
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
 	}
 }

@@ -17,20 +17,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
-import by.itacademy.keikom.taxi.dao.dbmodel.Costs;
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
+import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
-import by.itacademy.keikom.taxi.services.impl.CostsServicesImpl;
+import by.itacademy.keikom.taxi.services.impl.ServiceItemServicesImpl;
 
-public class CostServicesTest extends AbstractServicesTest {
+public class ServiceItemServicesTest extends AbstractServicesTest {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CostServicesTest.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceItemServicesTest.class);
 
 	@Autowired
-	private ICostsServices services;
+	private IServiceItem services;
 
-	private List<Costs> list;
+	private List<ServiceItem> list;
 
 	private Brand brand;
 	@Autowired
@@ -84,47 +84,35 @@ public class CostServicesTest extends AbstractServicesTest {
 	@Test
 	public void testGRUD() {
 
-		Costs costs = null;
+		ServiceItem serviceItem = null;
 		try {
-			services.save(costs);
+			services.save(serviceItem);
 			Assert.fail();
 		} catch (Exception e) {
 			LOGGER.error("you cannot save the object entered all of the data");
 		}
-		costs = createCosts(car);
-		services.save(costs);
-		Assert.assertNotNull(services.get(costs.getCarId()));
 
-		Costs costs1 = services.get(costs.getCarId());
-		Assert.assertEquals(costs1.getCarId(), costs.getCarId());
-		Assert.assertEquals(costs1.getCarService(), costs.getCarService());
-		Assert.assertEquals(costs1.getFuelConsumption(), costs.getFuelConsumption());
-		Assert.assertEquals(costs1.getInsurance(), costs.getInsurance());
-		Assert.assertEquals(costs1.getOther(), costs.getOther());
-		Assert.assertEquals(costs1.getPretripInspection(), costs.getPretripInspection());
-		Assert.assertEquals(costs1.getSalaryDriver(), costs.getSalaryDriver());
-		Assert.assertEquals(costs1.getTaxes(), costs.getTaxes());
-		Assert.assertEquals(costs1.getTechnicalInspection(), costs.getTechnicalInspection());
+		serviceItem = createServiceItem(car);
+		services.save(serviceItem);
+		Assert.assertNotNull(services.get(serviceItem.getCar().getId()));
 
-		costs.setCarService(300.0);
-		services.save(costs);
-		Assert.assertNotNull(costs);
+		ServiceItem serviceItem1 = services.get(serviceItem.getCar().getId());
+		Assert.assertEquals(serviceItem1.getCar(), serviceItem.getCar());
+		Assert.assertEquals(serviceItem1.getItem(), serviceItem.getItem());
+		Assert.assertEquals(serviceItem1.getSumma(), serviceItem.getSumma());
 
-		Costs costs2 = services.get(costs.getCarId());
-		Assert.assertEquals(costs2.getCarId(), costs.getCarId());
-		Assert.assertEquals(costs2.getCarService(), costs.getCarService());
-		Assert.assertEquals(costs2.getFuelConsumption(), costs.getFuelConsumption());
-		Assert.assertEquals(costs2.getInsurance(), costs.getInsurance());
-		Assert.assertEquals(costs2.getOther(), costs.getOther());
-		Assert.assertEquals(costs2.getPretripInspection(), costs.getPretripInspection());
-		Assert.assertEquals(costs2.getSalaryDriver(), costs.getSalaryDriver());
-		Assert.assertEquals(costs2.getTaxes(), costs.getTaxes());
-		Assert.assertEquals(costs2.getTechnicalInspection(), costs.getTechnicalInspection());
+		serviceItem.setSumma(300.0);
+		services.save(serviceItem1);
+		Assert.assertNotNull(serviceItem1);
 
+		ServiceItem serviceItem2 = services.get(serviceItem.getCar().getId());
+		Assert.assertEquals(serviceItem2.getCar(), serviceItem.getCar());
+		Assert.assertEquals(serviceItem1.getItem(), serviceItem.getItem());
+		Assert.assertEquals(serviceItem1.getSumma(), serviceItem.getSumma());
 		list = services.getAll();
 		Assert.assertNotNull(list);
 
-		services.remove(costs.getCarId());
-		Assert.assertNull(services.get(costs.getCarId()));
+		services.remove(serviceItem1.getCar().getId());
+		Assert.assertNull(services.get(serviceItem1.getCar().getId()));
 	}
 }

@@ -15,7 +15,7 @@ public class AuthenticationToDTOConverter implements Function<Authentication, Au
 
 		AuthenticationDTO dto = new AuthenticationDTO();
 
-		dto.setUserId(dbModel.getUserId());
+		dto.setUser(dbModel.getUser());
 		dto.setLogin(dbModel.getLogin());
 		dto.setPassword(dbModel.getPassword());
 		dto.setCreated(dbModel.getCreated());

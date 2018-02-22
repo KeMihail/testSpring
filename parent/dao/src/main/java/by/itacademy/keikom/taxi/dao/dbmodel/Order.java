@@ -1,5 +1,6 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -11,11 +12,34 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Order {
+public class Order extends AbstractModel implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@Column
+	private String departureAddress;
+
+	@Column
+	private String arrivalAddress;
+
+	@Column
+	private Timestamp orderBegin;
+
+	@Column
+	private Timestamp orderEnd;
+
+	@Column
+	private Double distanceOrder;
+
+	@Column
+	private Double distancePaid;
+
+	@Column
+	private Integer inactivityMinutes;
+
+	@Column
+	private Double summ;
+
+	@Column
+	private Boolean deleted;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Rate.class)
 	private Rate rate;
@@ -25,6 +49,9 @@ public class Order {
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
 	private User user;
+
+	public Order() {
+	}
 
 	public Rate getRate() {
 		return rate;
@@ -48,41 +75,6 @@ public class Order {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	@Column
-	private String departureAddress;
-	@Column
-	private String arrivalAddress;
-	@Column
-	private Timestamp orderBegin;
-	@Column
-	private Timestamp orderEnd;
-	@Column
-	private Double distanceOrder;
-	@Column
-	private Double distancePaid;
-	@Column
-	private Integer inactivityMinutes;
-
-	@Column
-	private Double summ;
-	@Column
-	private Boolean deleted;
-	@Column
-	private Timestamp created;
-	@Column
-	private Timestamp modified;
-
-	public Order() {
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getDepartureAddress() {
@@ -155,21 +147,5 @@ public class Order {
 
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
-	}
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
 	}
 }

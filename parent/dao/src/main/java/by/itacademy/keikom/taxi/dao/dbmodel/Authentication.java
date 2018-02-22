@@ -5,33 +5,33 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Authentication implements Serializable {
+public class Authentication extends AbstractModel implements Serializable {
 
-	@Id
-	private Integer userId;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "authentication")
+	private User user;
+
 	@Column
 	private String login;
+
 	@Column
 	private String password;
-	@Column
-	private Timestamp created;
-	@Column
-	private Timestamp modified;
 
 	public Authentication() {
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getLogin() {
@@ -48,27 +48,5 @@ public class Authentication implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
-	}
-
-	@Override
-	public String toString() {
-		return "Authentication [userId=" + userId + ", login=" + login + ", password=" + password + ", created="
-				+ created + ", modified=" + modified + "]";
 	}
 }

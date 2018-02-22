@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import by.itacademy.keikom.taxi.dao.IAuthenticationDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.dao.filter.AuthenticationFilter;
 import by.itacademy.keikom.taxi.services.IAuthenticationServices;
 
@@ -25,7 +26,7 @@ public class AuthenticationServicesImpl implements IAuthenticationServices {
 
 	@Override
 	public Authentication save(final Authentication authentication) {
-		if (authentication.getUserId() == null) {
+		if (authentication.getUser() == null) {
 			dao.insert(authentication);
 		} else {
 			dao.update(authentication);

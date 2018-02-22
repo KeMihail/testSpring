@@ -13,14 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class LegalEntity implements Serializable {
+public class LegalEntity extends AbstractModel implements Serializable {
 
-	public LegalEntity() {
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 	@Column
 	private String name;
 	@Column
@@ -29,20 +23,11 @@ public class LegalEntity implements Serializable {
 	private String phoneNumber;
 	@Column
 	private String email;
-	@Column
-	private Timestamp created;
-	@Column
-	private Timestamp modified;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity")
 	private List<Car> cars;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getId() {
-		return id;
+	public LegalEntity() {
 	}
 
 	public String getName() {
@@ -75,27 +60,5 @@ public class LegalEntity implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
-	}
-
-	@Override
-	public String toString() {
-		return "LegalEntity [id=" + id + ", name=" + name + ", address=" + address + ", phone_number=" + phoneNumber
-				+ ", email=" + email + ", created=" + created + ", modified=" + modified + "]";
 	}
 }

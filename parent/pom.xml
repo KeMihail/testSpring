@@ -61,6 +61,8 @@
 				<artifactId>commons-io</artifactId>
 				<version>2.5</version>
 			</dependency>
+
+
 			<dependency>
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
@@ -134,6 +136,32 @@
 				<version>${spring.version}</version>
 			</dependency>
 
+			<!-- Spring AOP + AspectJ -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>1.8.13</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>1.8.13</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjtools</artifactId>
+				<version>1.8.13</version>
+			</dependency>
+
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-test</artifactId>
@@ -187,11 +215,13 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>apache-jsp</artifactId>
 				<version>9.2.15.v20160210</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.tomcat</groupId>
 				<artifactId>jasper</artifactId>
 				<version>6.0.53</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.aspectj</groupId>
@@ -262,11 +292,36 @@
 				<version>${jetty9.version}</version>
 				<scope>test</scope>
 			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.unitils/unitils-core -->
+			<dependency>
+				<groupId>org.unitils</groupId>
+				<artifactId>unitils-core</artifactId>
+				<version>3.4.1</version>
+				<scope>test</scope>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>1.9.13</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.13</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.9.4</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
-		<finalName>library</finalName>
+		<finalName>ROOT</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -300,4 +355,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
 </project>

@@ -14,15 +14,16 @@ import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car2CarOption;
 import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
-import by.itacademy.keikom.taxi.dao.dbmodel.Costs;
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
 import by.itacademy.keikom.taxi.dao.dbmodel.Order;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.dao.enums.BodyType;
 import by.itacademy.keikom.taxi.dao.enums.CarKit;
 import by.itacademy.keikom.taxi.dao.enums.CarStatus;
+import by.itacademy.keikom.taxi.dao.enums.EServiceItem;
 import by.itacademy.keikom.taxi.dao.enums.EngineType;
 import by.itacademy.keikom.taxi.dao.enums.UserRole;
 
@@ -111,7 +112,7 @@ public abstract class AbstractServicesTest {
 	public Authentication createAuthentication(User user) {
 
 		Authentication authentication = new Authentication();
-		authentication.setUserId(user.getId());
+		authentication.setUser(user);
 		authentication.setLogin("login");
 		authentication.setPassword("password");
 		return authentication;
@@ -162,19 +163,12 @@ public abstract class AbstractServicesTest {
 		return order;
 	}
 
-	public Costs createCosts(Car car) {
+	public ServiceItem createServiceItem(Car car) {
 
-		Costs costs = new Costs();
-		costs.setCarId(car.getId());
-		costs.setTaxes(150.0);
-		costs.setTechnicalInspection(70.0);
-		costs.setInsurance(40.0);
-		costs.setCarService(90.5);
-		costs.setPretripInspection(80.4);
-		costs.setSalaryDriver(500.0);
-		costs.setFuelConsumption(4.5);
-		costs.setOther(40.2);
-
-		return costs;
+		ServiceItem serviceItem = new ServiceItem();
+		serviceItem.setCar(car);
+		serviceItem.setItem(EServiceItem.carService);
+		serviceItem.setSumma(50.0);
+		return serviceItem;
 	}
 }
