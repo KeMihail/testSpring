@@ -29,7 +29,7 @@ import by.itacademy.keikom.taxi.web.util.ListModel;
 import by.itacademy.keikom.taxi.web.util.SortModel;
 
 @Controller
-@RequestMapping(value = "/serviceItem")
+@RequestMapping(value = "/service")
 public class ServiceItemControler {
 
 	private static final String LOCAL_LIST_MODEL_NAME = "serviceItemListModel";
@@ -68,7 +68,7 @@ public class ServiceItemControler {
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
 		listModel.setTotalCount(servicesServiceItem.getCount(serviceItemFilter));
 
-		final ModelAndView mv = new ModelAndView("serviceItem.list");
+		final ModelAndView mv = new ModelAndView("serviceitem.list");
 		return mv;
 	}
 
@@ -105,39 +105,39 @@ public class ServiceItemControler {
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView showForm() {
-		return new ModelAndView("serviceItem.edit", "serviceItemForm", new ServiceItemDTO());
+		return new ModelAndView("serviceitem.edit", "serviceitemForm", new ServiceItemDTO());
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String save(@Validated @ModelAttribute("serviceItemForm") final ServiceItemDTO serviceItemForm,
+	public String save(@Validated @ModelAttribute("serviceitemForm") final ServiceItemDTO serviceItemForm,
 			final BindingResult result) {
 		if (result.hasErrors()) {
-			return "serviceItem.edit";
+			return "serviceitem.edit";
 		} else {
 			final ServiceItem serviceItem = fromDTOConverter.apply(serviceItemForm);
 			servicesServiceItem.save(serviceItem);
-			return "redirect:/serviceItem";
+			return "redirect:/serviceitem";
 		}
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
 		servicesServiceItem.remove(id);
-		return "redirect:/serviceItem";
+		return "redirect:/serviceitem";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
 		final ServiceItemDTO dto = toDTOConverter.apply(servicesServiceItem.get(id));
 		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("serviceItemForm", dto);
+		hashMap.put("serviceitemForm", dto);
 		hashMap.put("readonly", true);
-		return new ModelAndView("serviceItem.edit", hashMap);
+		return new ModelAndView("serviceitem.edit", hashMap);
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
 		final ServiceItemDTO dto = toDTOConverter.apply(servicesServiceItem.get(id));
-		return new ModelAndView("serviceItem.edit", "serviceItemForm", dto);
+		return new ModelAndView("serviceitem.edit", "serviceitemForm", dto);
 	}
 }

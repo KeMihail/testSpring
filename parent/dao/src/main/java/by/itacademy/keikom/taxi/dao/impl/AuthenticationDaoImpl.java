@@ -19,7 +19,6 @@ import org.springframework.stereotype.Repository;
 import by.itacademy.keikom.taxi.dao.IAuthenticationDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.Authentication_;
-import by.itacademy.keikom.taxi.dao.dbmodel.Car_;
 import by.itacademy.keikom.taxi.dao.dbmodel.User_;
 import by.itacademy.keikom.taxi.dao.filter.AuthenticationFilter;
 

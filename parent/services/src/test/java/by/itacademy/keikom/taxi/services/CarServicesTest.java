@@ -73,7 +73,6 @@ public class CarServicesTest extends AbstractServicesTest {
 	}
 
 	@Test
-	@Transactional
 	public void testGRUD() {
 
 		Car car = null;

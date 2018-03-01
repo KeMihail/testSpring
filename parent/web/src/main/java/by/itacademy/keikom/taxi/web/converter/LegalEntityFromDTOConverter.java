@@ -1,8 +1,8 @@
 package by.itacademy.keikom.taxi.web.converter;
 
-import org.springframework.stereotype.Controller;
+import java.util.function.Function;
 
-import com.google.common.base.Function;
+import org.springframework.stereotype.Controller;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
 import by.itacademy.keikom.taxi.web.dto.LegalEntityDTO;

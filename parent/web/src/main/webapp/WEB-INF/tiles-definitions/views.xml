@@ -65,11 +65,13 @@
 		<put-attribute name="body" value="/WEB-INF/views/user/form.jsp" />
 	</definition>
 
-	<definition name="costs.list" extends="DefaultTemplate">
-		<put-attribute name="body" value="/WEB-INF/views/costs/list.jsp" />
+	<definition name="serviceitem.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/serviceitem/list.jsp" />
 	</definition>
-	<definition name="costs.edit" extends="DefaultTemplate">
-		<put-attribute name="body" value="/WEB-INF/views/costs/form.jsp" />
+	<definition name="serviceitem.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/serviceitem/form.jsp" />
 	</definition>
 
 	<definition name="authentication.list" extends="DefaultTemplate">

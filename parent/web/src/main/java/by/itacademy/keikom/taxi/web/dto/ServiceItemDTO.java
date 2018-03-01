@@ -5,7 +5,7 @@ import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 public class ServiceItemDTO {
 
 	private Integer id;
-	private Car car;
+	private Integer carId;
 	private String item;
 	private Double summa;
 
@@ -13,16 +13,16 @@ public class ServiceItemDTO {
 		return id;
 	}
 
+	public Integer getCarId() {
+		return carId;
+	}
+
+	public void setCarId(Integer carId) {
+		this.carId = carId;
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Car getCar() {
-		return car;
-	}
-
-	public void setCar(Car car) {
-		this.car = car;
 	}
 
 	public Double getSumma() {

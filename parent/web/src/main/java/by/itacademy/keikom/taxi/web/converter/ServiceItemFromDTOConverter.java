@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
 
+import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem;
 import by.itacademy.keikom.taxi.dao.enums.EServiceItem;
 import by.itacademy.keikom.taxi.web.dto.ServiceItemDTO;
@@ -17,7 +18,9 @@ public class ServiceItemFromDTOConverter implements Function<ServiceItemDTO, Ser
 		ServiceItem dbModel = new ServiceItem();
 
 		dbModel.setId(dto.getId());
-		dbModel.setCar(dto.getCar());
+		Car car = new Car();
+		car.setId(dto.getCarId());
+		dbModel.setCar(car);
 		dbModel.setItem(EServiceItem.valueOf(dto.getItem()));
 		dbModel.setSumma(dto.getSumma());
 

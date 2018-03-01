@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.jpa.criteria.OrderImpl;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import by.itacademy.keikom.taxi.dao.IServiceItemDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem;
+import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem_;
 import by.itacademy.keikom.taxi.dao.filter.ServiceItemFilter;
 
 @Repository
@@ -40,6 +42,8 @@ public class ServiceItemDaoImpl extends AbstractHibernateDaoImpl<ServiceItem, In
 		CriteriaQuery<ServiceItem> cq = cb.createQuery(ServiceItem.class);
 		Root<ServiceItem> from = cq.from(ServiceItem.class);
 		cq.select(from);
+		
+		from.fetch(ServiceItem_.car, JoinType.LEFT);
 		// set sort params
 
 		if (filter.getSortProperty() != null) {

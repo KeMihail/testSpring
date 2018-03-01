@@ -46,7 +46,6 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 
 	@Test
 	@Transactional
-	@Rollback // 
 	public void testGRUD() {
 
 		Authentication authentication = null;

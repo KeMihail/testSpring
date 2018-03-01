@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import by.itacademy.keikom.taxi.dao.enums.EServiceItem;
 
@@ -16,6 +19,7 @@ public class ServiceItem extends AbstractModel implements Serializable {
 	private Car car;
 
 	@Column
+	@Enumerated(value = EnumType.STRING)
 	private EServiceItem item;
 
 	@Column

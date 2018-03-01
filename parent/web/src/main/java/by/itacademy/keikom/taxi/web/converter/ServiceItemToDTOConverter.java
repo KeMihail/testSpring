@@ -16,11 +16,10 @@ public class ServiceItemToDTOConverter implements Function<ServiceItem, ServiceI
 		ServiceItemDTO dto = new ServiceItemDTO();
 
 		dto.setId(dbModel.getId());
-		dto.setCar(dbModel.getCar());
+		dto.setCarId(dbModel.getCar().getId());
 		dto.setItem(dbModel.getItem().toString());
 		dto.setSumma(dbModel.getSumma());
 
 		return dto;
 	}
-
 }
