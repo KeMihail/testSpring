@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
+import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser;
 import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car2CarOption;
@@ -109,9 +109,9 @@ public abstract class AbstractServicesTest {
 		return rate;
 	}
 
-	public Authentication createAuthentication(User user) {
+	public AuthenticationUser createAuthentication(User user) {
 
-		Authentication authentication = new Authentication();
+		AuthenticationUser authentication = new AuthenticationUser();
 		authentication.setUser(user);
 		authentication.setLogin("login");
 		authentication.setPassword("password");

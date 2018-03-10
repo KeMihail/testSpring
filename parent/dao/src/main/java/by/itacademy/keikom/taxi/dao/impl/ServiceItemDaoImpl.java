@@ -42,7 +42,7 @@ public class ServiceItemDaoImpl extends AbstractHibernateDaoImpl<ServiceItem, In
 		CriteriaQuery<ServiceItem> cq = cb.createQuery(ServiceItem.class);
 		Root<ServiceItem> from = cq.from(ServiceItem.class);
 		cq.select(from);
-		
+
 		from.fetch(ServiceItem_.car, JoinType.LEFT);
 		// set sort params
 

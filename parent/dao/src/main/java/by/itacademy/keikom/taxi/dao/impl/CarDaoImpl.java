@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.jpa.criteria.OrderImpl;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import by.itacademy.keikom.taxi.dao.ICarDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
+import by.itacademy.keikom.taxi.dao.dbmodel.Car_;
 import by.itacademy.keikom.taxi.dao.filter.CarFilter;
 
 @Repository
@@ -45,6 +48,10 @@ public class CarDaoImpl extends AbstractHibernateDaoImpl<Car, Integer> implement
 		Root<Car> from = cq.from(Car.class);
 		cq.select(from);
 		// set sort params
+
+		from.fetch(Car_.model, JoinType.LEFT);
+		from.fetch(Car_.legalEntity, JoinType.LEFT);
+		from.fetch(Car_.user, JoinType.LEFT);
 
 		if (filter.getSortProperty() != null) {
 			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));

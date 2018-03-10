@@ -10,9 +10,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
-public class Authentication extends AbstractModel implements Serializable {
+@Table(name = "authentication")
+public class AuthenticationUser implements Serializable {
+
+	@Id
+	private Integer userId;
+
+	@Column(updatable = false)
+	private Timestamp created;
+
+	@Column
+	private Timestamp modified;
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "authentication")
 	private User user;
@@ -23,7 +34,31 @@ public class Authentication extends AbstractModel implements Serializable {
 	@Column
 	private String password;
 
-	public Authentication() {
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public Timestamp getCreated() {
+		return created;
+	}
+
+	public void setCreated(Timestamp created) {
+		this.created = created;
+	}
+
+	public Timestamp getModified() {
+		return modified;
+	}
+
+	public void setModified(Timestamp modified) {
+		this.modified = modified;
+	}
+
+	public AuthenticationUser() {
 	}
 
 	public User getUser() {

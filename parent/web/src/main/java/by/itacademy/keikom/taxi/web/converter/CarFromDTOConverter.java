@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import by.itacademy.keikom.taxi.dao.enums.CarStatus;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
+import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.web.dto.CarDTO;
 
 @Component
@@ -18,9 +19,13 @@ public class CarFromDTOConverter implements Function<CarDTO, Car> {
 		Car dbModel = new Car();
 
 		dbModel.setId(dto.getId());
-		// посмотреть пример с cover  и cover deteilis 
-		
-		//dbModel.setUser(dto.getUser());
+
+		// посмотреть пример с cover и cover deteilis
+
+		User user = new User();
+		user.setName(dto.getUserName());
+		dbModel.setUser(user);
+
 		dbModel.setReleaseYear(dto.getReleaseYear());
 		dbModel.setModel(dto.getModel());
 		dbModel.setLegalEntity(dto.getLegalEntity());

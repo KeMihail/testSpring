@@ -29,7 +29,7 @@ import by.itacademy.keikom.taxi.web.util.ListModel;
 import by.itacademy.keikom.taxi.web.util.SortModel;
 
 @Controller
-@RequestMapping(value = "/service")
+@RequestMapping(value = "/serviceitem")
 public class ServiceItemControler {
 
 	private static final String LOCAL_LIST_MODEL_NAME = "serviceItemListModel";

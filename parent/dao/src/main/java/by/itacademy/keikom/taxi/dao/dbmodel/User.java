@@ -48,7 +48,7 @@ public class User extends AbstractModel implements Serializable {
 
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@PrimaryKeyJoinColumn
-	private Authentication authentication;
+	private AuthenticationUser authentication;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<Order> orders;
@@ -59,11 +59,11 @@ public class User extends AbstractModel implements Serializable {
 	public User() {
 	}
 
-	public Authentication getAuthentication() {
+	public AuthenticationUser getAuthentication() {
 		return authentication;
 	}
 
-	public void setAuthentication(Authentication authentication) {
+	public void setAuthentication(AuthenticationUser authentication) {
 		this.authentication = authentication;
 	}
 

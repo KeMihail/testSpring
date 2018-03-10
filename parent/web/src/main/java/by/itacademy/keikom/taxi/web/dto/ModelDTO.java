@@ -2,8 +2,6 @@ package by.itacademy.keikom.taxi.web.dto;
 
 import java.sql.Timestamp;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
-
 public class ModelDTO {
 
 	private Integer id;
@@ -12,7 +10,8 @@ public class ModelDTO {
 	private String engineType;
 	private String bodyType;
 
-	private Brand brand;
+	private Integer brandId;
+
 	private Timestamp created;
 	private Timestamp modified;
 
@@ -21,6 +20,14 @@ public class ModelDTO {
 
 	public Integer getId() {
 		return id;
+	}
+
+	public Integer getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(Integer brandId) {
+		this.brandId = brandId;
 	}
 
 	public void setId(Integer id) {
@@ -57,14 +64,6 @@ public class ModelDTO {
 
 	public void setBodyType(String bodyType) {
 		this.bodyType = bodyType;
-	}
-
-	public Brand getBrand() {
-		return brand;
-	}
-
-	public void setBrand(Brand brand) {
-		this.brand = brand;
 	}
 
 	public Timestamp getCreated() {

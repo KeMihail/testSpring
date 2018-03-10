@@ -17,7 +17,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
+import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 
 public class AuthenticationServicesTest extends AbstractServicesTest {
@@ -25,9 +25,9 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationServicesTest.class);
 
 	@Autowired
-	private IAuthenticationServices services;
+	private IAuthenticationUserServices services;
 
-	private List<Authentication> list;
+	private List<AuthenticationUser> list;
 
 	@Autowired
 	private IUserServices userServices;
@@ -48,7 +48,7 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 	@Transactional
 	public void testGRUD() {
 
-		Authentication authentication = null;
+		AuthenticationUser authentication = null;
 
 		try {
 			services.save(authentication);
@@ -61,7 +61,7 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 		services.save(authentication);
 		Assert.assertNotNull(services.get(authentication.getUser().getId()));
 
-		Authentication authentication1 = services.get(authentication.getUser().getId());
+		AuthenticationUser authentication1 = services.get(authentication.getUser().getId());
 		Assert.assertEquals(authentication1.getUser().getId(), authentication.getUser().getId());
 		Assert.assertEquals(authentication1.getLogin(), authentication.getLogin());
 		Assert.assertEquals(authentication1.getPassword(), authentication.getPassword());
@@ -70,7 +70,7 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 		services.save(authentication);
 		Assert.assertNotNull(services.get(authentication.getUser().getId()));
 
-		Authentication authentication2 = services.get(authentication.getUser().getId());
+		AuthenticationUser authentication2 = services.get(authentication.getUser().getId());
 		Assert.assertEquals(authentication2.getUser(), authentication.getUser());
 		Assert.assertEquals(authentication2.getLogin(), authentication.getLogin());
 		Assert.assertEquals(authentication2.getPassword(), authentication.getPassword());

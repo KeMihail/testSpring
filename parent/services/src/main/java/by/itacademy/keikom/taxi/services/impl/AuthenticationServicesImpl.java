@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import by.itacademy.keikom.taxi.dao.IAuthenticationDao;
-import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
+import by.itacademy.keikom.taxi.dao.IAuthenticationUserDao;
+import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.dao.filter.AuthenticationFilter;
-import by.itacademy.keikom.taxi.services.IAuthenticationServices;
+import by.itacademy.keikom.taxi.services.IAuthenticationUserServices;
 
 @Service
-public class AuthenticationServicesImpl implements IAuthenticationServices {
+public class AuthenticationServicesImpl implements IAuthenticationUserServices {
 
 	@Autowired
-	private IAuthenticationDao dao;
+	private IAuthenticationUserDao dao;
 
 	@Override
 	public void remove(final Integer id) {
@@ -25,7 +25,7 @@ public class AuthenticationServicesImpl implements IAuthenticationServices {
 	}
 
 	@Override
-	public Authentication save(final Authentication authentication) {
+	public AuthenticationUser save(final AuthenticationUser authentication) {
 		if (authentication.getUser() == null) {
 			dao.insert(authentication);
 		} else {
@@ -35,12 +35,12 @@ public class AuthenticationServicesImpl implements IAuthenticationServices {
 	}
 
 	@Override
-	public List<Authentication> getAll() {
+	public List<AuthenticationUser> getAll() {
 		return dao.getAll();
 	}
 
 	@Override
-	public Authentication get(final Integer id) {
+	public AuthenticationUser get(final Integer id) {
 		return dao.get(id);
 	}
 
@@ -50,7 +50,12 @@ public class AuthenticationServicesImpl implements IAuthenticationServices {
 	}
 
 	@Override
-	public List<Authentication> getAll(AuthenticationFilter filter) {
+	public List<AuthenticationUser> getAll(AuthenticationFilter filter) {
 		return dao.find(filter);
+	}
+
+	@Override
+	public AuthenticationUser loadByLogin(String login) {
+		return dao.loadByLogin(login);
 	}
 }

@@ -1,7 +1,5 @@
 package by.itacademy.keikom.taxi.web.dto;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.Car;
-
 public class ServiceItemDTO {
 
 	private Integer id;

@@ -102,7 +102,7 @@ public class CarController {
 		default:
 			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
 		}
-		carFilter.setSortProperty(sortAttribute);
+		// carFilter.setSortProperty(sortAttribute);
 		return carFilter;
 	}
 

@@ -31,7 +31,7 @@
 				<td><c:out value="${model.carCit}" /></td>
 				<td><c:out value="${model.engineType}" /></td>
 				<td><c:out value="${model.bodyType}" /></td>
-				<td><c:out value="${model.brand}" /></td>
+				<td><c:out value="${model.brandId}" /></td>
 
 				<td class="right"><a class="btn-floating"
 					href="/model/${model.id}"><i class="material-icons">info</i></a> <a

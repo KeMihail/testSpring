@@ -16,7 +16,7 @@
 			<th><mytaglib:sort-link column="userId">user</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="releaseYear">releaseYear</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="modelId">model</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="legalEntityId">legalEntityId</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="legalEntity">legalEntity</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="status">status</mytaglib:sort-link></th>
 
 			<th></th>
@@ -28,7 +28,7 @@
 				<td><c:out value="${car.user}" /></td>
 				<td><c:out value="${car.releaseYear}" /></td>
 				<td><c:out value="${car.model}" /></td>
-				<td><c:out value="${car.legalEntityId}" /></td>
+				<td><c:out value="${car.legalEntity}" /></td>
 				<td><c:out value="${car.status}" /></td>
 
 				<td class="right"><a class="btn-floating" href="/car/${car.id}"><i

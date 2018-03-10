@@ -9,7 +9,9 @@ import by.itacademy.keikom.taxi.dao.dbmodel.User;
 public class CarDTO {
 
 	private Integer id;
-	private UserDTO user;
+
+	private String userName;
+
 	private Integer releaseYear;
 	private Model model;
 	private LegalEntity legalEntity;
@@ -25,20 +27,20 @@ public class CarDTO {
 		this.legalEntity = legalEntity;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public Model getModel() {
 		return model;
 	}
 
 	public void setModel(Model model) {
 		this.model = model;
-	}
-
-	public UserDTO getUser() {
-		return user;
-	}
-
-	public void setUser(UserDTO user) {
-		this.user = user;
 	}
 
 	public Integer getId() {

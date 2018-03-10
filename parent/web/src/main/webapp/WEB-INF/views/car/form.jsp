@@ -34,9 +34,9 @@
 
 		<div class="row">
 			<div class="input-field col s12">
-				<form:input path="legalEntityId" type="text" disabled="${readonly}" />
-				<form:errors path="legalEntityId" cssClass="red-text" />
-				<label for="legalEntityId">legalEntityId»</label>
+				<form:input path="legalEntity" type="text" disabled="${readonly}" />
+				<form:errors path="legalEntity" cssClass="red-text" />
+				<label for="legalEntity">legalEntity</label>
 			</div>
 		</div>
 

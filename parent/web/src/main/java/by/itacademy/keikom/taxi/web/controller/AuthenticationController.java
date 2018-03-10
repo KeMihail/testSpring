@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.Authentication;
-import by.itacademy.keikom.taxi.dao.dbmodel.Authentication_;
+import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser;
+import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser_;
 import by.itacademy.keikom.taxi.dao.filter.AuthenticationFilter;
-import by.itacademy.keikom.taxi.services.IAuthenticationServices;
+import by.itacademy.keikom.taxi.services.IAuthenticationUserServices;
 import by.itacademy.keikom.taxi.web.converter.AuthenticationFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.AuthenticationToDTOConverter;
 import by.itacademy.keikom.taxi.web.dto.AuthenticationDTO;
@@ -35,7 +35,7 @@ public class AuthenticationController {
 	private static final String LOCAL_LIST_MODEL_NAME = "authenticationListModel";
 
 	@Autowired
-	private IAuthenticationServices servicesAuthentication;
+	private IAuthenticationUserServices servicesAuthentication;
 
 	@Autowired
 	private AuthenticationFromDTOConverter fromDTOConverter;
@@ -64,7 +64,7 @@ public class AuthenticationController {
 
 		AuthenticationFilter authenticationFilter = buildFilter(listModel);
 
-		final List<Authentication> currentPageList = servicesAuthentication.getAll(authenticationFilter);
+		final List<AuthenticationUser> currentPageList = servicesAuthentication.getAll(authenticationFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
 		listModel.setTotalCount(servicesAuthentication.getCount(authenticationFilter));
 
@@ -85,13 +85,13 @@ public class AuthenticationController {
 		SingularAttribute sortAttribute;
 		switch (sortModel.getColumn()) {
 		case "userId":
-			sortAttribute = Authentication_.user;
+			sortAttribute = AuthenticationUser_.user;
 			break;
 		case "login":
-			sortAttribute = Authentication_.login;
+			sortAttribute = AuthenticationUser_.login;
 			break;
 		case "password":
-			sortAttribute = Authentication_.password;
+			sortAttribute = AuthenticationUser_.password;
 			break;
 		default:
 			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
@@ -111,7 +111,7 @@ public class AuthenticationController {
 		if (result.hasErrors()) {
 			return "authentication.edit";
 		} else {
-			final Authentication authentication = fromDTOConverter.apply(authenticationForm);
+			final AuthenticationUser authentication = fromDTOConverter.apply(authenticationForm);
 			servicesAuthentication.save(authentication);
 			return "redirect:/authentication";
 		}

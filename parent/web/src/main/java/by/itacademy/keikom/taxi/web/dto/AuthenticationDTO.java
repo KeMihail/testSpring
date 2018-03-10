@@ -6,7 +6,7 @@ import by.itacademy.keikom.taxi.dao.dbmodel.User;
 
 public class AuthenticationDTO {
 
-	private User user;
+	private Integer userId;
 	private String login;
 	private String password;
 	private Timestamp created;
@@ -15,12 +15,12 @@ public class AuthenticationDTO {
 	public AuthenticationDTO() {
 	}
 
-	public User getUser() {
-		return user;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getLogin() {

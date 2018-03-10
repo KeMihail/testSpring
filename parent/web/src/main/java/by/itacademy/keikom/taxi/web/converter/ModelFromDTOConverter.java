@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import by.itacademy.keikom.taxi.dao.enums.BodyType;
 import by.itacademy.keikom.taxi.dao.enums.CarKit;
 import by.itacademy.keikom.taxi.dao.enums.EngineType;
+import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
 import by.itacademy.keikom.taxi.web.dto.ModelDTO;
 
@@ -23,7 +24,11 @@ public class ModelFromDTOConverter implements Function<ModelDTO, Model> {
 		dbModel.setCarCit(CarKit.valueOf(dto.getCarCit()));
 		dbModel.setEngineType(EngineType.valueOf(dto.getEngineType()));
 		dbModel.setBodyType(BodyType.valueOf(dto.getBodyType()));
-		dbModel.setBrand(dto.getBrand());
+
+		Brand brand = new Brand();
+		brand.setId(dto.getBrandId());
+		dbModel.setBrand(brand);
+
 		dbModel.setCreated(dto.getCreated());
 		dbModel.setModified(dto.getModified());
 

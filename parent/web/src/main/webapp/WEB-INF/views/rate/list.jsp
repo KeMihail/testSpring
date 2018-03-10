@@ -13,9 +13,9 @@
 		<tr>
 			<th><mytaglib:sort-link column="id">id</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="name">name</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="price_landing">price_landing</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="price_kilometr">price_kilometr</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="price_minute_wait">price_minute_wait</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="priceLanding">priceLanding</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="priceKilometr">priceKilometr</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="priceMinuteWait">priceMinuteWait</mytaglib:sort-link></th>
 			<th></th>
 		</tr>
 		<c:forEach var="rate" items="${listModel.list}"
