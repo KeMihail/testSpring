@@ -19,9 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
+import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.User_;
+import by.itacademy.keikom.taxi.dao.enums.UserRole;
 import by.itacademy.keikom.taxi.dao.filter.UserFilter;
+import by.itacademy.keikom.taxi.services.IUserAuthenticationServices;
 import by.itacademy.keikom.taxi.services.IUserServices;
+import by.itacademy.keikom.taxi.services.mail.SendMailTLS;
 import by.itacademy.keikom.taxi.web.converter.UserFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.UserToDTOConverter;
 import by.itacademy.keikom.taxi.web.dto.UserDTO;
@@ -36,6 +40,9 @@ public class UserController {
 
 	@Autowired
 	private IUserServices userService;
+
+	@Autowired
+	private IUserAuthenticationServices authenticationServices;
 
 	@Autowired
 	private UserToDTOConverter toDTOConverter;;
@@ -105,9 +112,6 @@ public class UserController {
 		case "email":
 			sortAttribute = User_.email;
 			break;
-		case "role":
-			sortAttribute = User_.role;
-			break;
 		default:
 			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
 		}
@@ -125,8 +129,30 @@ public class UserController {
 		if (result.hasErrors()) {
 			return "user.edit";
 		} else {
-			final User user = fromDTOConverter.apply(userForm);
-			userService.save(user);
+
+			UserAuthentication userAuthentication = new UserAuthentication();
+			userAuthentication.setLogin(userForm.getLogin());
+			userAuthentication.setPassword(userForm.getPasword());
+			userAuthentication.setRole(UserRole.valueOf(userForm.getRole()));
+			userAuthentication.setCreated(userForm.getCreated());
+			userAuthentication.setModified(userForm.getModified());
+
+			UserDTO dto = new UserDTO();
+
+			dto.setName(userForm.getName());
+			dto.setLastName(userForm.getLastName());
+			dto.setBirthday(userForm.getBirthday());
+			dto.setAddress(userForm.getAddress());
+			dto.setPhoneNumber(userForm.getPhoneNumber());
+			dto.setEmail(userForm.getEmail());
+			dto.setDeleted(userForm.getDeleted());
+			dto.setCreated(userForm.getCreated());
+			dto.setModified(userForm.getModified());
+
+			userService.save(fromDTOConverter.apply(dto), userAuthentication);
+
+			SendMailTLS.sendMail(userForm.getEmail(), userForm.getPasword());
+
 			return "redirect:/user";
 		}
 	}
@@ -139,16 +165,17 @@ public class UserController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final UserDTO dto = toDTOConverter.apply(userService.get(id));
+
 		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("userForm", dto);
+		hashMap.put("userForm", toDTOConverter.apply(userService.get(id)));
 		hashMap.put("readonly", true);
+
 		return new ModelAndView("user.edit", hashMap);
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final UserDTO dto = toDTOConverter.apply(userService.get(id));
-		return new ModelAndView("user.edit", "userForm", dto);
+
+		return new ModelAndView("user.edit", "userForm", toDTOConverter.apply(userService.get(id)));
 	}
 }

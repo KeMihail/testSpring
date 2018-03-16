@@ -9,9 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -42,13 +39,9 @@ public class User extends AbstractModel implements Serializable {
 	@Column
 	private Boolean deleted;
 
-	@Enumerated(value = EnumType.STRING)
-	@Column
-	private UserRole role;
-
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@OneToOne(fetch = FetchType.EAGER, optional = false)
 	@PrimaryKeyJoinColumn
-	private AuthenticationUser authentication;
+	private UserAuthentication authentication;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<Order> orders;
@@ -59,11 +52,11 @@ public class User extends AbstractModel implements Serializable {
 	public User() {
 	}
 
-	public AuthenticationUser getAuthentication() {
+	public UserAuthentication getAuthentication() {
 		return authentication;
 	}
 
-	public void setAuthentication(AuthenticationUser authentication) {
+	public void setAuthentication(UserAuthentication authentication) {
 		this.authentication = authentication;
 	}
 
@@ -137,13 +130,5 @@ public class User extends AbstractModel implements Serializable {
 
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
-	}
-
-	public UserRole getRole() {
-		return role;
-	}
-
-	public void setRole(UserRole role) {
-		this.role = role;
 	}
 }

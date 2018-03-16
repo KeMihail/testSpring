@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import by.itacademy.keikom.taxi.dao.IAuthenticationUserDao;
-import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser;
+import by.itacademy.keikom.taxi.dao.IUserAuthenticationDao;
+import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.dao.filter.AuthenticationFilter;
-import by.itacademy.keikom.taxi.services.IAuthenticationUserServices;
+import by.itacademy.keikom.taxi.services.IUserAuthenticationServices;
 
 @Service
-public class AuthenticationServicesImpl implements IAuthenticationUserServices {
+public class UserAuthenticationServicesImpl implements IUserAuthenticationServices {
 
 	@Autowired
-	private IAuthenticationUserDao dao;
+	private IUserAuthenticationDao dao;
 
 	@Override
 	public void remove(final Integer id) {
@@ -25,7 +25,7 @@ public class AuthenticationServicesImpl implements IAuthenticationUserServices {
 	}
 
 	@Override
-	public AuthenticationUser save(final AuthenticationUser authentication) {
+	public UserAuthentication save(final UserAuthentication authentication) {
 		if (authentication.getUser() == null) {
 			dao.insert(authentication);
 		} else {
@@ -35,12 +35,12 @@ public class AuthenticationServicesImpl implements IAuthenticationUserServices {
 	}
 
 	@Override
-	public List<AuthenticationUser> getAll() {
+	public List<UserAuthentication> getAll() {
 		return dao.getAll();
 	}
 
 	@Override
-	public AuthenticationUser get(final Integer id) {
+	public UserAuthentication get(final Integer id) {
 		return dao.get(id);
 	}
 
@@ -50,12 +50,12 @@ public class AuthenticationServicesImpl implements IAuthenticationUserServices {
 	}
 
 	@Override
-	public List<AuthenticationUser> getAll(AuthenticationFilter filter) {
+	public List<UserAuthentication> getAll(AuthenticationFilter filter) {
 		return dao.find(filter);
 	}
 
 	@Override
-	public AuthenticationUser loadByLogin(String login) {
+	public UserAuthentication loadByLogin(String login) {
 		return dao.loadByLogin(login);
 	}
 }

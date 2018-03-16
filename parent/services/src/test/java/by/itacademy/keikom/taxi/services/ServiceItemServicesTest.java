@@ -65,7 +65,7 @@ public class ServiceItemServicesTest extends AbstractServicesTest {
 		legalEntityServices.save(legalEntity);
 
 		userDriver = createUser();
-		userServisec.save(userDriver);
+		// userServisec.save(userDriver);
 
 		car = createCar(userDriver, model, legalEntity);
 		carServices.save(car);

@@ -16,20 +16,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import by.itacademy.keikom.taxi.dao.IAuthenticationUserDao;
-import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser;
+import by.itacademy.keikom.taxi.dao.IUserAuthenticationDao;
+import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser_;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
 import by.itacademy.keikom.taxi.dao.filter.AuthenticationFilter;
 
 @Repository
-public class AuthenticationUserDaoImpl extends AbstractHibernateDaoImpl<AuthenticationUser, Integer>
-		implements IAuthenticationUserDao {
+public class UserAuthenticationDaoImpl extends AbstractHibernateDaoImpl<UserAuthentication, Integer>
+		implements IUserAuthenticationDao {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationUserDaoImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserAuthenticationDaoImpl.class);
 
-	protected AuthenticationUserDaoImpl() {
-		super(AuthenticationUser.class);
+	protected UserAuthenticationDaoImpl() {
+		super(UserAuthentication.class);
 	}
 
 	@Override
@@ -37,18 +37,18 @@ public class AuthenticationUserDaoImpl extends AbstractHibernateDaoImpl<Authenti
 		EntityManager em = getEntityManager();
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-		Root<AuthenticationUser> from = cq.from(AuthenticationUser.class);
+		Root<UserAuthentication> from = cq.from(UserAuthentication.class);
 		cq.select(cb.count(from));
 		TypedQuery<Long> q = em.createQuery(cq);
 		return q.getSingleResult();
 	}
 
 	@Override
-	public List<AuthenticationUser> find(final AuthenticationFilter filter) {
+	public List<UserAuthentication> find(final AuthenticationFilter filter) {
 		final EntityManager em = getEntityManager();
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
-		final CriteriaQuery<AuthenticationUser> cq = cb.createQuery(AuthenticationUser.class);
-		final Root<AuthenticationUser> from = cq.from(AuthenticationUser.class);
+		final CriteriaQuery<UserAuthentication> cq = cb.createQuery(UserAuthentication.class);
+		final Root<UserAuthentication> from = cq.from(UserAuthentication.class);
 		cq.select(from);
 
 		from.fetch(AuthenticationUser_.user, JoinType.LEFT);
@@ -57,17 +57,17 @@ public class AuthenticationUserDaoImpl extends AbstractHibernateDaoImpl<Authenti
 			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));
 		}
 
-		TypedQuery<AuthenticationUser> q = em.createQuery(cq);
+		TypedQuery<UserAuthentication> q = em.createQuery(cq);
 		setPaging(filter, q);
 		return q.getResultList();
 	}
 
 	@Override
-	public AuthenticationUser loadByLogin(String login) {
+	public UserAuthentication loadByLogin(String login) {
 
 		EntityManager em = getEntityManager();
-		AuthenticationUser authenticationUser = em
-				.createQuery("select a from AuthenticationUser a where a.login = :login", AuthenticationUser.class)
+		UserAuthentication authenticationUser = em
+				.createQuery("select a from UserAuthentication a where a.login = :login", UserAuthentication.class)
 				.setParameter("login", login).getSingleResult();
 
 		return authenticationUser;

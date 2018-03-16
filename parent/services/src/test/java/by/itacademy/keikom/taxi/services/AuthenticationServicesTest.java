@@ -17,7 +17,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser;
+import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 
 public class AuthenticationServicesTest extends AbstractServicesTest {
@@ -25,9 +25,9 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationServicesTest.class);
 
 	@Autowired
-	private IAuthenticationUserServices services;
+	private IUserAuthenticationServices services;
 
-	private List<AuthenticationUser> list;
+	private List<UserAuthentication> list;
 
 	@Autowired
 	private IUserServices userServices;
@@ -36,7 +36,7 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 	@PostConstruct
 	public void prepareTestData() throws ParseException {
 		user = createUser();
-		userServices.save(user);
+		// userServices.save(user);
 	}
 
 	@PreDestroy
@@ -48,7 +48,7 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 	@Transactional
 	public void testGRUD() {
 
-		AuthenticationUser authentication = null;
+		UserAuthentication authentication = null;
 
 		try {
 			services.save(authentication);
@@ -61,7 +61,7 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 		services.save(authentication);
 		Assert.assertNotNull(services.get(authentication.getUser().getId()));
 
-		AuthenticationUser authentication1 = services.get(authentication.getUser().getId());
+		UserAuthentication authentication1 = services.get(authentication.getUser().getId());
 		Assert.assertEquals(authentication1.getUser().getId(), authentication.getUser().getId());
 		Assert.assertEquals(authentication1.getLogin(), authentication.getLogin());
 		Assert.assertEquals(authentication1.getPassword(), authentication.getPassword());
@@ -70,7 +70,7 @@ public class AuthenticationServicesTest extends AbstractServicesTest {
 		services.save(authentication);
 		Assert.assertNotNull(services.get(authentication.getUser().getId()));
 
-		AuthenticationUser authentication2 = services.get(authentication.getUser().getId());
+		UserAuthentication authentication2 = services.get(authentication.getUser().getId());
 		Assert.assertEquals(authentication2.getUser(), authentication.getUser());
 		Assert.assertEquals(authentication2.getLogin(), authentication.getLogin());
 		Assert.assertEquals(authentication2.getPassword(), authentication.getPassword());

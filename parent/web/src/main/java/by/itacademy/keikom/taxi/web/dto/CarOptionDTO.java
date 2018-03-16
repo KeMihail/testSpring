@@ -43,5 +43,4 @@ public class CarOptionDTO {
 	public void setModified(Timestamp modified) {
 		this.modified = modified;
 	}
-
 }

@@ -1,5 +1,7 @@
 package by.itacademy.keikom.taxi.web.converter;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
@@ -7,6 +9,9 @@ import org.springframework.stereotype.Component;
 import by.itacademy.keikom.taxi.dao.enums.CarStatus;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
+import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
+import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
+import by.itacademy.keikom.taxi.dao.dbmodel.Model;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.web.dto.CarDTO;
 
@@ -19,21 +24,34 @@ public class CarFromDTOConverter implements Function<CarDTO, Car> {
 		Car dbModel = new Car();
 
 		dbModel.setId(dto.getId());
-
-		// посмотреть пример с cover и cover deteilis
-
-		User user = new User();
-		user.setName(dto.getUserName());
-		dbModel.setUser(user);
-
 		dbModel.setReleaseYear(dto.getReleaseYear());
-		dbModel.setModel(dto.getModel());
-		dbModel.setLegalEntity(dto.getLegalEntity());
+
+		Model model = new Model();
+		model.setId(dto.getModelId());
+		dbModel.setModel(model);
+
+		LegalEntity LegalEntity = new LegalEntity();
+		LegalEntity.setId(dto.getLegalEntityId());
+		dbModel.setLegalEntity(LegalEntity);
+
 		dbModel.setStatus(CarStatus.valueOf(dto.getStatus()));
 		dbModel.setCreated(dto.getCreated());
 		dbModel.setModified(dto.getModified());
 
+		User user = new User();
+		user.setId(dto.getUserId());
+		dbModel.setUser(user);
+
+		final Set<Integer> carOptionId = new HashSet<Integer>();
+		final Set<CarOption> carOptions = new HashSet<CarOption>();
+
+		for (final Integer id : carOptionId) {
+			final CarOption carOption = new CarOption();
+			carOption.setId(id);
+			carOptions.add(carOption);
+		}
+
+		dbModel.setCarOption(carOptions);
 		return dbModel;
 	}
-
 }

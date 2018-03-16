@@ -16,7 +16,6 @@ public class UserToDTOConverter implements Function<User, UserDTO> {
 		UserDTO dto = new UserDTO();
 
 		dto.setId(dbModel.getId());
-		dto.setRole(dbModel.getRole().name());
 		dto.setName(dbModel.getName());
 		dto.setLastName(dbModel.getLastName());
 		dto.setBirthday(dbModel.getBirthday());
@@ -26,6 +25,10 @@ public class UserToDTOConverter implements Function<User, UserDTO> {
 		dto.setDeleted(dbModel.getDeleted());
 		dto.setCreated(dbModel.getCreated());
 		dto.setModified(dbModel.getModified());
+
+		dto.setLogin(dbModel.getAuthentication().getLogin());
+		dto.setPasword(dbModel.getAuthentication().getPassword());
+		dto.setRole(dbModel.getAuthentication().getRole().toString());
 
 		return dto;
 	}

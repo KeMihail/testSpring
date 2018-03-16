@@ -63,11 +63,11 @@ public class BrandController {
 		listModel.setSort(sort);
 		listModel.setPage(pageNumber);
 
-		BrandFilter coverFilter = buildFilter(listModel);
+		BrandFilter brandFilter = buildFilter(listModel);
 
-		final List<Brand> currentPageList = brandServices.getAll(coverFilter);
+		final List<Brand> currentPageList = brandServices.getAll(brandFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(brandServices.getCount(coverFilter));
+		listModel.setTotalCount(brandServices.getCount(brandFilter));
 
 		final ModelAndView mv = new ModelAndView("brand.list");
 		return mv;
@@ -108,30 +108,31 @@ public class BrandController {
 		if (result.hasErrors()) {
 			return "brand.edit";
 		} else {
-			final Brand brand = fromDTOConverter.apply(brandForm);
-			brandServices.save(brand);
+			brandServices.save(fromDTOConverter.apply(brandForm));
 			return "redirect:/brand";
 		}
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
+
 		brandServices.remove(id);
 		return "redirect:/brand";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final BrandDTO dto = toDTOConverter.apply(brandServices.get(id));
+
 		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("brandForm", dto);
+		hashMap.put("brandForm", toDTOConverter.apply(brandServices.get(id)));
 		hashMap.put("readonly", true);
+
 		return new ModelAndView("brand.edit", hashMap);
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final BrandDTO dto = toDTOConverter.apply(brandServices.get(id));
-		return new ModelAndView("brand.edit", "brandForm", dto);
+
+		return new ModelAndView("brand.edit", "brandForm", toDTOConverter.apply(brandServices.get(id)));
 	}
 }

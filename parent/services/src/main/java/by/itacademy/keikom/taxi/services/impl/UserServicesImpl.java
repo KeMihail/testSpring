@@ -9,11 +9,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import by.itacademy.keikom.taxi.dao.IUserAuthenticationDao;
 import by.itacademy.keikom.taxi.dao.IUserDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
+import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
 import by.itacademy.keikom.taxi.dao.filter.UserFilter;
 import by.itacademy.keikom.taxi.dao.impl.UserDaoImpl;
+import by.itacademy.keikom.taxi.services.IUserAuthenticationServices;
 import by.itacademy.keikom.taxi.services.IUserServices;
 import by.itacademy.keikom.taxi.services.exeption.NotValidBirthdayException;
 import by.itacademy.keikom.taxi.services.exeption.NotValidPhoneNumberException;
@@ -23,6 +26,9 @@ public class UserServicesImpl extends AbstractServicesImpl implements IUserServi
 
 	@Autowired
 	private IUserDao dao;
+
+	@Autowired
+	private IUserAuthenticationDao daoAuthentication;
 
 	/*
 	 * if (!validateEmailAddress(user.getEmail())) { user.setEmail(null); }
@@ -41,8 +47,9 @@ public class UserServicesImpl extends AbstractServicesImpl implements IUserServi
 	}
 
 	@Override
-	public User save(final User user) {
+	public User save(final User user, UserAuthentication authentication) {
 		if (user.getId() == null) {
+			daoAuthentication.insert(authentication);
 			dao.insert(user);
 		} else {
 			dao.update(user);

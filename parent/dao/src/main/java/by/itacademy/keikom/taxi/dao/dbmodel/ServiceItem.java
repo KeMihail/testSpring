@@ -8,14 +8,13 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import by.itacademy.keikom.taxi.dao.enums.EServiceItem;
 
 @Entity
 public class ServiceItem extends AbstractModel implements Serializable {
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Car.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Car.class)
 	private Car car;
 
 	@Column

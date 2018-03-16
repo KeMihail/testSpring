@@ -5,16 +5,16 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
+import by.itacademy.keikom.taxi.dao.enums.UserRole;
 
 @Entity
-@Table(name = "authentication")
-public class AuthenticationUser implements Serializable {
+public class UserAuthentication implements Serializable {
 
 	@Id
 	private Integer userId;
@@ -34,8 +34,20 @@ public class AuthenticationUser implements Serializable {
 	@Column
 	private String password;
 
+	@Enumerated(value = EnumType.STRING)
+	@Column
+	private UserRole role;
+
 	public Integer getUserId() {
 		return userId;
+	}
+
+	public UserRole getRole() {
+		return role;
+	}
+
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
 
 	public void setUserId(Integer userId) {
@@ -58,7 +70,7 @@ public class AuthenticationUser implements Serializable {
 		this.modified = modified;
 	}
 
-	public AuthenticationUser() {
+	public UserAuthentication() {
 	}
 
 	public User getUser() {

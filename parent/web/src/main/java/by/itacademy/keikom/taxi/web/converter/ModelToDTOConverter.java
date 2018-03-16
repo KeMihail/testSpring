@@ -17,11 +17,12 @@ public class ModelToDTOConverter implements Function<Model, ModelDTO> {
 
 		dto.setId(dbModel.getId());
 		dto.setName(dbModel.getName());
-		dto.setCarCit(dbModel.getCarCit().toString());
+		dto.setCarCit(dbModel.getCarKit().toString());
 		dto.setEngineType(dbModel.getEngineType().toString());
 		dto.setBodyType(dbModel.getBodyType().toString());
 
 		dto.setBrandId(dbModel.getBrand().getId());
+		dto.setBrandName(dbModel.getBrand().getName());
 
 		dto.setCreated(dbModel.getCreated());
 		dto.setModified(dbModel.getModified());

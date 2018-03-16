@@ -3,17 +3,24 @@
 <%@ taglib prefix="mytags" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="mytaglib"
 	uri="https://journaldev.com/jsp/tlds/mytags"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <c:set var="pageListHolder" value="${brand}" scope="session" />
 <spring:url value="/brand" var="pageurl" />
 
-<h4 class="header">List of Brands</h4>
+<h4 class="header">
+	<spring:message code="brand.list" />
+</h4>
 
 <table class="bordered highlight">
 	<tbody>
 		<tr>
-			<th><mytaglib:sort-link column="id">id</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="name">name</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="id">
+					<spring:message code="brand.id" />
+				</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="name">
+					<spring:message code="brand.name" />
+				</mytaglib:sort-link></th>
 		</tr>
 
 		<c:forEach var="brand" items="${listModel.list}"

@@ -5,7 +5,6 @@ import by.itacademy.keikom.taxi.dao.enums.CarKit;
 import by.itacademy.keikom.taxi.dao.enums.EngineType;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,13 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.ManyToAny;
 
 @Entity
 public class Model extends AbstractModel implements Serializable {
@@ -28,8 +22,8 @@ public class Model extends AbstractModel implements Serializable {
 	private String name;
 
 	@Enumerated(value = EnumType.STRING)
-	@Column(name = "car_kit")
-	private CarKit carCit;
+	@Column
+	private CarKit carKit;
 
 	@Enumerated(value = EnumType.STRING)
 	@Column
@@ -39,7 +33,7 @@ public class Model extends AbstractModel implements Serializable {
 	@Column
 	private BodyType BodyType;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Brand.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Brand.class)
 	private Brand brand;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "model")
@@ -72,12 +66,12 @@ public class Model extends AbstractModel implements Serializable {
 		this.name = name;
 	}
 
-	public CarKit getCarCit() {
-		return carCit;
+	public CarKit getCarKit() {
+		return carKit;
 	}
 
-	public void setCarCit(CarKit carCit) {
-		this.carCit = carCit;
+	public void setCarKit(CarKit carKit) {
+		this.carKit = carKit;
 	}
 
 	public EngineType getEngineType() {

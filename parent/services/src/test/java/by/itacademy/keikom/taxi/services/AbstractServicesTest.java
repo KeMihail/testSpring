@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser;
+import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car2CarOption;
@@ -17,6 +17,7 @@ import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
 import by.itacademy.keikom.taxi.dao.dbmodel.Order;
+import by.itacademy.keikom.taxi.dao.dbmodel.OrderAssessment;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
@@ -45,7 +46,7 @@ public abstract class AbstractServicesTest {
 		model.setName("Лагуна");
 		model.setBodyType(BodyType.Minivan);
 		model.setBrand(brand);
-		model.setCarCit(CarKit.Classic);
+		model.setCarKit(CarKit.Classic);
 		model.setEngineType(EngineType.Diesel);
 		return model;
 	}
@@ -70,7 +71,6 @@ public abstract class AbstractServicesTest {
 		user.setLastName("Кейко");
 		user.setPhoneNumber("80297875512");
 		user.setDeleted(false);
-		user.setRole(UserRole.Director);
 		return user;
 	}
 
@@ -84,7 +84,6 @@ public abstract class AbstractServicesTest {
 		user.setLastName("Кейко");
 		user.setPhoneNumber("80445006793");
 		user.setDeleted(false);
-		user.setRole(UserRole.Passenger);
 		return user;
 	}
 
@@ -109,12 +108,13 @@ public abstract class AbstractServicesTest {
 		return rate;
 	}
 
-	public AuthenticationUser createAuthentication(User user) {
+	public UserAuthentication createAuthentication(User user) {
 
-		AuthenticationUser authentication = new AuthenticationUser();
+		UserAuthentication authentication = new UserAuthentication();
 		authentication.setUser(user);
 		authentication.setLogin("login");
 		authentication.setPassword("password");
+		authentication.setRole(UserRole.ADMIN);
 		return authentication;
 	}
 
@@ -130,14 +130,6 @@ public abstract class AbstractServicesTest {
 		CarOption carOption = new CarOption();
 		carOption.setName("Автомобиль Бизнес класса");
 		return carOption;
-	}
-
-	public Car2CarOption createCar2CarOption(Car car, CarOption carOption) {
-
-		Car2CarOption obj = new Car2CarOption();
-		obj.setCarId(car.getId());
-		obj.setCarOptionId(carOption.getId());
-		return obj;
 	}
 
 	public Order createOrder(Car car, Rate rate, User userClient) {
@@ -170,5 +162,15 @@ public abstract class AbstractServicesTest {
 		serviceItem.setItem(EServiceItem.carService);
 		serviceItem.setSumma(50.0);
 		return serviceItem;
+	}
+
+	public OrderAssessment createOrderAssessment(Order order) {
+
+		OrderAssessment orderAssessment = new OrderAssessment();
+		orderAssessment.setAssessment(5);
+		orderAssessment.setComment("The Best");
+		orderAssessment.setOrder(order);
+
+		return orderAssessment;
 	}
 }

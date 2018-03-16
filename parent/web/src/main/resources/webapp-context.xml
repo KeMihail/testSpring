@@ -15,7 +15,11 @@
 
 	<import resource="classpath:security-config.xml" />
 
-	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/project-datasource" />
+	<!-- <jee:jndi-lookup id="dataSource" jndi-name="jdbc/project-datasource" 
+		/> -->
+
+	<context:property-placeholder
+		ignore-unresolvable="false" location="classpath:web-db.properties" />
 
 	<import resource="classpath:service-context.xml" />
 

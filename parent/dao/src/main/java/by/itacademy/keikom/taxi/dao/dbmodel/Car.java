@@ -1,7 +1,6 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -10,17 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 import by.itacademy.keikom.taxi.dao.enums.CarStatus;
 
@@ -34,31 +28,25 @@ public class Car extends AbstractModel implements Serializable {
 	@Column
 	private CarStatus status;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Model.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Model.class)
 	private Model model;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = LegalEntity.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = LegalEntity.class)
 	private LegalEntity legalEntity;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
-	private List<Order> orders;
+/*	@OneToMany(fetch = FetchType.EAGER, mappedBy = "car")
+	private List<Order> orders;*/
 
-	/*
-	 * @OneToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @PrimaryKeyJoinColumn private Costs costs;
-	 */
-
-	@ManyToMany(fetch = FetchType.LAZY, targetEntity = CarOption.class)
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity = CarOption.class)
 	@JoinTable(name = "car_2_car_option", joinColumns = { @JoinColumn(name = "car_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "car_option_id") })
 	@OrderBy("name ASC")
 	private Set<CarOption> carOption;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "car")
 	private Set<ServiceItem> serviceItem;
 
 	public Car() {
@@ -96,13 +84,11 @@ public class Car extends AbstractModel implements Serializable {
 		this.user = user;
 	}
 
-	public List<Order> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
+	/*
+	 * public List<Order> getOrders() { return orders; }
+	 * 
+	 * public void setOrders(List<Order> orders) { this.orders = orders; }
+	 */
 
 	public Integer getReleaseYear() {
 		return releaseYear;

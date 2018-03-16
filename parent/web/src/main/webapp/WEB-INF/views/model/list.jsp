@@ -19,7 +19,7 @@
 			<th><mytaglib:sort-link column="carCit">carCit</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="engineType">engineType</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="BodyType">bodyType</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="brandId">brandId</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="brandName">brandName</mytaglib:sort-link></th>
 			<th></th>
 		</tr>
 
@@ -31,7 +31,7 @@
 				<td><c:out value="${model.carCit}" /></td>
 				<td><c:out value="${model.engineType}" /></td>
 				<td><c:out value="${model.bodyType}" /></td>
-				<td><c:out value="${model.brandId}" /></td>
+				<td><c:out value="${model.brandName}" /></td>
 
 				<td class="right"><a class="btn-floating"
 					href="/model/${model.id}"><i class="material-icons">info</i></a> <a

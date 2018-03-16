@@ -79,10 +79,10 @@ public class RateController {
 		SortModel sortModel = listModel.getSort();
 		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
 
-		RateFilter coverFilter = new RateFilter();
-		coverFilter.setLimit(listModel.getItemsPerPage());
-		coverFilter.setOffset(offset);
-		coverFilter.setSortOrder(sortModel.isAscending());
+		RateFilter rateFilter = new RateFilter();
+		rateFilter.setLimit(listModel.getItemsPerPage());
+		rateFilter.setOffset(offset);
+		rateFilter.setSortOrder(sortModel.isAscending());
 
 		SingularAttribute sortAttribute;
 		switch (sortModel.getColumn()) {
@@ -104,8 +104,24 @@ public class RateController {
 		default:
 			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
 		}
-		coverFilter.setSortProperty(sortAttribute);
-		return coverFilter;
+		rateFilter.setSortProperty(sortAttribute);
+		return rateFilter;
+	}
+
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public ModelAndView showForm() {
+		return new ModelAndView("rate.edit", "rateForm", new RateDTO());
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	public String save(@ModelAttribute("rateForm") final RateDTO dto, final BindingResult result) {
+
+		if (result.hasErrors()) {
+			return "rate.edit";
+		}
+
+		servicesRate.save(fromDTOConverter.apply(dto));
+		return "redirect:/rate";
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
@@ -116,16 +132,16 @@ public class RateController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final RateDTO dto = toDTOConverter.apply(servicesRate.get(id));
+
 		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("rateForm", dto);
+		hashMap.put("rateForm", toDTOConverter.apply(servicesRate.get(id)));
 		hashMap.put("readonly", true);
 		return new ModelAndView("rate.edit", hashMap);
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final RateDTO dto = toDTOConverter.apply(servicesRate.get(id));
-		return new ModelAndView("rate.edit", "rateForm", dto);
+
+		return new ModelAndView("rate.edit", "rateForm", toDTOConverter.apply(servicesRate.get(id)));
 	}
 }

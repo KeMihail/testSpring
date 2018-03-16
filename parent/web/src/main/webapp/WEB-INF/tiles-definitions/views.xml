@@ -27,6 +27,14 @@
 		<put-attribute name="body" value="/WEB-INF/views/rate/form.jsp" />
 	</definition>
 
+	<definition name="orderAssessment.list" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/orderAssessment/list.jsp" />
+	</definition>
+	<definition name="orderAssessment.edit" extends="DefaultTemplate">
+		<put-attribute name="body"
+			value="/WEB-INF/views/orderAssessment/form.jsp" />
+	</definition>
 
 	<definition name="brand.list" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/brand/list.jsp" />
@@ -83,13 +91,8 @@
 			value="/WEB-INF/views/authentication/form.jsp" />
 	</definition>
 
-	<definition name="car2CarOption.list" extends="DefaultTemplate">
-		<put-attribute name="body"
-			value="/WEB-INF/views/car2CarOption/list.jsp" />
-	</definition>
-
-	<definition name="carOption.edit" extends="DefaultTemplate">
-		<put-attribute name="body" value="/WEB-INF/views/carOption/form.jsp" />
+	<definition name="carOption.list" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/carOption/list.jsp" />
 	</definition>
 
 	<definition name="carOption.edit" extends="DefaultTemplate">

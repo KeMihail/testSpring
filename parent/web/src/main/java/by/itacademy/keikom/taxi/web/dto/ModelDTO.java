@@ -11,11 +11,20 @@ public class ModelDTO {
 	private String bodyType;
 
 	private Integer brandId;
+	private String brandName;
 
 	private Timestamp created;
 	private Timestamp modified;
 
 	public ModelDTO() {
+	}
+
+	public String getBrandName() {
+		return brandName;
+	}
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
 	}
 
 	public Integer getId() {

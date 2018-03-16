@@ -59,7 +59,7 @@ public class CarServicesTest extends AbstractServicesTest {
 		legalEntityServices.save(legalEntity);
 
 		user = createUser();
-		userServisec.save(user);
+		// userServisec.save(user);
 	}
 
 	@PreDestroy

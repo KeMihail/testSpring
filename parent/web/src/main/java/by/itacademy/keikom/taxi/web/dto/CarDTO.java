@@ -1,6 +1,7 @@
 package by.itacademy.keikom.taxi.web.dto;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
@@ -11,20 +12,68 @@ public class CarDTO {
 	private Integer id;
 
 	private String userName;
+	private Integer userId;
 
 	private Integer releaseYear;
-	private Model model;
-	private LegalEntity legalEntity;
+
+	private Integer modelId;
+	private String modelName;
+
+	private Integer legalEntityId;
+	private String legalEntityName;
+
 	private String status;
 	private Timestamp created;
 	private Timestamp modified;
 
-	public LegalEntity getLegalEntity() {
-		return legalEntity;
+	private Set<Integer> carOptionId;
+
+	public Set<Integer> getCarOptionId() {
+		return carOptionId;
 	}
 
-	public void setLegalEntity(LegalEntity legalEntity) {
-		this.legalEntity = legalEntity;
+	public void setCarOptionId(Set<Integer> carOptionId) {
+		this.carOptionId = carOptionId;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public Integer getLegalEntityId() {
+		return legalEntityId;
+	}
+
+	public void setLegalEntityId(Integer legalEntityId) {
+		this.legalEntityId = legalEntityId;
+	}
+
+	public String getLegalEntityName() {
+		return legalEntityName;
+	}
+
+	public void setLegalEntityName(String legalEntityName) {
+		this.legalEntityName = legalEntityName;
+	}
+
+	public Integer getModelId() {
+		return modelId;
+	}
+
+	public void setModelId(Integer modelId) {
+		this.modelId = modelId;
+	}
+
+	public String getModelName() {
+		return modelName;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getUserName() {
@@ -33,14 +82,6 @@ public class CarDTO {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public Model getModel() {
-		return model;
-	}
-
-	public void setModel(Model model) {
-		this.model = model;
 	}
 
 	public Integer getId() {

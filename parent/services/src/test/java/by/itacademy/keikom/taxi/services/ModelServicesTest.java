@@ -66,7 +66,7 @@ public class ModelServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(model1.getId(), model.getId());
 		Assert.assertEquals(model1.getName(), model.getName());
 		Assert.assertEquals(model1.getBodyType(), model.getBodyType());
-		Assert.assertEquals(model1.getCarCit(), model.getCarCit());
+		Assert.assertEquals(model1.getCarKit(), model.getCarKit());
 		Assert.assertEquals(model1.getEngineType(), model.getEngineType());
 
 		model.setName("Опель");
@@ -77,7 +77,7 @@ public class ModelServicesTest extends AbstractServicesTest {
 		Assert.assertEquals(model2.getId(), model.getId());
 		Assert.assertEquals(model2.getName(), model.getName());
 		Assert.assertEquals(model2.getBodyType(), model.getBodyType());
-		Assert.assertEquals(model2.getCarCit(), model.getCarCit());
+		Assert.assertEquals(model2.getCarKit(), model.getCarKit());
 		Assert.assertEquals(model2.getEngineType(), model.getEngineType());
 
 		list = services.getAll();

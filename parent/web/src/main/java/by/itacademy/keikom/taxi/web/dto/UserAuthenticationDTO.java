@@ -4,19 +4,28 @@ import java.sql.Timestamp;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 
-public class AuthenticationDTO {
+public class UserAuthenticationDTO {
 
 	private Integer userId;
 	private String login;
 	private String password;
+	private String role;
 	private Timestamp created;
 	private Timestamp modified;
 
-	public AuthenticationDTO() {
+	public UserAuthenticationDTO() {
 	}
 
 	public Integer getUserId() {
 		return userId;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public void setUserId(Integer userId) {

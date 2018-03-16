@@ -13,7 +13,7 @@ public interface IRateServices {
 	void remove(Integer id);
 
 	@Transactional
-	Rate save(Rate cover);
+	Rate save(Rate rate);
 
 	List<Rate> getAll();
 

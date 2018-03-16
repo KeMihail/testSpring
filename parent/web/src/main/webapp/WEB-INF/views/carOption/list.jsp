@@ -24,7 +24,7 @@
 
 				<td class="right"><a class="btn-floating"
 					href="/carOption/${carOption.id}"><i class="material-icons">info</i></a>
-					<a class="btn-floating" href="/carOption/${carOption.id}/carOption"><i
+					<a class="btn-floating" href="/carOption/${carOption.id}/edit"><i
 						class="material-icons">edit</i></a> <a class="btn-floating red"
 					href="/carOption/${carOption.id}/delete"><i
 						class="material-icons">delete</i></a>

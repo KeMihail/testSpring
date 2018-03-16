@@ -16,9 +16,36 @@ public class UserDTO {
 	private Boolean deleted;
 	private Timestamp created;
 	private Timestamp modified;
+
+	private String login;
+	private String pasword;
 	private String role;
 
 	public UserDTO() {
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPasword() {
+		return pasword;
+	}
+
+	public void setPasword(String pasword) {
+		this.pasword = pasword;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public Integer getId() {
@@ -100,13 +127,4 @@ public class UserDTO {
 	public void setModified(Timestamp modified) {
 		this.modified = modified;
 	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
 }

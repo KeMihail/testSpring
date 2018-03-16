@@ -13,7 +13,7 @@
 	<tbody>
 		<tr>
 			<th><mytaglib:sort-link column="id">id</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="car">car</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="carId">car</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="item">item</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="summa">summa</mytaglib:sort-link></th>
 			<th></th>

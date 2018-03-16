@@ -1,22 +1,23 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
-import java.io.Serializable;
-
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Car2CarOption implements Serializable {
+public class Car2CarOption {
 
 	@Id
+	@AttributeOverrides({ @AttributeOverride(name = "carId", column = @Column(name = "carId")),
+			@AttributeOverride(name = "carOptionId", column = @Column(name = "carOptionId")) })
+
 	private Integer carId;
-	@Column
 	private Integer carOptionId;
 
 	public Car2CarOption() {
+
 	}
 
 	public Integer getCarId() {
@@ -33,10 +34,5 @@ public class Car2CarOption implements Serializable {
 
 	public void setCarOptionId(Integer carOptionId) {
 		this.carOptionId = carOptionId;
-	}
-
-	@Override
-	public String toString() {
-		return "Car2CarOption [carId=" + carId + ", carOptionId=" + carOptionId + "]";
 	}
 }

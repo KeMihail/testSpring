@@ -3,16 +3,13 @@ package by.itacademy.keikom.taxi.dao;
 import java.util.List;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Order;
+import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.filter.OrderFilter;
+import by.itacademy.keikom.taxi.dao.filter.RateFilter;
 
-public interface IOrderDao {
+public interface IOrderDao extends IHibernateDao<Order, Integer> {
 
-	Integer create(Order order);
+	Long count(OrderFilter filter);
 
-	void delete(Integer id);
-
-	void update(Order order);
-
-	Order getById(Integer id);
-
-	List<Order> getAll();
+	List<Order> find(OrderFilter filter);
 }

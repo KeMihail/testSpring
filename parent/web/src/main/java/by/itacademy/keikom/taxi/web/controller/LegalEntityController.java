@@ -117,8 +117,7 @@ public class LegalEntityController {
 		if (result.hasErrors()) {
 			return "legalEntity.edit";
 		} else {
-			final LegalEntity legalEntity = fromDTOConverter.apply(legalEntityForm);
-			legalEntityServises.save(legalEntity);
+			legalEntityServises.save(fromDTOConverter.apply(legalEntityForm));
 			return "redirect:/legalEntity";
 		}
 	}
@@ -131,16 +130,18 @@ public class LegalEntityController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final LegalEntityDTO dto = toDTOConverter.apply(legalEntityServises.get(id));
-		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("legalEntityForm", dto);
+
+		final HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		hashMap.put("legalEntityForm", toDTOConverter.apply(legalEntityServises.get(id)));
 		hashMap.put("readonly", true);
+
 		return new ModelAndView("legalEntity.edit", hashMap);
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final LegalEntityDTO dto = toDTOConverter.apply(legalEntityServises.get(id));
-		return new ModelAndView("legalEntity.edit", "legalEntityForm", dto);
+
+		return new ModelAndView("legalEntity.edit", "legalEntityForm",
+				toDTOConverter.apply(legalEntityServises.get(id)));
 	}
 }

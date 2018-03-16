@@ -20,7 +20,6 @@
 			<th><mytaglib:sort-link column="address">address</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="phoneNumber">phoneNumber</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="email">email</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="role">role</mytaglib:sort-link></th>
 			<th></th>
 		</tr>
 
@@ -34,7 +33,6 @@
 				<td><c:out value="${user.address}" /></td>
 				<td><c:out value="${user.phoneNumber}" /></td>
 				<td><c:out value="${user.email}" /></td>
-				<td><c:out value="${user.role}" /></td>
 
 				<td class="right"><a class="btn-floating"
 					href="/user/${user.id}"><i class="material-icons">info</i></a> <a

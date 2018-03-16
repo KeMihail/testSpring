@@ -4,17 +4,18 @@ import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.AuthenticationUser;
+import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
+import by.itacademy.keikom.taxi.dao.enums.UserRole;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
-import by.itacademy.keikom.taxi.web.dto.AuthenticationDTO;
+import by.itacademy.keikom.taxi.web.dto.UserAuthenticationDTO;
 
 @Component
-public class AuthenticationFromDTOConverter implements Function<AuthenticationDTO, AuthenticationUser> {
+public class UserAuthenticationFromDTOConverter implements Function<UserAuthenticationDTO, UserAuthentication> {
 
 	@Override
-	public AuthenticationUser apply(AuthenticationDTO dto) {
+	public UserAuthentication apply(UserAuthenticationDTO dto) {
 
-		AuthenticationUser dbModel = new AuthenticationUser();
+		UserAuthentication dbModel = new UserAuthentication();
 
 		User user = new User();
 		user.setId(dto.getUserId());
@@ -24,6 +25,7 @@ public class AuthenticationFromDTOConverter implements Function<AuthenticationDT
 		dbModel.setPassword(dto.getPassword());
 		dbModel.setCreated(dto.getCreated());
 		dbModel.setModified(dto.getModified());
+		dbModel.setRole(UserRole.valueOf(dto.getRole()));
 
 		return dbModel;
 	}

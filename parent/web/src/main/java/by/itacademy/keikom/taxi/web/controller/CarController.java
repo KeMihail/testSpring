@@ -1,5 +1,6 @@
 package by.itacademy.keikom.taxi.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,9 +20,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
+import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car_;
+import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
+import by.itacademy.keikom.taxi.dao.dbmodel.Model;
+import by.itacademy.keikom.taxi.dao.dbmodel.User;
+import by.itacademy.keikom.taxi.dao.enums.CarStatus;
 import by.itacademy.keikom.taxi.dao.filter.CarFilter;
+import by.itacademy.keikom.taxi.dao.filter.CarOptionFilter;
+import by.itacademy.keikom.taxi.dao.filter.LegalEntityFilter;
+import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
+import by.itacademy.keikom.taxi.dao.filter.UserFilter;
+import by.itacademy.keikom.taxi.services.ICarOptionServices;
 import by.itacademy.keikom.taxi.services.ICarServices;
+import by.itacademy.keikom.taxi.services.ILegalEntityServices;
+import by.itacademy.keikom.taxi.services.IModelServices;
+import by.itacademy.keikom.taxi.services.IUserServices;
 import by.itacademy.keikom.taxi.web.converter.CarFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.CarToDTOConverter;
 import by.itacademy.keikom.taxi.web.dto.CarDTO;
@@ -36,6 +50,18 @@ public class CarController {
 
 	@Autowired
 	private ICarServices servicesCar;
+
+	@Autowired
+	private ICarOptionServices carOptionServices;
+
+	@Autowired
+	private IModelServices servicesModel;
+
+	@Autowired
+	private ILegalEntityServices servicesLegalEntity;
+
+	@Autowired
+	private IUserServices userServices;
 
 	@Autowired
 	private CarFromDTOConverter fromDTOConverter;
@@ -102,29 +128,105 @@ public class CarController {
 		default:
 			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
 		}
-		// carFilter.setSortProperty(sortAttribute);
+		carFilter.setSortProperty(sortAttribute);
 		return carFilter;
 	}
 
-	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
-	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		servicesCar.remove(id);
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public ModelAndView showForm() {
+
+		final HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		hashMap.put("carForm", new CarDTO());
+		loadComboboxesModels(hashMap);
+
+		return new ModelAndView("car.edit", hashMap);
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	public String save(@ModelAttribute(name = "carForm") final CarDTO dto, final BindingResult result) {
+
+		if (result.hasErrors()) {
+			return "redirect:/car";
+		}
+		servicesCar.save(fromDTOConverter.apply(dto));
 		return "redirect:/car";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final CarDTO dto = toDTOConverter.apply(servicesCar.get(id));
-		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("carForm", dto);
+
+		final HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		hashMap.put("carForm", toDTOConverter.apply(servicesCar.get(id)));
 		hashMap.put("readonly", true);
+		loadComboboxesModels(hashMap);
+
 		return new ModelAndView("car.edit", hashMap);
+	}
+
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
+	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
+
+		servicesCar.remove(id);
+		return "redirect:/car";
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final CarDTO dto = toDTOConverter.apply(servicesCar.get(id));
-		return new ModelAndView("car.edit", "carForm", dto);
+
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("carForm", toDTOConverter.apply(servicesCar.get(id)));
+		loadComboboxesModels(map);
+
+		return new ModelAndView("car.edit", map);
 	}
 
+	private void loadComboboxesModels(HashMap<String, Object> hashMap) {
+
+		final List<Model> allModels = servicesModel.getAll(new ModelFilter());
+		final HashMap<Integer, String> modelSMap = new HashMap<Integer, String>();
+
+		for (Model model : allModels) {
+			modelSMap.put(model.getId(), model.getName());
+		}
+		hashMap.put("modelChoices", modelSMap);
+
+		final List<LegalEntity> allLegalEntity = servicesLegalEntity.getAll(new LegalEntityFilter());
+		final HashMap<Integer, String> legalEntityMap = new HashMap<Integer, String>();
+
+		for (LegalEntity legalEntity : allLegalEntity) {
+			legalEntityMap.put(legalEntity.getId(), legalEntity.getName());
+		}
+		hashMap.put("legalEntityChoices", legalEntityMap);
+
+		final List<User> allUser = userServices.getAll(new UserFilter());
+		final List<User> driverUser = new ArrayList<User>();
+
+		for (User user : allUser) {
+			if (user.getAuthentication().getRole().toString().equals("Driver")) {
+				driverUser.add(user);
+			}
+		}
+		final HashMap<Integer, String> driverMap = new HashMap<Integer, String>();
+
+		for (User user : driverUser) {
+			driverMap.put(user.getId(), user.getName());
+		}
+		hashMap.put("driverChoices", driverMap);
+
+		final List<CarStatus> statutList = new ArrayList<CarStatus>();
+		statutList.add(CarStatus.Deleted);
+		statutList.add(CarStatus.Fined);
+		statutList.add(CarStatus.Offline);
+		statutList.add(CarStatus.Online);
+
+		hashMap.put("statusChoices", statutList);
+
+		final List<CarOption> allCarOption = carOptionServices.getAll(new CarOptionFilter());
+		final HashMap<Integer, String> carOptionMap = new HashMap<Integer, String>();
+
+		for (CarOption carOption : allCarOption) {
+			carOptionMap.put(carOption.getId(), carOption.getName());
+		}
+		hashMap.put("carOptionChoices", carOptionMap);
+	}
 }

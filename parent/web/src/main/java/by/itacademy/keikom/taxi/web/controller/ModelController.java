@@ -1,7 +1,10 @@
 package by.itacademy.keikom.taxi.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.metamodel.SingularAttribute;
@@ -18,9 +21,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model_;
+import by.itacademy.keikom.taxi.dao.enums.BodyType;
+import by.itacademy.keikom.taxi.dao.enums.CarKit;
+import by.itacademy.keikom.taxi.dao.enums.EngineType;
+import by.itacademy.keikom.taxi.dao.filter.BrandFilter;
 import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
+import by.itacademy.keikom.taxi.services.IBrandServices;
 import by.itacademy.keikom.taxi.services.IModelServices;
 import by.itacademy.keikom.taxi.web.converter.ModelFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.ModelToDTOConverter;
@@ -36,6 +45,9 @@ public class ModelController {
 
 	@Autowired
 	private IModelServices servicesModel;
+
+	@Autowired
+	private IBrandServices servicesBrand;
 
 	@Autowired
 	private ModelFromDTOConverter fromDTOConverter;
@@ -91,7 +103,7 @@ public class ModelController {
 			sortAttribute = Model_.name;
 			break;
 		case "carCit":
-			sortAttribute = Model_.carCit;
+			sortAttribute = Model_.carKit;
 			break;
 		case "engineType":
 			sortAttribute = Model_.engineType;
@@ -111,7 +123,11 @@ public class ModelController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView showForm() {
-		return new ModelAndView("model.edit", "modelForm", new ModelDTO());
+
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("modelForm", new ModelDTO());
+		loadComboboxesModels(map);
+		return new ModelAndView("model.edit", map);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -119,8 +135,7 @@ public class ModelController {
 		if (result.hasErrors()) {
 			return "model.edit";
 		} else {
-			final Model model = fromDTOConverter.apply(modelForm);
-			servicesModel.save(model);
+			servicesModel.save(fromDTOConverter.apply(modelForm));
 			return "redirect:/model";
 		}
 	}
@@ -133,17 +148,57 @@ public class ModelController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
-		final ModelDTO dto = toDTOConverter.apply(servicesModel.get(id));
+
 		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("modelForm", dto);
+		hashMap.put("modelForm", toDTOConverter.apply(servicesModel.get(id)));
 		hashMap.put("readonly", true);
+
+		// ???
+		loadComboboxesModels(hashMap);
+
 		return new ModelAndView("model.edit", hashMap);
 	}
 
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
-		final ModelDTO dto = toDTOConverter.apply(servicesModel.get(id));
-		return new ModelAndView("model.edit", "modelForm", dto);
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("modelForm", toDTOConverter.apply(servicesModel.get(id)));
+		loadComboboxesModels(map);
+
+		return new ModelAndView("model.edit", map);
 	}
 
+	private void loadComboboxesModels(final HashMap<String, Object> hashMap) {
+
+		final Map<Integer, String> brandsMap = new LinkedHashMap<Integer, String>();
+		final List<Brand> allBrands = servicesBrand.getAll(new BrandFilter());
+		for (final Brand brand : allBrands) {
+			brandsMap.put(brand.getId(), brand.getName());
+		}
+		hashMap.put("brandChoices", brandsMap);
+
+		final List<BodyType> allBodyTypes = new ArrayList<BodyType>();
+		allBodyTypes.add(BodyType.Hatchback);
+		allBodyTypes.add(BodyType.Minivan);
+		allBodyTypes.add(BodyType.Sedan);
+		allBodyTypes.add(BodyType.Wagon);
+
+		hashMap.put("bodyTypeChoices", allBodyTypes);
+
+		final List<CarKit> allCarKit = new ArrayList<CarKit>();
+		allCarKit.add(CarKit.Basic);
+		allCarKit.add(CarKit.Classic);
+		allCarKit.add(CarKit.Top);
+		hashMap.put("carKitChoices", allCarKit);
+
+		final List<EngineType> allEngineType = new ArrayList<EngineType>();
+		allEngineType.add(EngineType.Diesel);
+		allEngineType.add(EngineType.Electro);
+		allEngineType.add(EngineType.GasGasoline);
+		allEngineType.add(EngineType.Hybrid);
+
+		hashMap.put("engineTypeChoices", allEngineType);
+
+	}
 }

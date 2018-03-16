@@ -6,27 +6,23 @@
 <div class="row">
 	<form:form class="col s12" method="POST" action="/serviceitem"
 		modelAttribute="serviceitemForm">
-		<!--<form:input path="id" type="hidden" />-->
+		<form:input path="id" type="hidden" />
 
 		<div class="row">
 			<div class="input-field col s12">
-				<form:input path="id" type="text" disabled="${readonly}" />
-				<form:errors path="id" cssClass="red-text" />
-				<label for="id">ID</label>
+				<form:select path="carId" type="text" disabled="${readonly}">
+					<form:options items="${carsChoices}" />
+				</form:select>
+				<form:errors path="carId" cssClass="red-text" />
+				<label for="carId">car</label>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="input-field col s12">
-				<form:input path="car" type="text" disabled="${readonly}" />
-				<form:errors path="car" cssClass="red-text" />
-				<label for="car">car</label>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="input-field col s12">
-				<form:input path="item" type="text" disabled="${readonly}" />
+				<form:select path="item" type="text" disabled="${readonly}">
+					<form:options items="${serviceItemChoices}" />
+				</form:select>
 				<form:errors path="item" cssClass="red-text" />
 				<label for="item">item</label>
 			</div>
