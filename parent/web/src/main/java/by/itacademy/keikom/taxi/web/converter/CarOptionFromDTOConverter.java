@@ -17,8 +17,6 @@ public class CarOptionFromDTOConverter implements Function<CarOptionDTO, CarOpti
 
 		dbModel.setId(dto.getId());
 		dbModel.setName(dto.getName());
-		dbModel.setCreated(dto.getCreated());
-		dbModel.setModified(dto.getModified());
 
 		return dbModel;
 	}

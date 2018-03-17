@@ -19,6 +19,7 @@ public class ServiceItemToDTOConverter implements Function<ServiceItem, ServiceI
 		dto.setCarId(dbModel.getCar().getId());
 		dto.setItem(dbModel.getItem().toString());
 		dto.setSumma(dbModel.getSumma());
+		dto.setCarName(dbModel.getCar().getModel().getName());
 
 		return dto;
 	}

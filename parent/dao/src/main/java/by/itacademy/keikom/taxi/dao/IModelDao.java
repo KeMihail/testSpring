@@ -11,4 +11,6 @@ public interface IModelDao extends IHibernateDao<Model, Integer> {
 
 	List<Model> find(ModelFilter filter);
 
+	Model getFullInfo(Integer id);
+
 }

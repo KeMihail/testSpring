@@ -1,5 +1,6 @@
 package by.itacademy.keikom.taxi.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,11 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
-import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.User_;
-import by.itacademy.keikom.taxi.dao.enums.UserRole;
+import by.itacademy.keikom.taxi.dao.enums.Role;
 import by.itacademy.keikom.taxi.dao.filter.UserFilter;
-import by.itacademy.keikom.taxi.services.IUserAuthenticationServices;
 import by.itacademy.keikom.taxi.services.IUserServices;
 import by.itacademy.keikom.taxi.services.mail.SendMailTLS;
 import by.itacademy.keikom.taxi.web.converter.UserFromDTOConverter;
@@ -40,9 +39,6 @@ public class UserController {
 
 	@Autowired
 	private IUserServices userService;
-
-	@Autowired
-	private IUserAuthenticationServices authenticationServices;
 
 	@Autowired
 	private UserToDTOConverter toDTOConverter;;
@@ -121,38 +117,20 @@ public class UserController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView showForm() {
-		return new ModelAndView("user.edit", "userForm", new UserDTO());
+
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("userForm", new UserDTO());
+		loadComboboxesModels(map);
+		return new ModelAndView("user.edit", map);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String save(@Validated @ModelAttribute("userForm") final UserDTO userForm, final BindingResult result) {
+	public String save(@ModelAttribute("userForm") final UserDTO dto, final BindingResult result) {
 		if (result.hasErrors()) {
 			return "user.edit";
 		} else {
 
-			UserAuthentication userAuthentication = new UserAuthentication();
-			userAuthentication.setLogin(userForm.getLogin());
-			userAuthentication.setPassword(userForm.getPasword());
-			userAuthentication.setRole(UserRole.valueOf(userForm.getRole()));
-			userAuthentication.setCreated(userForm.getCreated());
-			userAuthentication.setModified(userForm.getModified());
-
-			UserDTO dto = new UserDTO();
-
-			dto.setName(userForm.getName());
-			dto.setLastName(userForm.getLastName());
-			dto.setBirthday(userForm.getBirthday());
-			dto.setAddress(userForm.getAddress());
-			dto.setPhoneNumber(userForm.getPhoneNumber());
-			dto.setEmail(userForm.getEmail());
-			dto.setDeleted(userForm.getDeleted());
-			dto.setCreated(userForm.getCreated());
-			dto.setModified(userForm.getModified());
-
-			userService.save(fromDTOConverter.apply(dto), userAuthentication);
-
-			SendMailTLS.sendMail(userForm.getEmail(), userForm.getPasword());
-
+			userService.save(fromDTOConverter.apply(dto));
 			return "redirect:/user";
 		}
 	}
@@ -176,6 +154,19 @@ public class UserController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
 
-		return new ModelAndView("user.edit", "userForm", toDTOConverter.apply(userService.get(id)));
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("userForm", toDTOConverter.apply(userService.get(id)));
+		loadComboboxesModels(map);
+
+		return new ModelAndView("user.edit", map);
+	}
+
+	private void loadComboboxesModels(final HashMap<String, Object> hashMap) {
+		List<Role> role = new ArrayList<>();
+		role.add(Role.ADMIN);
+		role.add(Role.MANAGER);
+		role.add(Role.PASSENGER);
+
+		hashMap.put("roleChoices", role);
 	}
 }

@@ -14,12 +14,10 @@ public class OrderAssessmentToDTOConverter implements Function<OrderAssessment, 
 	public OrderAssessmentDTO apply(OrderAssessment dbModel) {
 
 		OrderAssessmentDTO dto = new OrderAssessmentDTO();
-		dto.setId(dbModel.getId());
+		dto.setOrderId(dbModel.getOrderId());
 		dto.setOrderId(dbModel.getOrder().getId());
 		dto.setAssessment(dbModel.getAssessment());
 		dto.setComment(dbModel.getComment());
-		dto.setCreated(dbModel.getCreated());
-		dto.setModified(dbModel.getModified());
 		return dto;
 	}
 

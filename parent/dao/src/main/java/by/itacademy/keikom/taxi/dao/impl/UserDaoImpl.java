@@ -54,4 +54,20 @@ public class UserDaoImpl extends AbstractHibernateDaoImpl<User, Integer> impleme
 		setPaging(filter, q);
 		return q.getResultList();
 	}
+
+	@Override
+	public User loadByLogin(String email) {
+		EntityManager em = getEntityManager();
+		User user = em.createQuery("select u from User u where u.email = :email", User.class)
+				.setParameter("email", email).getSingleResult();
+		return user;
+	}
+
+	@Override
+	public List<String> loadAllEmail() {
+
+		EntityManager em = getEntityManager();
+		List<String> list = em.createQuery("select u.email from User u", String.class).getResultList();
+		return list;
+	}
 }

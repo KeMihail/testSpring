@@ -16,8 +16,6 @@ public class BrandToDTOConverter implements Function<Brand, BrandDTO> {
 		BrandDTO dto = new BrandDTO();
 		dto.setId(dbModel.getId());
 		dto.setName(dbModel.getName());
-		dto.setCreated(dbModel.getCreated());
-		dto.setModified(dbModel.getModified());
 
 		return dto;
 	}

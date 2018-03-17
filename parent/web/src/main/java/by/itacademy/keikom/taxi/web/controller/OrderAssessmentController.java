@@ -20,14 +20,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model_;
-import by.itacademy.keikom.taxi.dao.dbmodel.Order;
+import by.itacademy.keikom.taxi.dao.dbmodel.CarOrder;
 import by.itacademy.keikom.taxi.dao.dbmodel.OrderAssessment;
+import by.itacademy.keikom.taxi.dao.dbmodel.CallAssessment_;
 import by.itacademy.keikom.taxi.dao.dbmodel.OrderAssessment_;
 import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
 import by.itacademy.keikom.taxi.dao.filter.OrderAssessmentFilter;
-import by.itacademy.keikom.taxi.dao.filter.OrderFilter;
+import by.itacademy.keikom.taxi.dao.filter.CarOrderFilter;
 import by.itacademy.keikom.taxi.services.IOrderAssessmentServices;
-import by.itacademy.keikom.taxi.services.IOrderServices;
+import by.itacademy.keikom.taxi.services.ICarOrderServices;
 import by.itacademy.keikom.taxi.web.converter.OrderAssessmentFromDTOConverter;
 import by.itacademy.keikom.taxi.web.converter.OrderAssessmentToDTOConverter;
 import by.itacademy.keikom.taxi.web.dto.OrderAssessmentDTO;
@@ -38,13 +39,13 @@ import by.itacademy.keikom.taxi.web.util.SortModel;
 @RequestMapping(value = "/orderAssessment")
 public class OrderAssessmentController {
 
-	private static final String LOCAL_LIST_MODEL_NAME = "modelListModel";
+	private static final String LOCAL_LIST_MODEL_NAME = "orderlListModel";
 
 	@Autowired
-	private IOrderAssessmentServices services;
+	private IOrderAssessmentServices service;
 
 	@Autowired
-	private IOrderServices orderServices;
+	private ICarOrderServices carOrderServices;
 
 	@Autowired
 	private OrderAssessmentToDTOConverter toDTOConverter;
@@ -73,9 +74,9 @@ public class OrderAssessmentController {
 
 		OrderAssessmentFilter orderAssessmentFilter = buildFilter(listModel);
 
-		final List<OrderAssessment> currentPageList = services.getAll(orderAssessmentFilter);
+		final List<OrderAssessment> currentPageList = service.getAll(orderAssessmentFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(services.getCount(orderAssessmentFilter));
+		listModel.setTotalCount(service.getCount(orderAssessmentFilter));
 
 		final ModelAndView mv = new ModelAndView("orderAssessment.list");
 		return mv;
@@ -86,15 +87,15 @@ public class OrderAssessmentController {
 		SortModel sortModel = listModel.getSort();
 		final int offset = listModel.getItemsPerPage() * (listModel.getPage() - 1);
 
-		OrderAssessmentFilter modelFilter = new OrderAssessmentFilter();
-		modelFilter.setLimit(listModel.getItemsPerPage());
-		modelFilter.setOffset(offset);
-		modelFilter.setSortOrder(sortModel.isAscending());
+		OrderAssessmentFilter orderAssesmentFilter = new OrderAssessmentFilter();
+		orderAssesmentFilter.setLimit(listModel.getItemsPerPage());
+		orderAssesmentFilter.setOffset(offset);
+		orderAssesmentFilter.setSortOrder(sortModel.isAscending());
 
 		SingularAttribute sortAttribute;
 		switch (sortModel.getColumn()) {
 		case "id":
-			sortAttribute = OrderAssessment_.id;
+			sortAttribute = OrderAssessment_.orderId;
 			break;
 		case "assessment":
 			sortAttribute = OrderAssessment_.assessment;
@@ -105,8 +106,8 @@ public class OrderAssessmentController {
 		default:
 			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
 		}
-		modelFilter.setSortProperty(sortAttribute);
-		return modelFilter;
+		orderAssesmentFilter.setSortProperty(sortAttribute);
+		return orderAssesmentFilter;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -121,14 +122,14 @@ public class OrderAssessmentController {
 		if (result.hasErrors()) {
 			return "orderAssessment.edit";
 		} else {
-			services.save(fromDTOConverter.apply(dto));
+			service.save(fromDTOConverter.apply(dto));
 		}
 		return "redirect:/orderAssessment";
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) Integer id) {
-		services.remove(id);
+		service.remove(id);
 		return "redirect:/orderAssessment";
 	}
 
@@ -136,7 +137,7 @@ public class OrderAssessmentController {
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
 
 		final HashMap<String, Object> hashMap = new HashMap<String, Object>();
-		hashMap.put("orderAssessmentForm", toDTOConverter.apply(services.get(id)));
+		hashMap.put("orderAssessmentForm", toDTOConverter.apply(service.get(id)));
 		hashMap.put("readonly", true);
 
 		return new ModelAndView("orderAssessment.edit", hashMap);
@@ -146,20 +147,17 @@ public class OrderAssessmentController {
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
 
 		final HashMap<String, Object> hashMap = new HashMap<String, Object>();
-		hashMap.put("orderAssessmentForm", toDTOConverter.apply(services.get(id)));
+		hashMap.put("orderAssessmentForm", toDTOConverter.apply(service.get(id)));
 		loadComboboxesModels(hashMap);
 		return new ModelAndView("orderAssessment.edit", hashMap);
 	}
 
 	private void loadComboboxesModels(HashMap<String, Object> hashMap) {
 
-		final List<Order> allOrders = orderServices.getAll(new OrderFilter());
+		final List<CarOrder> allCalls = carOrderServices.getAll(new CarOrderFilter());
 		final HashMap<Integer, String> ordersMap = new HashMap<Integer, String>();
 
-		for (final Order order : allOrders) {
-			ordersMap.put(order.getId(), order.getUser().getName());
-		}
-		hashMap.put("ordersChoices", allOrders);
+		hashMap.put("ordersChoices", allCalls);
 
 	}
 }

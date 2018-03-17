@@ -12,22 +12,36 @@
 					class="material-icons">arrow_forward</i></a>
 			</sec:authorize>
 			<ul id="nav-mobile" class="left hide-on-med-and-down">
-				<li><a href="/"><spring:message code="menu.home" /></a></li>
 
-				<li><a href="/brand"><spring:message code="menu.brand" /></a></li>
-				<li><a href="/model"><spring:message code="menu.model" /></a></li>
-				<li><a href="/legalEntity"><spring:message
-							code="menu.legalEntity" /></a></li>
-				<li><a href="/car"><spring:message code="menu.car" /></a></li>
-				<li><a href="/rate"><spring:message code="menu.rate" /></a></li>
-				<li><a href="/orderAssessment"><spring:message
-							code="menu.orderAssessment" /></a></li>
-				<li><a href="/carOption"><spring:message
-							code="menu.carOption" /></a></li>
-				<li><a href="/user"><spring:message code="menu.user" /></a></li>
-				<li><a href="/car"><spring:message code="menu.car" /></a></li>
-				<li><a href="/serviceitem"><spring:message
-							code="menu.service" /></a></li>
+				<sec:authorize access="hasAnyRole('ADMIN')">
+
+					<li><a href="/"><spring:message code="menu.home" /></a></li>
+
+					<li><a href="/brand"><spring:message code="menu.brand" /></a></li>
+					<li><a href="/model"><spring:message code="menu.model" /></a></li>
+					<li><a href="/legalEntity"><spring:message
+								code="menu.legalEntity" /></a></li>
+					<li><a href="/car"><spring:message code="menu.car" /></a></li>
+					<li><a href="/rate"><spring:message code="menu.rate" /></a></li>
+					<li><a href="/orderAssessment"><spring:message
+								code="menu.orderAssessment" /></a></li>
+					<li><a href="/carOption"><spring:message
+								code="menu.carOption" /></a></li>
+					<li><a href="/user"><spring:message code="menu.user" /></a></li>
+					<li><a href="/car"><spring:message code="menu.car" /></a></li>
+					<li><a href="/serviceitem"><spring:message
+								code="menu.service" /></a></li>
+					<li><a href="/driver"><spring:message code="menu.driver" /></a></li>
+					<li><a href="/carOrder"><spring:message code="menu.order" /></a></li>
+				</sec:authorize>
+
+				<sec:authorize access="hasAnyRole('DRIVER')">
+					<li><a href="/car"><spring:message code="menu.car" /></a></li>
+				</sec:authorize>
+
+				<sec:authorize access="hasAnyRole('PASSENGER')">
+					<li><a href="/car"><spring:message code="menu.order" /></a></li>
+				</sec:authorize>
 
 			</ul>
 		</div>

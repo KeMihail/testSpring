@@ -11,16 +11,6 @@
 
 		<div class="row">
 			<div class="input-field col s12">
-				<form:select path="userId" type="text" disabled="${readonly}">
-					<form:options items="${driverChoices}" />
-				</form:select>
-				<form:errors path="userId" cssClass="red-text" />
-				<label for="userId">userId</label>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="input-field col s12">
 				<form:input path="releaseYear" type="text" disabled="${readonly}" />
 				<form:errors path="releaseYear" cssClass="red-text" />
 				<label for="releaseYear">releaseYear</label>

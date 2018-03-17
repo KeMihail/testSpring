@@ -113,9 +113,6 @@ public class CarController {
 		case "id":
 			sortAttribute = Car_.id;
 			break;
-		case "userId":
-			sortAttribute = Car_.user;
-			break;
 		case "releaseYear":
 			sortAttribute = Car_.releaseYear;
 			break;
@@ -197,21 +194,6 @@ public class CarController {
 			legalEntityMap.put(legalEntity.getId(), legalEntity.getName());
 		}
 		hashMap.put("legalEntityChoices", legalEntityMap);
-
-		final List<User> allUser = userServices.getAll(new UserFilter());
-		final List<User> driverUser = new ArrayList<User>();
-
-		for (User user : allUser) {
-			if (user.getAuthentication().getRole().toString().equals("Driver")) {
-				driverUser.add(user);
-			}
-		}
-		final HashMap<Integer, String> driverMap = new HashMap<Integer, String>();
-
-		for (User user : driverUser) {
-			driverMap.put(user.getId(), user.getName());
-		}
-		hashMap.put("driverChoices", driverMap);
 
 		final List<CarStatus> statutList = new ArrayList<CarStatus>();
 		statutList.add(CarStatus.Deleted);

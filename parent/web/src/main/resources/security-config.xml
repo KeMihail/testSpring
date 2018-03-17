@@ -12,7 +12,11 @@
 	<context:component-scan base-package="by.itacademy.keikom.taxi.web.security" />
 
 	<http>
-	<!-- <intercept-url pattern="/user**" access="hasRole('ROLE_ADMIN')" /> -->
+		<intercept-url pattern="/"
+			access="hasAnyRole('PASSENGER','DRIVER','MANAGER','ADMIN')" />
+		<intercept-url pattern="/carOrder" access="hasAnyRole('PASSENGER')" />
+		<intercept-url pattern="/car" access="hasAnyRole('DRIVER')" />
+		<intercept-url pattern="/user**" access="hasRole('ROLE_ADMIN')" />
 
 		<form-login login-page="/login" default-target-url="/"
 			authentication-failure-url="/login?error" username-parameter="username"

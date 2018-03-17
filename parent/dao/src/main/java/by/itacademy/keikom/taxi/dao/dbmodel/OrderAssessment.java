@@ -1,17 +1,20 @@
 package by.itacademy.keikom.taxi.dao.dbmodel;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-public class OrderAssessment extends AbstractModel implements Serializable {
+public class OrderAssessment implements Serializable {
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)
-	private Order order;
+	@Id
+	private Integer orderId;;
 
 	@Column
 	private Integer assessment;
@@ -19,15 +22,49 @@ public class OrderAssessment extends AbstractModel implements Serializable {
 	@Column
 	private String comment;
 
+	@Column
+	private Timestamp created;
+
+	@Column
+	private Timestamp modified;
+
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@PrimaryKeyJoinColumn
+	private CarOrder order;
+
 	public OrderAssessment() {
 
 	}
 
-	public Order getOrder() {
+	public Timestamp getCreated() {
+		return created;
+	}
+
+	public void setCreated(Timestamp created) {
+		this.created = created;
+	}
+
+	public Timestamp getModified() {
+		return modified;
+	}
+
+	public void setModified(Timestamp modified) {
+		this.modified = modified;
+	}
+
+	public Integer getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
+
+	public CarOrder getOrder() {
 		return order;
 	}
 
-	public void setOrder(Order order) {
+	public void setOrder(CarOrder order) {
 		this.order = order;
 	}
 

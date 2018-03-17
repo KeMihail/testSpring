@@ -51,7 +51,6 @@ public class CarDaoImpl extends AbstractHibernateDaoImpl<Car, Integer> implement
 
 		from.fetch(Car_.model, JoinType.LEFT);
 		from.fetch(Car_.legalEntity, JoinType.LEFT);
-		from.fetch(Car_.user, JoinType.LEFT);
 
 		if (filter.getSortProperty() != null) {
 			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));

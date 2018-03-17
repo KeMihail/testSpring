@@ -24,7 +24,7 @@ public class OrderAssessmentServicesImpl implements IOrderAssessmentServices {
 	@Override
 	public OrderAssessment save(OrderAssessment orderAssessment) {
 
-		if (orderAssessment.getId() == null) {
+		if (orderAssessment.getOrderId() == null) {
 			dao.insert(orderAssessment);
 		} else {
 			dao.update(orderAssessment);

@@ -35,7 +35,7 @@
 				<form:input path="priceMinuteWait" type="text"
 					disabled="${readonly}" />
 				<form:errors path="priceMinuteWait" cssClass="red-text" />
-				<label for="width">priceMinuteWait»</label>
+				<label for="width">priceMinuteWait</label>
 			</div>
 		</div>
 		<div class="row">

@@ -23,12 +23,9 @@ public class UserToDTOConverter implements Function<User, UserDTO> {
 		dto.setPhoneNumber(dbModel.getPhoneNumber());
 		dto.setEmail(dbModel.getEmail());
 		dto.setDeleted(dbModel.getDeleted());
-		dto.setCreated(dbModel.getCreated());
-		dto.setModified(dbModel.getModified());
 
-		dto.setLogin(dbModel.getAuthentication().getLogin());
-		dto.setPasword(dbModel.getAuthentication().getPassword());
-		dto.setRole(dbModel.getAuthentication().getRole().toString());
+		dto.setPassword(dbModel.getPassword());
+		dto.setRole(dbModel.getRole().toString());
 
 		return dto;
 	}

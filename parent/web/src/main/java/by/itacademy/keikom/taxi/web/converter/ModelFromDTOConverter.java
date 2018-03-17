@@ -29,9 +29,6 @@ public class ModelFromDTOConverter implements Function<ModelDTO, Model> {
 		brand.setId(dto.getBrandId());
 		dbModel.setBrand(brand);
 
-		dbModel.setCreated(dto.getCreated());
-		dbModel.setModified(dto.getModified());
-
 		return dbModel;
 	}
 

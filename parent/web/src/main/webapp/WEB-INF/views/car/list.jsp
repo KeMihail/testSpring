@@ -13,7 +13,6 @@
 	<tbody>
 		<tr>
 			<th><mytaglib:sort-link column="id">id</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="userName">driver</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="releaseYear">releaseYear</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="modelName">model</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="legalEntityName">legalEntity</mytaglib:sort-link></th>
@@ -25,7 +24,6 @@
 		<c:forEach var="car" items="${listModel.list}" varStatus="loopCounter">
 			<tr>
 				<td><c:out value="${car.id}" /></td>
-				<td><c:out value="${car.userName}" /></td>
 				<td><c:out value="${car.releaseYear}" /></td>
 				<td><c:out value="${car.modelName}" /></td>
 				<td><c:out value="${car.legalEntityName}" /></td>

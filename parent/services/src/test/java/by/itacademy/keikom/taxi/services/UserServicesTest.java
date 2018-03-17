@@ -28,7 +28,7 @@ public class UserServicesTest extends AbstractServicesTest {
 		User user = null;
 
 		try {
-			// services.save(user);
+			services.save(user);
 			Assert.fail();
 		} catch (Exception e) {
 			LOGGER.error("you cannot save the object entered all of the data");

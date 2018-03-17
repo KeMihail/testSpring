@@ -12,8 +12,6 @@ public class LegalEntityDTO {
 	private String address;
 	private String phoneNumber;
 	private String email;
-	private Timestamp created;
-	private Timestamp modified;
 
 	public void setId(Integer id) {
 		this.id = id;
@@ -54,21 +52,4 @@ public class LegalEntityDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
-	}
-
 }

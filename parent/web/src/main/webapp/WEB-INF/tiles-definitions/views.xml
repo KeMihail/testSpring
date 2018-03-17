@@ -20,11 +20,25 @@
 		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
 	</definition>
 
+	<definition name="carOrder.list" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/carOrder/list.jsp" />
+	</definition>
+	<definition name="carOrder.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/carOrder/form.jsp" />
+	</definition>
+
 	<definition name="rate.list" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/rate/list.jsp" />
 	</definition>
 	<definition name="rate.edit" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/rate/form.jsp" />
+	</definition>
+
+	<definition name="driver.list" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/driver/list.jsp" />
+	</definition>
+	<definition name="driver.edit" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/driver/form.jsp" />
 	</definition>
 
 	<definition name="orderAssessment.list" extends="DefaultTemplate">

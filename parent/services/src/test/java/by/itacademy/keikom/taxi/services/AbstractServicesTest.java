@@ -9,14 +9,13 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
 import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car2CarOption;
 import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
-import by.itacademy.keikom.taxi.dao.dbmodel.Order;
+import by.itacademy.keikom.taxi.dao.dbmodel.CarOrder;
 import by.itacademy.keikom.taxi.dao.dbmodel.OrderAssessment;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem;
@@ -26,7 +25,7 @@ import by.itacademy.keikom.taxi.dao.enums.CarKit;
 import by.itacademy.keikom.taxi.dao.enums.CarStatus;
 import by.itacademy.keikom.taxi.dao.enums.EServiceItem;
 import by.itacademy.keikom.taxi.dao.enums.EngineType;
-import by.itacademy.keikom.taxi.dao.enums.UserRole;
+import by.itacademy.keikom.taxi.dao.enums.Role;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:test-context.xml")
@@ -91,7 +90,6 @@ public abstract class AbstractServicesTest {
 
 		Car car = new Car();
 		car.setReleaseYear(2001);
-		car.setUser(user);
 		car.setModel(model);
 		car.setLegalEntity(legalEntity);
 		car.setStatus(CarStatus.Online);
@@ -108,16 +106,6 @@ public abstract class AbstractServicesTest {
 		return rate;
 	}
 
-	public UserAuthentication createAuthentication(User user) {
-
-		UserAuthentication authentication = new UserAuthentication();
-		authentication.setUser(user);
-		authentication.setLogin("login");
-		authentication.setPassword("password");
-		authentication.setRole(UserRole.ADMIN);
-		return authentication;
-	}
-
 	public CarOption createCarOption() {
 
 		CarOption carOption = new CarOption();
@@ -132,14 +120,13 @@ public abstract class AbstractServicesTest {
 		return carOption;
 	}
 
-	public Order createOrder(Car car, Rate rate, User userClient) {
+	public CarOrder createOrder(Car car, Rate rate, User userClient) {
 
-		Order order = new Order();
+		CarOrder order = new CarOrder();
 		Calendar instance = Calendar.getInstance();
 		instance.add(Calendar.MINUTE, 5);
 
-		order.setCar(car);
-		order.setUser(userClient);
+		order.setClient(userClient);
 		order.setDepartureAddress("Соломовой 40/38");
 		order.setArrivalAddress("Клецкова 70/125");
 		order.setOrderBegin(new Timestamp(instance.getTimeInMillis()));
@@ -164,7 +151,7 @@ public abstract class AbstractServicesTest {
 		return serviceItem;
 	}
 
-	public OrderAssessment createOrderAssessment(Order order) {
+	public OrderAssessment createOrderAssessment(CarOrder order) {
 
 		OrderAssessment orderAssessment = new OrderAssessment();
 		orderAssessment.setAssessment(5);

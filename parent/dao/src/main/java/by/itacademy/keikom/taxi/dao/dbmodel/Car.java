@@ -31,14 +31,11 @@ public class Car extends AbstractModel implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Model.class)
 	private Model model;
 
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-	private User user;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
+	private List<Driver> drivers;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = LegalEntity.class)
 	private LegalEntity legalEntity;
-
-/*	@OneToMany(fetch = FetchType.EAGER, mappedBy = "car")
-	private List<Order> orders;*/
 
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = CarOption.class)
 	@JoinTable(name = "car_2_car_option", joinColumns = { @JoinColumn(name = "car_id") }, inverseJoinColumns = {
@@ -50,6 +47,14 @@ public class Car extends AbstractModel implements Serializable {
 	private Set<ServiceItem> serviceItem;
 
 	public Car() {
+	}
+
+	public List<Driver> getDrivers() {
+		return drivers;
+	}
+
+	public void setDrivers(List<Driver> drivers) {
+		this.drivers = drivers;
 	}
 
 	public Set<CarOption> getCarOption() {
@@ -75,20 +80,6 @@ public class Car extends AbstractModel implements Serializable {
 	public void setModel(Model model) {
 		this.model = model;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	/*
-	 * public List<Order> getOrders() { return orders; }
-	 * 
-	 * public void setOrders(List<Order> orders) { this.orders = orders; }
-	 */
 
 	public Integer getReleaseYear() {
 		return releaseYear;

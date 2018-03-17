@@ -26,8 +26,6 @@ public class RateDTO {
 	@Min(1)
 	@Max(10)
 	private Double priceMinuteWait;
-	private Timestamp created;
-	private Timestamp modified;
 
 	public RateDTO() {
 	}
@@ -71,21 +69,4 @@ public class RateDTO {
 	public void setPriceMinuteWait(Double priceMinuteWait) {
 		this.priceMinuteWait = priceMinuteWait;
 	}
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
-	}
-
 }

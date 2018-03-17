@@ -9,36 +9,37 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.jpa.criteria.OrderImpl;
+import org.springframework.stereotype.Repository;
 
-import by.itacademy.keikom.taxi.dao.IOrderDao;
-import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
-import by.itacademy.keikom.taxi.dao.dbmodel.Order;
-import by.itacademy.keikom.taxi.dao.filter.OrderFilter;
+import by.itacademy.keikom.taxi.dao.ICarOrderDao;
+import by.itacademy.keikom.taxi.dao.dbmodel.CarOrder;
+import by.itacademy.keikom.taxi.dao.filter.CarOrderFilter;
 
-public class OrderDaoImpl extends AbstractHibernateDaoImpl<Order, Integer> implements IOrderDao {
+@Repository
+public class OrderDaoImpl extends AbstractHibernateDaoImpl<CarOrder, Integer> implements ICarOrderDao {
 
 	protected OrderDaoImpl() {
-		super(Order.class);
+		super(CarOrder.class);
 	}
 
 	@Override
-	public Long count(OrderFilter filter) {
+	public Long count(CarOrderFilter filter) {
 
 		EntityManager em = getEntityManager();
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-		Root<Order> from = cq.from(Order.class);
+		Root<CarOrder> from = cq.from(CarOrder.class);
 		cq.select(cb.count(from));
 		TypedQuery<Long> q = em.createQuery(cq);
 		return q.getSingleResult();
 	}
 
 	@Override
-	public List<Order> find(OrderFilter filter) {
+	public List<CarOrder> find(CarOrderFilter filter) {
 		EntityManager em = getEntityManager();
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Order> cq = cb.createQuery(Order.class);
-		Root<Order> from = cq.from(Order.class);
+		CriteriaQuery<CarOrder> cq = cb.createQuery(CarOrder.class);
+		Root<CarOrder> from = cq.from(CarOrder.class);
 		cq.select(from);
 		// set sort params
 
@@ -46,10 +47,8 @@ public class OrderDaoImpl extends AbstractHibernateDaoImpl<Order, Integer> imple
 			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));
 		}
 
-		TypedQuery<Order> q = em.createQuery(cq);
+		TypedQuery<CarOrder> q = em.createQuery(cq);
 		setPaging(filter, q);
 		return q.getResultList();
 	}
-	}
-
 }

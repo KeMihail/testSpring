@@ -36,8 +36,8 @@ public class Model extends AbstractModel implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Brand.class)
 	private Brand brand;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "model")
-	List<Car> cars;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "model")
+	private List<Car> cars;
 
 	public List<Car> getCars() {
 		return cars;

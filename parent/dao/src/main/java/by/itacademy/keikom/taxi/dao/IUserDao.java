@@ -10,4 +10,9 @@ public interface IUserDao extends IHibernateDao<User, Integer> {
 	Long count(UserFilter filter);
 
 	List<User> find(UserFilter filter);
+
+	User loadByLogin(String email);
+
+	List<String> loadAllEmail();
+
 }

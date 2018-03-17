@@ -14,7 +14,7 @@ public class Brand extends AbstractModel implements Serializable {
 	@Column
 	private String name;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "brand")
 	private List<Model> model;
 
 	public List<Model> getModel() {

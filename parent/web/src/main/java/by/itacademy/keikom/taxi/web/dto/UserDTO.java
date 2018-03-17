@@ -1,43 +1,35 @@
 package by.itacademy.keikom.taxi.web.dto;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
-import by.itacademy.keikom.taxi.dao.enums.UserRole;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import by.itacademy.keikom.taxi.dao.enums.Role;
 
 public class UserDTO {
 
 	private Integer id;
 	private String name;
 	private String lastName;
-	private Timestamp birthday;
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	private Date birthday;
 	private String address;
 	private String phoneNumber;
 	private String email;
 	private Boolean deleted;
-	private Timestamp created;
-	private Timestamp modified;
-
-	private String login;
-	private String pasword;
+	private String password;
 	private String role;
 
 	public UserDTO() {
 	}
 
-	public String getLogin() {
-		return login;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getPasword() {
-		return pasword;
-	}
-
-	public void setPasword(String pasword) {
-		this.pasword = pasword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getRole() {
@@ -72,14 +64,6 @@ public class UserDTO {
 		this.lastName = lastName;
 	}
 
-	public Timestamp getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(Timestamp birthday) {
-		this.birthday = birthday;
-	}
-
 	public String getAddress() {
 		return address;
 	}
@@ -112,19 +96,11 @@ public class UserDTO {
 		this.deleted = deleted;
 	}
 
-	public Timestamp getCreated() {
-		return created;
+	public Date getBirthday() {
+		return birthday;
 	}
 
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 }

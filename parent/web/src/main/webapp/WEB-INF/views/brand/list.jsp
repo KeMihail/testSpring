@@ -21,6 +21,8 @@
 			<th><mytaglib:sort-link column="name">
 					<spring:message code="brand.name" />
 				</mytaglib:sort-link></th>
+
+			<th></th>
 		</tr>
 
 		<c:forEach var="brand" items="${listModel.list}"
@@ -31,7 +33,7 @@
 
 				<td class="right"><a class="btn-floating"
 					href="/brand/${brand.id}"><i class="material-icons">info</i></a> <a
-					class="btn-floating" href="/brand/${brand.id}/brand"><i
+					class="btn-floating" href="/brand/${brand.id}/edit"><i
 						class="material-icons">edit</i></a> <a class="btn-floating red"
 					href="/brand/${brand.id}/delete"><i class="material-icons">delete</i></a>
 			</tr>

@@ -37,7 +37,7 @@ public class RateController {
 	private static final String LOCAL_LIST_MODEL_NAME = "rateListModel";
 
 	@Autowired
-	private IRateServices servicesRate;
+	private IRateServices rateService;
 
 	@Autowired
 	private RateFromDTOConverter fromDTOConverter;
@@ -66,9 +66,9 @@ public class RateController {
 
 		RateFilter rateFilter = buildFilter(listModel);
 
-		final List<Rate> currentPageList = servicesRate.getAll(rateFilter);
+		final List<Rate> currentPageList = rateService.getAll(rateFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(servicesRate.getCount(rateFilter));
+		listModel.setTotalCount(rateService.getCount(rateFilter));
 
 		final ModelAndView mv = new ModelAndView("rate.list");
 		return mv;
@@ -120,13 +120,13 @@ public class RateController {
 			return "rate.edit";
 		}
 
-		servicesRate.save(fromDTOConverter.apply(dto));
+		rateService.save(fromDTOConverter.apply(dto));
 		return "redirect:/rate";
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		servicesRate.remove(id);
+		rateService.remove(id);
 		return "redirect:/rate";
 	}
 
@@ -134,7 +134,7 @@ public class RateController {
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
 
 		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("rateForm", toDTOConverter.apply(servicesRate.get(id)));
+		hashMap.put("rateForm", toDTOConverter.apply(rateService.get(id)));
 		hashMap.put("readonly", true);
 		return new ModelAndView("rate.edit", hashMap);
 	}
@@ -142,6 +142,6 @@ public class RateController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
 
-		return new ModelAndView("rate.edit", "rateForm", toDTOConverter.apply(servicesRate.get(id)));
+		return new ModelAndView("rate.edit", "rateForm", toDTOConverter.apply(rateService.get(id)));
 	}
 }

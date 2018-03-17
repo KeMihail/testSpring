@@ -4,8 +4,17 @@ public class ServiceItemDTO {
 
 	private Integer id;
 	private Integer carId;
+	private String carName;
 	private String item;
 	private Double summa;
+
+	public String getCarName() {
+		return carName;
+	}
+
+	public void setCarName(String carName) {
+		this.carName = carName;
+	}
 
 	public Integer getId() {
 		return id;

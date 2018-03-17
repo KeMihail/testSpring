@@ -20,8 +20,6 @@ public class LegalEntityFromDTOConverter implements Function<LegalEntityDTO, Leg
 		dbModel.setAddress(dto.getAddress());
 		dbModel.setEmail(dto.getEmail());
 		dbModel.setPhoneNumber(dto.getPhoneNumber());
-		dbModel.setCreated(dto.getCreated());
-		dbModel.setModified(dto.getModified());
 
 		return dbModel;
 	}

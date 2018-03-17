@@ -19,8 +19,6 @@ public class RateToDTOConverter implements Function<Rate, RateDTO> {
 		dto.setPriceKilometr(dbModel.getPriceKilometr());
 		dto.setPriceLanding(dbModel.getPriceLanding());
 		dto.setPriceMinuteWait(dbModel.getPriceMinuteWait());
-		dto.setCreated(dbModel.getCreated());
-		dto.setModified(dbModel.getModified());
 		return dto;
 	}
 }

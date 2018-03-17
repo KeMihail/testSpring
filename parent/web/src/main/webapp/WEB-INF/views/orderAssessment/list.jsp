@@ -6,7 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <c:set var="pageListHolder" value="${orderAssessment}" scope="session" />
-<spring:url value="/brand" var="pageurl" />
+<spring:url value="/orderAssessment" var="pageurl" />
 
 <h4 class="header">orderAssessment List</h4>
 
@@ -17,6 +17,7 @@
 			<th><mytaglib:sort-link column="orderId">orderId</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="assessment">assessment</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="comment">comment</mytaglib:sort-link></th>
+			<th></th>
 		</tr>
 
 		<c:forEach var="orderAssessment" items="${listModel.list}"

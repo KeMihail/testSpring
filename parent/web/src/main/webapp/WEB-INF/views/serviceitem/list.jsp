@@ -13,7 +13,7 @@
 	<tbody>
 		<tr>
 			<th><mytaglib:sort-link column="id">id</mytaglib:sort-link></th>
-			<th><mytaglib:sort-link column="carId">car</mytaglib:sort-link></th>
+			<th><mytaglib:sort-link column="carName">car</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="item">item</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="summa">summa</mytaglib:sort-link></th>
 			<th></th>
@@ -23,7 +23,7 @@
 			varStatus="loopCounter">
 			<tr>
 				<td><c:out value="${serviceitem.id}" /></td>
-				<td><c:out value="${serviceitem.carId}" /></td>
+				<td><c:out value="${serviceitem.carName}" /></td>
 				<td><c:out value="${serviceitem.item}" /></td>
 				<td><c:out value="${serviceitem.summa}" /></td>
 

@@ -44,10 +44,10 @@ public class ModelController {
 	private static final String LOCAL_LIST_MODEL_NAME = "modelListModel";
 
 	@Autowired
-	private IModelServices servicesModel;
+	private IModelServices modelService;
 
 	@Autowired
-	private IBrandServices servicesBrand;
+	private IBrandServices brandService;
 
 	@Autowired
 	private ModelFromDTOConverter fromDTOConverter;
@@ -76,9 +76,9 @@ public class ModelController {
 
 		ModelFilter modelFilter = buildFilter(listModel);
 
-		final List<Model> currentPageList = servicesModel.getAll(modelFilter);
+		final List<Model> currentPageList = modelService.getAll(modelFilter);
 		listModel.setList(currentPageList.stream().map(toDTOConverter).collect(Collectors.toList()));
-		listModel.setTotalCount(servicesModel.getCount(modelFilter));
+		listModel.setTotalCount(modelService.getCount(modelFilter));
 
 		final ModelAndView mv = new ModelAndView("model.list");
 		return mv;
@@ -111,9 +111,6 @@ public class ModelController {
 		case "BodyType":
 			sortAttribute = Model_.BodyType;
 			break;
-		case "brandId":
-			sortAttribute = Model_.brand;
-			break;
 		default:
 			throw new IllegalArgumentException("unsupported sort property:" + sortModel.getColumn());
 		}
@@ -124,7 +121,7 @@ public class ModelController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView showForm() {
 
-		HashMap<String, Object> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("modelForm", new ModelDTO());
 		loadComboboxesModels(map);
 		return new ModelAndView("model.edit", map);
@@ -135,14 +132,14 @@ public class ModelController {
 		if (result.hasErrors()) {
 			return "model.edit";
 		} else {
-			servicesModel.save(fromDTOConverter.apply(modelForm));
+			modelService.save(fromDTOConverter.apply(modelForm));
 			return "redirect:/model";
 		}
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable(name = "id", required = true) final Integer id) {
-		servicesModel.remove(id);
+		modelService.remove(id);
 		return "redirect:/model";
 	}
 
@@ -150,7 +147,7 @@ public class ModelController {
 	public ModelAndView viewDetails(@PathVariable(name = "id", required = true) final Integer id) {
 
 		final HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("modelForm", toDTOConverter.apply(servicesModel.get(id)));
+		hashMap.put("modelForm", toDTOConverter.apply(modelService.getFullInfo(id)));
 		hashMap.put("readonly", true);
 
 		// ???
@@ -163,7 +160,7 @@ public class ModelController {
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("modelForm", toDTOConverter.apply(servicesModel.get(id)));
+		map.put("modelForm", toDTOConverter.apply(modelService.getFullInfo(id)));
 		loadComboboxesModels(map);
 
 		return new ModelAndView("model.edit", map);
@@ -172,7 +169,7 @@ public class ModelController {
 	private void loadComboboxesModels(final HashMap<String, Object> hashMap) {
 
 		final Map<Integer, String> brandsMap = new LinkedHashMap<Integer, String>();
-		final List<Brand> allBrands = servicesBrand.getAll(new BrandFilter());
+		final List<Brand> allBrands = brandService.getAll(new BrandFilter());
 		for (final Brand brand : allBrands) {
 			brandsMap.put(brand.getId(), brand.getName());
 		}

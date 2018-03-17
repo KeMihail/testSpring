@@ -1,34 +1,24 @@
 package by.itacademy.keikom.taxi.services.impl;
 
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import by.itacademy.keikom.taxi.dao.IUserAuthenticationDao;
+import by.itacademy.keikom.taxi.services.security.PasswordGenerator;
+
 import by.itacademy.keikom.taxi.dao.IUserDao;
-import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
-import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
 import by.itacademy.keikom.taxi.dao.filter.UserFilter;
-import by.itacademy.keikom.taxi.dao.impl.UserDaoImpl;
-import by.itacademy.keikom.taxi.services.IUserAuthenticationServices;
 import by.itacademy.keikom.taxi.services.IUserServices;
-import by.itacademy.keikom.taxi.services.exeption.NotValidBirthdayException;
-import by.itacademy.keikom.taxi.services.exeption.NotValidPhoneNumberException;
+import by.itacademy.keikom.taxi.services.mail.SendMailTLS;
 
 @Service
 public class UserServicesImpl extends AbstractServicesImpl implements IUserServices {
 
 	@Autowired
 	private IUserDao dao;
-
-	@Autowired
-	private IUserAuthenticationDao daoAuthentication;
 
 	/*
 	 * if (!validateEmailAddress(user.getEmail())) { user.setEmail(null); }
@@ -47,9 +37,16 @@ public class UserServicesImpl extends AbstractServicesImpl implements IUserServi
 	}
 
 	@Override
-	public User save(final User user, UserAuthentication authentication) {
+	public User save(final User user) {
+
+		user.setDeleted(false);
 		if (user.getId() == null) {
-			daoAuthentication.insert(authentication);
+
+			String password = PasswordGenerator
+					.generatePassword(PasswordGenerator.ALPHA_CAPS + PasswordGenerator.NUMERIC);
+			SendMailTLS.sendMail(user.getEmail(), password);
+			user.setPassword(DigestUtils.md5Hex(password));
+
 			dao.insert(user);
 		} else {
 			dao.update(user);
@@ -75,5 +72,15 @@ public class UserServicesImpl extends AbstractServicesImpl implements IUserServi
 	@Override
 	public List<User> getAll(UserFilter filter) {
 		return dao.find(filter);
+	}
+
+	@Override
+	public User loadByLogin(String email) {
+		return dao.loadByLogin(email);
+	}
+
+	@Override
+	public List<String> loadAllEmail() {
+		return dao.loadAllEmail();
 	}
 }

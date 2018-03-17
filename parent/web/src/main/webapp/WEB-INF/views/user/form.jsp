@@ -19,30 +19,6 @@
 
 		<div class="row">
 			<div class="input-field col s12">
-				<form:input path="login" type="text" disabled="${readonly}" />
-				<form:errors path="login" cssClass="red-text" />
-				<label for="login">login</label>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="input-field col s12">
-				<form:input path="pasword" type="text" disabled="${readonly}" />
-				<form:errors path="pasword" cssClass="red-text" />
-				<label for="pasword">pasword</label>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="input-field col s12">
-				<form:input path="role" type="text" disabled="${readonly}" />
-				<form:errors path="role" cssClass="red-text" />
-				<label for="role">role</label>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="input-field col s12">
 				<form:input path="lastName" type="text" disabled="${readonly}" />
 				<form:errors path="lastName" cssClass="red-text" />
 				<label for="lastName">lastName</label>
@@ -72,7 +48,6 @@
 				<label for="phoneNumber">phoneNumber</label>
 			</div>
 		</div>
-
 		<div class="row">
 			<div class="input-field col s12">
 				<form:input path="email" type="text" disabled="${readonly}" />
@@ -82,12 +57,22 @@
 		</div>
 
 		<div class="row">
+			<div class="input-field col s12">
+				<form:select path="role" type="text" disabled="${readonly}">
+					<form:options items="${roleChoices}" />
+				</form:select>
+				<form:errors path="role" cssClass="red-text" />
+				<label for="role">role</label>
+			</div>
+		</div>
+
+
+		<div class="row">
 			<div class="col s6"></div>
 			<div class="col s3">
 				<c:if test="${!readonly}">
 					<button class="btn waves-effect waves-light right" type="submit">
 						<spring:message code="standard.save" />
-						Œ
 					</button>
 				</c:if>
 			</div>

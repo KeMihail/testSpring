@@ -59,7 +59,7 @@ public class CarServicesTest extends AbstractServicesTest {
 		legalEntityServices.save(legalEntity);
 
 		user = createUser();
-		// userServisec.save(user);
+		userServisec.save(user);
 	}
 
 	@PreDestroy
@@ -90,7 +90,6 @@ public class CarServicesTest extends AbstractServicesTest {
 
 		Car car1 = services.get(car.getId());
 		Assert.assertEquals(car1.getId(), car.getId());
-		Assert.assertEquals(car1.getUser(), car.getUser());
 		Assert.assertEquals(car1.getReleaseYear(), car.getReleaseYear());
 		Assert.assertEquals(car1.getModel(), car.getModel());
 		Assert.assertEquals(car1.getLegalEntity(), car.getLegalEntity());
@@ -102,7 +101,6 @@ public class CarServicesTest extends AbstractServicesTest {
 
 		Car car2 = services.get(car.getId());
 		Assert.assertEquals(car2.getId(), car.getId());
-		Assert.assertEquals(car2.getUser(), car.getUser());
 		Assert.assertEquals(car2.getReleaseYear(), car.getReleaseYear());
 		Assert.assertEquals(car2.getModel(), car.getModel());
 		Assert.assertEquals(car2.getLegalEntity(), car.getLegalEntity());

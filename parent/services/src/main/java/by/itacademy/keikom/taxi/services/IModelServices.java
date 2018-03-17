@@ -22,4 +22,6 @@ public interface IModelServices {
 	Long getCount(ModelFilter filter);
 
 	List<Model> getAll(ModelFilter filter);
+
+	Model getFullInfo(Integer id);
 }

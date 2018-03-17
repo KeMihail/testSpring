@@ -13,9 +13,6 @@ public class ModelDTO {
 	private Integer brandId;
 	private String brandName;
 
-	private Timestamp created;
-	private Timestamp modified;
-
 	public ModelDTO() {
 	}
 
@@ -73,21 +70,5 @@ public class ModelDTO {
 
 	public void setBodyType(String bodyType) {
 		this.bodyType = bodyType;
-	}
-
-	public Timestamp getCreated() {
-		return created;
-	}
-
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
 	}
 }

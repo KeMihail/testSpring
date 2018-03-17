@@ -58,4 +58,28 @@ public class ModelDaoImpl extends AbstractHibernateDaoImpl<Model, Integer> imple
 		setPaging(filter, q);
 		return q.getResultList();
 	}
+
+	@Override
+	public Model getFullInfo(Integer id) {
+		final EntityManager em = getEntityManager();
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<Model> cq = cb.createQuery(Model.class);
+		final Root<Model> from = cq.from(Model.class);
+		cq.select(from);
+
+		from.fetch(Model_.brand, JoinType.LEFT);
+		// from.fetch(Book_.catalogs, JoinType.LEFT);
+		cq.where(cb.equal(from.get(Model_.id), id));
+
+		// cq.distinct(true); only if you join 2MANY like 'catalogs'
+
+		final TypedQuery<Model> q = em.createQuery(cq);
+
+		List<Model> resultList = q.getResultList();
+		if (resultList.size() != 1) {
+			throw new RuntimeException("unexpected result size:" + resultList.size());
+
+		}
+		return resultList.get(0); 
+	}
 }

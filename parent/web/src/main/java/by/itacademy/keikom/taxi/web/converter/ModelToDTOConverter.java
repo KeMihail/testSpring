@@ -24,9 +24,6 @@ public class ModelToDTOConverter implements Function<Model, ModelDTO> {
 		dto.setBrandId(dbModel.getBrand().getId());
 		dto.setBrandName(dbModel.getBrand().getName());
 
-		dto.setCreated(dbModel.getCreated());
-		dto.setModified(dbModel.getModified());
-
 		return dto;
 	}
 

@@ -9,126 +9,27 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 
-import by.itacademy.keikom.taxi.dao.enums.UserRole;
+import by.itacademy.keikom.taxi.dao.enums.Role;
 
 @Entity
-public class User extends AbstractModel implements Serializable {
+public class User extends AbstractUser implements Serializable {
 
-	@Column
-	private String name;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+	private List<CarOrder> callsClient;
 
-	@Column
-	private String lastName;
+	public List<CarOrder> getCallsClient() {
+		return callsClient;
+	}
 
-	@Column
-	private Timestamp birthday;
-
-	@Column
-	private String address;
-
-	@Column
-	private String phoneNumber;
-
-	@Column
-	private String email;
-
-	@Column
-	private Boolean deleted;
-
-	@OneToOne(fetch = FetchType.EAGER, optional = false)
-	@PrimaryKeyJoinColumn
-	private UserAuthentication authentication;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private List<Order> orders;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private List<Car> cars;
+	public void setCallsClient(List<CarOrder> callsClient) {
+		this.callsClient = callsClient;
+	}
 
 	public User() {
 	}
 
-	public UserAuthentication getAuthentication() {
-		return authentication;
-	}
-
-	public void setAuthentication(UserAuthentication authentication) {
-		this.authentication = authentication;
-	}
-
-	public List<Order> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
-
-	public List<Car> getCars() {
-		return cars;
-	}
-
-	public void setCars(List<Car> cars) {
-		this.cars = cars;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public Timestamp getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(Timestamp birthday) {
-		this.birthday = birthday;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
-	}
 }

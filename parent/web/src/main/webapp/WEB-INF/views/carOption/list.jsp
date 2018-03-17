@@ -14,6 +14,7 @@
 		<tr>
 			<th><mytaglib:sort-link column="id">id</mytaglib:sort-link></th>
 			<th><mytaglib:sort-link column="name">name</mytaglib:sort-link></th>
+			<th></th>
 		</tr>
 
 		<c:forEach var="carOption" items="${listModel.list}"

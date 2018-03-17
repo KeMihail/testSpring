@@ -46,8 +46,9 @@
 			</div>
 
 			<div class="col s3">
-				<a class="btn waves-effect waves-light right" href="/brand"> <spring:message
-						code="standard.tolist" /><i class="material-icons right"></i>
+				<a class="btn waves-effect waves-light right"
+					href="/orderAssessment"> <spring:message code="standard.tolist" /><i
+					class="material-icons right"></i>
 				</a>
 			</div>
 		</div>

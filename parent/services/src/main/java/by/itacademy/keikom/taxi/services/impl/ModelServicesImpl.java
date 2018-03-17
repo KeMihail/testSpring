@@ -1,13 +1,8 @@
 package by.itacademy.keikom.taxi.services.impl;
 
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import by.itacademy.keikom.taxi.dao.IModelDao;
@@ -55,5 +50,10 @@ public class ModelServicesImpl implements IModelServices {
 	@Override
 	public List<Model> getAll(ModelFilter filter) {
 		return dao.find(filter);
+	}
+
+	@Override
+	public Model getFullInfo(Integer id) {
+		return dao.getFullInfo(id);
 	}
 }

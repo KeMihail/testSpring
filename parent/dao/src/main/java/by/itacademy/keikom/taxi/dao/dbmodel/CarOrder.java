@@ -2,6 +2,7 @@ package by.itacademy.keikom.taxi.dao.dbmodel;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,9 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Order extends AbstractModel implements Serializable {
+public class CarOrder extends AbstractModel implements Serializable {
 
 	@Column
 	private String departureAddress;
@@ -20,10 +22,10 @@ public class Order extends AbstractModel implements Serializable {
 	private String arrivalAddress;
 
 	@Column
-	private Timestamp orderBegin;
+	private Date orderBegin;
 
 	@Column
-	private Timestamp orderEnd;
+	private Date orderEnd;
 
 	@Column
 	private Double distanceOrder;
@@ -35,15 +37,49 @@ public class Order extends AbstractModel implements Serializable {
 	private Integer inactivityMinutes;
 
 	@Column
-	private Double summ;
+	private Double total;
 
 	@Column
 	private Boolean deleted;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Rate.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Rate.class)
 	private Rate rate;
 
-	private Integer rateId;
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+	private User client;
+
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Driver.class)
+	private Driver driver;
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "order")
+	private OrderAssessment orderAssessment;
+
+	public CarOrder() {
+	}
+
+	public Driver getDriver() {
+		return driver;
+	}
+
+	public void setDriver(Driver driver) {
+		this.driver = driver;
+	}
+
+	public OrderAssessment getOrderAssessment() {
+		return orderAssessment;
+	}
+
+	public void setOrderAssessment(OrderAssessment orderAssessment) {
+		this.orderAssessment = orderAssessment;
+	}
+
+	public User getClient() {
+		return client;
+	}
+
+	public void setClient(User client) {
+		this.client = client;
+	}
 
 	public Rate getRate() {
 		return rate;
@@ -51,50 +87,6 @@ public class Order extends AbstractModel implements Serializable {
 
 	public void setRate(Rate rate) {
 		this.rate = rate;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Car.class)
-	private Car car;
-
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
-	private User user;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-	private List<OrderAssessment> orderAssessments;
-
-	public Order() {
-	}
-
-	public Integer getRateId() {
-		return rateId;
-	}
-
-	public void setRateId(Integer rateId) {
-		this.rateId = rateId;
-	}
-
-	public List<OrderAssessment> getOrderAssessments() {
-		return orderAssessments;
-	}
-
-	public void setOrderAssessments(List<OrderAssessment> orderAssessments) {
-		this.orderAssessments = orderAssessments;
-	}
-
-	public Car getCar() {
-		return car;
-	}
-
-	public void setCar(Car car) {
-		this.car = car;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public String getDepartureAddress() {
@@ -113,19 +105,19 @@ public class Order extends AbstractModel implements Serializable {
 		this.arrivalAddress = arrivalAddress;
 	}
 
-	public Timestamp getOrderBegin() {
+	public Date getOrderBegin() {
 		return orderBegin;
 	}
 
-	public void setOrderBegin(Timestamp orderBegin) {
+	public void setOrderBegin(Date orderBegin) {
 		this.orderBegin = orderBegin;
 	}
 
-	public Timestamp getOrderEnd() {
+	public Date getOrderEnd() {
 		return orderEnd;
 	}
 
-	public void setOrderEnd(Timestamp orderEnd) {
+	public void setOrderEnd(Date orderEnd) {
 		this.orderEnd = orderEnd;
 	}
 
@@ -153,16 +145,16 @@ public class Order extends AbstractModel implements Serializable {
 		this.inactivityMinutes = inactivityMinutes;
 	}
 
-	public Double getSumm() {
-		return summ;
-	}
-
-	public void setSumm(Double summ) {
-		this.summ = summ;
-	}
-
 	public Boolean getDeleted() {
 		return deleted;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 
 	public void setDeleted(Boolean deleted) {

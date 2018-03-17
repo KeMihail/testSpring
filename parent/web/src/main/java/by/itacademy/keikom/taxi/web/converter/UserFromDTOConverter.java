@@ -4,9 +4,9 @@ import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
 
+import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
-import by.itacademy.keikom.taxi.dao.dbmodel.UserAuthentication;
-import by.itacademy.keikom.taxi.dao.enums.UserRole;
+import by.itacademy.keikom.taxi.dao.enums.Role;
 import by.itacademy.keikom.taxi.web.dto.UserDTO;
 
 @Component
@@ -25,18 +25,11 @@ public class UserFromDTOConverter implements Function<UserDTO, User> {
 		dbModel.setPhoneNumber(dto.getPhoneNumber());
 		dbModel.setEmail(dto.getEmail());
 		dbModel.setDeleted(dto.getDeleted());
-		dbModel.setCreated(dto.getCreated());
-		dbModel.setModified(dto.getModified());
 
-		UserAuthentication authentication = new UserAuthentication();
-		authentication.setLogin(dto.getLogin());
-		authentication.setPassword(dto.getPasword());
-		authentication.setRole(UserRole.valueOf(dto.getRole()));
-
-		dbModel.setAuthentication(authentication);
+		dbModel.setRole(Role.valueOf(dto.getRole()));
+		dbModel.setPassword(dto.getPassword());
 
 		return dbModel;
-
 	}
 
 }

@@ -12,7 +12,6 @@ import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
-import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.web.dto.CarDTO;
 
 @Component
@@ -35,12 +34,6 @@ public class CarFromDTOConverter implements Function<CarDTO, Car> {
 		dbModel.setLegalEntity(LegalEntity);
 
 		dbModel.setStatus(CarStatus.valueOf(dto.getStatus()));
-		dbModel.setCreated(dto.getCreated());
-		dbModel.setModified(dto.getModified());
-
-		User user = new User();
-		user.setId(dto.getUserId());
-		dbModel.setUser(user);
 
 		final Set<Integer> carOptionId = new HashSet<Integer>();
 		final Set<CarOption> carOptions = new HashSet<CarOption>();

@@ -16,7 +16,7 @@ import by.itacademy.keikom.taxi.dao.dbmodel.Brand;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car;
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
-import by.itacademy.keikom.taxi.dao.dbmodel.Order;
+import by.itacademy.keikom.taxi.dao.dbmodel.CarOrder;
 import by.itacademy.keikom.taxi.dao.dbmodel.OrderAssessment;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
@@ -29,7 +29,7 @@ public class OrderAssessmentTest extends AbstractServicesTest {
 	private IOrderAssessmentServices services;
 
 	@Autowired
-	private IOrderServices orderServices;
+	private ICarOrderServices orderServices;
 
 	@Autowired
 	private ICarServices carServices;
@@ -51,7 +51,7 @@ public class OrderAssessmentTest extends AbstractServicesTest {
 
 	private List<OrderAssessment> list;
 
-	private Order order;
+	private CarOrder order;
 	private Car car;
 	private User user;
 	private Model model;
@@ -75,7 +75,7 @@ public class OrderAssessmentTest extends AbstractServicesTest {
 		modelServices.save(model);
 
 		user = createUser();
-		// userServices.save(user);
+		userServices.save(user);
 
 		car = createCar(user, model, legalEntity);
 		carServices.save(car);

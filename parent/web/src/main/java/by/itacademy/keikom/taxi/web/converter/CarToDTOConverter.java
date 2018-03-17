@@ -30,11 +30,6 @@ public class CarToDTOConverter implements Function<Car, CarDTO> {
 		dto.setLegalEntityName(dbModel.getLegalEntity().getName());
 
 		dto.setStatus(dbModel.getStatus().toString());
-		dto.setCreated(dbModel.getCreated());
-		dto.setModified(dbModel.getModified());
-
-		dto.setUserName(dbModel.getUser().getName());
-		dto.setUserId(dbModel.getUser().getId());
 
 		final Set<CarOption> allCarOption = dbModel.getCarOption();
 		final Set<Integer> carOptionId = new HashSet<Integer>();
