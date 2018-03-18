@@ -26,4 +26,8 @@ public interface IDriverServices {
 	Driver getFullInfo(Integer id);
 
 	Driver loadByLogin(String email);
+
+	List<String> loadAllEmail();
+
+	Boolean checkEmail(String email);
 }

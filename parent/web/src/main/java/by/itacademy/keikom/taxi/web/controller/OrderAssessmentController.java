@@ -22,7 +22,6 @@ import by.itacademy.keikom.taxi.dao.dbmodel.Model;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model_;
 import by.itacademy.keikom.taxi.dao.dbmodel.CarOrder;
 import by.itacademy.keikom.taxi.dao.dbmodel.OrderAssessment;
-import by.itacademy.keikom.taxi.dao.dbmodel.CallAssessment_;
 import by.itacademy.keikom.taxi.dao.dbmodel.OrderAssessment_;
 import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
 import by.itacademy.keikom.taxi.dao.filter.OrderAssessmentFilter;

@@ -35,7 +35,7 @@ public class UserServicesTest extends AbstractServicesTest {
 		}
 
 		user = createUser();
-		// services.save(user);
+		 services.save(user);
 		Assert.assertNotNull(services.get(user.getId()));
 
 		User user1 = services.get(user.getId());

@@ -88,4 +88,11 @@ public class DriverDaoImpl extends AbstractHibernateDaoImpl<Driver, Integer> imp
 				.setParameter("email", email).getSingleResult();
 		return driver;
 	}
+
+	@Override
+	public List<String> loadAllEmail() {
+		EntityManager em = getEntityManager();
+
+		return em.createQuery("select d.email from Driver d", String.class).getResultList();
+	}
 }

@@ -67,7 +67,6 @@ public class UserDaoImpl extends AbstractHibernateDaoImpl<User, Integer> impleme
 	public List<String> loadAllEmail() {
 
 		EntityManager em = getEntityManager();
-		List<String> list = em.createQuery("select u.email from User u", String.class).getResultList();
-		return list;
+		return em.createQuery("select u.email from User u", String.class).getResultList();
 	}
 }

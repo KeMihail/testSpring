@@ -11,6 +11,7 @@ import by.itacademy.keikom.taxi.services.security.PasswordGenerator;
 import by.itacademy.keikom.taxi.dao.IUserDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.dao.filter.UserFilter;
+import by.itacademy.keikom.taxi.services.IDriverServices;
 import by.itacademy.keikom.taxi.services.IUserServices;
 import by.itacademy.keikom.taxi.services.mail.SendMailTLS;
 
@@ -19,6 +20,8 @@ public class UserServicesImpl extends AbstractServicesImpl implements IUserServi
 
 	@Autowired
 	private IUserDao dao;
+	@Autowired
+	private IDriverServices driverDao;
 
 	/*
 	 * if (!validateEmailAddress(user.getEmail())) { user.setEmail(null); }
@@ -82,5 +85,20 @@ public class UserServicesImpl extends AbstractServicesImpl implements IUserServi
 	@Override
 	public List<String> loadAllEmail() {
 		return dao.loadAllEmail();
+	}
+
+	@Override
+	public Boolean checkEmail(String email) {
+
+		Boolean result = false;
+		List<String> list = driverDao.loadAllEmail();
+
+		for (String str : list) {
+			if (str.equals(email)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
 	}
 }

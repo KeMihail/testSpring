@@ -129,7 +129,7 @@ public class DriverController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String save(@ModelAttribute("driverForm") final DriverDTO dto, final BindingResult result) {
 
-		if (result.hasErrors()) {
+		if (result.hasErrors() || driverService.checkEmail(dto.getEmail())) {
 			return "driver.edit";
 		} else {
 			driverService.save(fromDTOConverter.apply(dto));

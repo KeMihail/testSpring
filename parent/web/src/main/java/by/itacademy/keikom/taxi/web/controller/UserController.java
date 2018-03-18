@@ -126,7 +126,8 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String save(@ModelAttribute("userForm") final UserDTO dto, final BindingResult result) {
-		if (result.hasErrors()) {
+
+		if (result.hasErrors() || userService.checkEmail(dto.getEmail())) {
 			return "user.edit";
 		} else {
 

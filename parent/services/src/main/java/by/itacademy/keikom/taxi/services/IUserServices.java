@@ -26,4 +26,6 @@ public interface IUserServices {
 	User loadByLogin(String email);
 
 	List<String> loadAllEmail();
+
+	Boolean checkEmail(String email);
 }

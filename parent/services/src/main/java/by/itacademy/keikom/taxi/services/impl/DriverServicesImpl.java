@@ -10,6 +10,7 @@ import by.itacademy.keikom.taxi.dao.dbmodel.Driver;
 import by.itacademy.keikom.taxi.dao.enums.Role;
 import by.itacademy.keikom.taxi.dao.filter.DriverFilter;
 import by.itacademy.keikom.taxi.services.IDriverServices;
+import by.itacademy.keikom.taxi.services.IUserServices;
 import by.itacademy.keikom.taxi.services.mail.SendMailTLS;
 import by.itacademy.keikom.taxi.services.security.PasswordGenerator;
 
@@ -18,6 +19,8 @@ public class DriverServicesImpl implements IDriverServices {
 
 	@Autowired
 	private IDriverDao dao;
+	@Autowired
+	private IUserServices userService;
 
 	@Override
 	public void remove(Integer id) {
@@ -70,5 +73,24 @@ public class DriverServicesImpl implements IDriverServices {
 	@Override
 	public Driver loadByLogin(String email) {
 		return dao.loadByLogin(email);
+	}
+
+	@Override
+	public List<String> loadAllEmail() {
+		return dao.loadAllEmail();
+	}
+
+	@Override
+	public Boolean checkEmail(String email) {
+		Boolean result = false;
+		List<String> list = userService.loadAllEmail();
+
+		for (String str : list) {
+			if (str.equals(email)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
 	}
 }

@@ -59,8 +59,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			roles.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
 
 			Integer userId = user.getId();
+			String username = user.getName();
 
-			return new ExtendedUsernamePasswordAuthenticationToken(userId, email, password, roles);
+			return new ExtendedUsernamePasswordAuthenticationToken(userId, email, password, roles, username);
 		} else {
 			Driver driver = driverService.loadByLogin(email);
 
@@ -75,8 +76,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			roles.add(new SimpleGrantedAuthority("ROLE_" + driver.getRole()));
 
 			Integer userId = driver.getId();
-
-			return new ExtendedUsernamePasswordAuthenticationToken(userId, email, password, roles);
+			String username = driver.getName();
+			return new ExtendedUsernamePasswordAuthenticationToken(userId, email, password, roles, username);
 		}
 	}
 

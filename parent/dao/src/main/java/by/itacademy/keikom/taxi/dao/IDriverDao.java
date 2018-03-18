@@ -14,4 +14,6 @@ public interface IDriverDao extends IHibernateDao<Driver, Integer> {
 	Driver getFullInfo(Integer id);
 
 	Driver loadByLogin(String email);
+
+	List<String> loadAllEmail();
 }

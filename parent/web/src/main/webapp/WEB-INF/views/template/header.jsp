@@ -13,7 +13,7 @@
 			</sec:authorize>
 			<ul id="nav-mobile" class="left hide-on-med-and-down">
 
-				<sec:authorize access="hasAnyRole('ADMIN')">
+				<sec:authorize access="hasRole('ADMIN')">
 
 					<li><a href="/"><spring:message code="menu.home" /></a></li>
 
@@ -21,31 +21,32 @@
 					<li><a href="/model"><spring:message code="menu.model" /></a></li>
 					<li><a href="/legalEntity"><spring:message
 								code="menu.legalEntity" /></a></li>
-					<li><a href="/car"><spring:message code="menu.car" /></a></li>
 					<li><a href="/rate"><spring:message code="menu.rate" /></a></li>
 					<li><a href="/orderAssessment"><spring:message
 								code="menu.orderAssessment" /></a></li>
 					<li><a href="/carOption"><spring:message
 								code="menu.carOption" /></a></li>
 					<li><a href="/user"><spring:message code="menu.user" /></a></li>
-					<li><a href="/car"><spring:message code="menu.car" /></a></li>
 					<li><a href="/serviceitem"><spring:message
 								code="menu.service" /></a></li>
 					<li><a href="/driver"><spring:message code="menu.driver" /></a></li>
-					<li><a href="/carOrder"><spring:message code="menu.order" /></a></li>
-				</sec:authorize>
-
-				<sec:authorize access="hasAnyRole('DRIVER')">
 					<li><a href="/car"><spring:message code="menu.car" /></a></li>
-				</sec:authorize>
-
-				<sec:authorize access="hasAnyRole('PASSENGER')">
-					<li><a href="/car"><spring:message code="menu.order" /></a></li>
+					<li><a href="/carOrder"><spring:message code="menu.order" /></a></li>
 				</sec:authorize>
 
 			</ul>
 		</div>
 	</nav>
+	<div class="white-text " style="position: absolute; top: 5; right: 60">
+		<sec:authentication property="name" />
+	</div>
+
+	<div class="white-text " style="position: absolute; top: 30; right: 60">
+		<sec:authentication property="authorities" var="roles" scope="page" />
+		<c:forEach var="role" items="${roles}">
+			${role}
+		</c:forEach>
+	</div>
 
 	<%-- <div style="position: absolute; top: 20; right: 20">
 		<a
