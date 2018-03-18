@@ -26,7 +26,7 @@ public class DriverToDTOConverter implements Function<Driver, DriverDTO> {
 		dto.setName(dbModel.getName());
 		dto.setPassword(dbModel.getPassword());
 		dto.setPhoneNumber(dbModel.getPhoneNumber());
-		dto.setRole(dbModel.getRole().toString());
+		dto.setBirthday(dbModel.getBirthday());
 
 		return dto;
 	}

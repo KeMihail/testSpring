@@ -19,17 +19,17 @@ import by.itacademy.keikom.taxi.dao.enums.Role;
 public class User extends AbstractUser implements Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-	private List<CarOrder> callsClient;
-
-	public List<CarOrder> getCallsClient() {
-		return callsClient;
-	}
-
-	public void setCallsClient(List<CarOrder> callsClient) {
-		this.callsClient = callsClient;
-	}
+	private List<CarOrder> ordersClient;
 
 	public User() {
+	}
+
+	public List<CarOrder> getOrdersClient() {
+		return ordersClient;
+	}
+
+	public void setOrdersClient(List<CarOrder> ordersClient) {
+		this.ordersClient = ordersClient;
 	}
 
 }

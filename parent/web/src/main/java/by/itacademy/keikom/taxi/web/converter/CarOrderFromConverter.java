@@ -40,6 +40,7 @@ public class CarOrderFromConverter implements Function<CarOrderDTO, CarOrder> {
 		Driver driver = new Driver();
 		driver.setId(dto.getDriverId());
 		dbModel.setDriver(driver);
+
 		return dbModel;
 	}
 }

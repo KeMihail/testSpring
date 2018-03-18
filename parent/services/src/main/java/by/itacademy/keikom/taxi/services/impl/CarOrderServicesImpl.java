@@ -9,14 +9,18 @@ import org.springframework.stereotype.Service;
 import by.itacademy.keikom.taxi.dao.ICarOrderDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.CarOrder;
 import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
+import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.dao.filter.CarOrderFilter;
 import by.itacademy.keikom.taxi.services.ICarOrderServices;
+import by.itacademy.keikom.taxi.services.IUserServices;
 
 @Service
 public class CarOrderServicesImpl implements ICarOrderServices {
 
 	@Autowired
 	private ICarOrderDao dao;
+	@Autowired
+	private IUserServices userService;
 
 	@Override
 	public void remove(Integer id) {
@@ -27,7 +31,12 @@ public class CarOrderServicesImpl implements ICarOrderServices {
 	public CarOrder save(CarOrder order) {
 
 		order.setDeleted(false);
+
 		if (order.getId() == null) {
+			order.setOrderBegin(new Date());
+
+			dao.insert(order);
+		} else {
 
 			Rate rate = order.getRate();
 			Double landing = rate.getPriceLanding();
@@ -36,9 +45,6 @@ public class CarOrderServicesImpl implements ICarOrderServices {
 
 			order.setTotal(landing + priceKilometr + wait);
 
-			order.setOrderBegin(new Date());
-			dao.insert(order);
-		} else {
 			order.setOrderEnd(new Date());
 			dao.update(order);
 		}

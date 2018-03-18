@@ -68,7 +68,6 @@ public class ModelDaoImpl extends AbstractHibernateDaoImpl<Model, Integer> imple
 		cq.select(from);
 
 		from.fetch(Model_.brand, JoinType.LEFT);
-		// from.fetch(Book_.catalogs, JoinType.LEFT);
 		cq.where(cb.equal(from.get(Model_.id), id));
 
 		// cq.distinct(true); only if you join 2MANY like 'catalogs'
@@ -80,6 +79,6 @@ public class ModelDaoImpl extends AbstractHibernateDaoImpl<Model, Integer> imple
 			throw new RuntimeException("unexpected result size:" + resultList.size());
 
 		}
-		return resultList.get(0); 
+		return resultList.get(0);
 	}
 }

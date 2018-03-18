@@ -5,7 +5,7 @@
 	uri="https://journaldev.com/jsp/tlds/mytags"%>
 
 <c:set var="pageListHolder" value="${carOrder}" scope="session" />
-<spring:url value="/carOrder" var="pageurl" />
+<spring:url value="/carOrders" var="pageurl" />
 
 <h4 class="header">List of carOrder</h4>
 <table class="bordered highlight">
@@ -39,15 +39,15 @@
 				<td><c:out value="${carOrder.clientName}" /></td>
 
 				<td class="right"><a class="btn-floating"
-					href="/carOrder/${carOrder.id}"><i class="material-icons">info</i></a>
-					<a class="btn-floating" href="/carOrder/${carOrder.id}/edit"><i
+					href="/carOrders/${carOrder.id}"><i class="material-icons">info</i></a>
+					<a class="btn-floating" href="/carOrders/${carOrder.id}/edit"><i
 						class="material-icons">edit</i></a> <a class="btn-floating red"
-					href="/carOrder/${carOrder.id}/delete"><i
+					href="/carOrders/${carOrder.id}/delete"><i
 						class="material-icons">delete</i></a>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
 <mytags:paging />
-<a class="waves-effect waves-light btn right" href="/carOrder/add"><i
+<a class="waves-effect waves-light btn right" href="/carOrders/add"><i
 	class="material-icons">add</i></a>

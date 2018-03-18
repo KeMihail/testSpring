@@ -8,6 +8,7 @@
 	<form:form class="col s12" method="POST" action="/user"
 		modelAttribute="userForm">
 		<form:input path="id" type="hidden" />
+		<form:input path="password" type="hidden" />
 
 		<div class="row">
 			<div class="input-field col s12">

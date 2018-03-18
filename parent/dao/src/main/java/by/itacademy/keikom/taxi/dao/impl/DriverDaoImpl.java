@@ -16,7 +16,6 @@ import by.itacademy.keikom.taxi.dao.IDriverDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.Driver;
 import by.itacademy.keikom.taxi.dao.dbmodel.Driver_;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
-import by.itacademy.keikom.taxi.dao.dbmodel.Model_;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.dao.filter.DriverFilter;
 
@@ -46,7 +45,7 @@ public class DriverDaoImpl extends AbstractHibernateDaoImpl<Driver, Integer> imp
 		Root<Driver> from = cq.from(Driver.class);
 		cq.select(from);
 
-		from.fetch(Driver_.car, JoinType.LEFT);
+		// from.fetch(Driver_.car, JoinType.LEFT);
 
 		if (filter.getSortProperty() != null) {
 			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));
@@ -66,7 +65,6 @@ public class DriverDaoImpl extends AbstractHibernateDaoImpl<Driver, Integer> imp
 		cq.select(from);
 
 		from.fetch(Driver_.car, JoinType.LEFT);
-		// from.fetch(Book_.catalogs, JoinType.LEFT);
 		cq.where(cb.equal(from.get(Driver_.id), id));
 
 		// cq.distinct(true); only if you join 2MANY like 'catalogs'

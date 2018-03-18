@@ -2,6 +2,7 @@ package by.itacademy.keikom.taxi.services.impl;
 
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,14 +32,16 @@ public class DriverServicesImpl implements IDriverServices {
 	public Driver save(Driver driver) {
 
 		driver.setDeleted(false);
+		driver.setRole(Role.DRIVER);
+
 		if (driver.getId() == null) {
 
 			String password = PasswordGenerator
 					.generatePassword(PasswordGenerator.ALPHA_CAPS + PasswordGenerator.NUMERIC);
-			driver.setPassword(password);
+			driver.setPassword(DigestUtils.md5Hex(password));
 			SendMailTLS.sendMail(driver.getEmail(), password);
-			driver.setRole(Role.DRIVER);
 			dao.insert(driver);
+
 		} else {
 			dao.update(driver);
 		}

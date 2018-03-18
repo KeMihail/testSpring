@@ -5,7 +5,7 @@
 	uri="https://journaldev.com/jsp/tlds/mytags"%>
 
 <c:set var="pageListHolder" value="${car}" scope="session" />
-<spring:url value="/car" var="pageurl" />
+<spring:url value="/cars" var="pageurl" />
 
 <h4 class="header">List of Cars</h4>
 <table class="bordered highlight">
@@ -29,15 +29,15 @@
 				<td><c:out value="${car.legalEntityName}" /></td>
 				<td><c:out value="${car.status}" /></td>
 
-				<td class="right"><a class="btn-floating" href="/car/${car.id}"><i
-						class="material-icons">info</i></a> <a class="btn-floating"
-					href="/car/${car.id}/edit"><i class="material-icons">edit</i></a> <a
-					class="btn-floating red" href="/car/${car.id}/delete"><i
-						class="material-icons">delete</i></a>
+				<td class="right"><a class="btn-floating"
+					href="/cars/${car.id}"><i class="material-icons">info</i></a> <a
+					class="btn-floating" href="/cars/${car.id}/edit"><i
+						class="material-icons">edit</i></a> <a class="btn-floating red"
+					href="/cars/${car.id}/delete"><i class="material-icons">delete</i></a>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
 <mytags:paging />
-<a class="waves-effect waves-light btn right" href="/car/add"><i
+<a class="waves-effect waves-light btn right" href="/cars/add"><i
 	class="material-icons">add</i></a>

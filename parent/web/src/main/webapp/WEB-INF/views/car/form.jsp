@@ -5,7 +5,7 @@
 <h4 class="header">Edit car</h4>
 
 <div class="row">
-	<form:form class="col s12" method="POST" action="/car"
+	<form:form class="col s12" method="POST" action="/cars"
 		modelAttribute="carForm">
 		<form:input path="id" type="hidden" />
 

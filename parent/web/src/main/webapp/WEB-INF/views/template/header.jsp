@@ -11,12 +11,13 @@
 				<a class="right" href="/execute_logout"><i
 					class="material-icons">arrow_forward</i></a>
 			</sec:authorize>
+
 			<ul id="nav-mobile" class="left hide-on-med-and-down">
+
 
 				<sec:authorize access="hasRole('ADMIN')">
 
 					<li><a href="/"><spring:message code="menu.home" /></a></li>
-
 					<li><a href="/brand"><spring:message code="menu.brand" /></a></li>
 					<li><a href="/model"><spring:message code="menu.model" /></a></li>
 					<li><a href="/legalEntity"><spring:message
@@ -30,8 +31,12 @@
 					<li><a href="/serviceitem"><spring:message
 								code="menu.service" /></a></li>
 					<li><a href="/driver"><spring:message code="menu.driver" /></a></li>
-					<li><a href="/car"><spring:message code="menu.car" /></a></li>
-					<li><a href="/carOrder"><spring:message code="menu.order" /></a></li>
+					<li><a href="/cars"><spring:message code="menu.car" /></a></li>
+					<li><a href="/carOrders"><spring:message code="menu.order" /></a></li>
+				</sec:authorize>
+
+				<sec:authorize access="hasAnyRole('PASSENGER','DRIVER','ADMIN')">
+					<li><a href="/carOrders"><spring:message code="menu.order" /></a></li>
 				</sec:authorize>
 
 			</ul>

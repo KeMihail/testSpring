@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import by.itacademy.keikom.taxi.dao.IServiceItemDao;
 import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem;
-import by.itacademy.keikom.taxi.dao.dbmodel.ServiceItem_;
 import by.itacademy.keikom.taxi.dao.filter.ServiceItemFilter;
 
 @Repository
@@ -43,8 +42,7 @@ public class ServiceItemDaoImpl extends AbstractHibernateDaoImpl<ServiceItem, In
 		Root<ServiceItem> from = cq.from(ServiceItem.class);
 		cq.select(from);
 
-		from.fetch(ServiceItem_.car, JoinType.LEFT);
-		// set sort params
+		// from.fetch(ServiceItem_.car, JoinType.LEFT);
 
 		if (filter.getSortProperty() != null) {
 			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));

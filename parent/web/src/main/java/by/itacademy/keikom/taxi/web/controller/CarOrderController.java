@@ -33,11 +33,12 @@ import by.itacademy.keikom.taxi.services.IUserServices;
 import by.itacademy.keikom.taxi.web.converter.CarOrderFromConverter;
 import by.itacademy.keikom.taxi.web.converter.CarOrderToDTOConverter;
 import by.itacademy.keikom.taxi.web.dto.CarOrderDTO;
+import by.itacademy.keikom.taxi.web.security.AuthHelper;
 import by.itacademy.keikom.taxi.web.util.ListModel;
 import by.itacademy.keikom.taxi.web.util.SortModel;
 
 @Controller
-@RequestMapping(value = "/carOrder")
+@RequestMapping(value = "/carOrders")
 public class CarOrderController {
 
 	private static final String LOCAL_LIST_MODEL_NAME = "carOrderListModel";
@@ -139,6 +140,8 @@ public class CarOrderController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String save(@ModelAttribute("carOrderForm") final CarOrderDTO dto, final BindingResult result) {
+
+		dto.setClientId(AuthHelper.getLoggedUserId());
 
 		if (result.hasErrors()) {
 			return "redirect:carOrder.edit";

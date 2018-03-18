@@ -43,7 +43,7 @@ import by.itacademy.keikom.taxi.web.util.ListModel;
 import by.itacademy.keikom.taxi.web.util.SortModel;
 
 @Controller
-@RequestMapping(value = "/car")
+@RequestMapping(value = "/cars")
 public class CarController {
 
 	private static final String LOCAL_LIST_MODEL_NAME = "carListModel";
