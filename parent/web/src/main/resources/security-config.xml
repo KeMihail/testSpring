@@ -14,9 +14,11 @@
 	<http>
 		<intercept-url pattern="/"
 			access="hasAnyRole('PASSENGER','DRIVER','MANAGER','ADMIN')" />
-		<intercept-url pattern="/carOrder" access="hasAnyRole('PASSENGER')" />
-		<intercept-url pattern="/car" access="hasAnyRole('DRIVER')" />
+		<intercept-url pattern="/carOrder"
+			access="hasAnyRole('PASSENGER','ADMIN','PASSENGER','DRIVER')" />
+		<intercept-url pattern="/car" access="hasAnyRole('DRIVER','ADMIN')" />
 		<intercept-url pattern="/user**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/newOrders" access="hasRole('DRIVER')" />
 
 		<form-login login-page="/login" default-target-url="/"
 			authentication-failure-url="/login?error" username-parameter="username"

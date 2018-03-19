@@ -12,6 +12,7 @@ import by.itacademy.keikom.taxi.dao.dbmodel.Rate;
 import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.dao.filter.CarOrderFilter;
 import by.itacademy.keikom.taxi.services.ICarOrderServices;
+import by.itacademy.keikom.taxi.services.IRateServices;
 import by.itacademy.keikom.taxi.services.IUserServices;
 
 @Service
@@ -21,6 +22,8 @@ public class CarOrderServicesImpl implements ICarOrderServices {
 	private ICarOrderDao dao;
 	@Autowired
 	private IUserServices userService;
+	@Autowired
+	private IRateServices rateService;
 
 	@Override
 	public void remove(Integer id) {
@@ -35,10 +38,14 @@ public class CarOrderServicesImpl implements ICarOrderServices {
 		if (order.getId() == null) {
 			order.setOrderBegin(new Date());
 
+			User user = userService.get(order.getClient().getId());
+			userService.save(user);
+			order.setDriver(null);
+			order.setRate(null);
 			dao.insert(order);
 		} else {
 
-			Rate rate = order.getRate();
+			Rate rate = rateService.get(order.getRate().getId());
 			Double landing = rate.getPriceLanding();
 			Double priceKilometr = rate.getPriceKilometr() * order.getDistanceOrder();
 			Double wait = rate.getPriceMinuteWait() * order.getInactivityMinutes();

@@ -8,6 +8,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,7 +39,7 @@ import by.itacademy.keikom.taxi.web.util.ListModel;
 import by.itacademy.keikom.taxi.web.util.SortModel;
 
 @Controller
-@RequestMapping(value = "/carOrders")
+@RequestMapping(value = "/carOrder")
 public class CarOrderController {
 
 	private static final String LOCAL_LIST_MODEL_NAME = "carOrderListModel";
@@ -147,7 +148,7 @@ public class CarOrderController {
 			return "redirect:carOrder.edit";
 		}
 		carOrderService.save(fromDTOConverter.apply(dto));
-		return "redirect:/carOrder";
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
@@ -161,7 +162,14 @@ public class CarOrderController {
 	public ModelAndView edit(@PathVariable(name = "id", required = true) final Integer id) {
 
 		final HashMap<String, Object> map = new HashMap<>();
-		map.put("carOrderForm", toDTOConverter.apply(carOrderService.get(id)));
+
+		CarOrderDTO dto = toDTOConverter.apply(carOrderService.get(id));
+
+		String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+		if (role.equals(new String("[ROLE_DRIVER]"))) {
+			dto.setDriverId(AuthHelper.getLoggedUserId());
+		}
+		map.put("carOrderForm", dto);
 		loadComboboxesModels(map);
 		return new ModelAndView("carOrder.edit", map);
 	}

@@ -19,7 +19,7 @@ public class Driver extends AbstractUser implements Serializable {
 	private Car car;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "driver")
-	private List<CarOrder> callsDriver;
+	private List<CarOrder> orderDriver;
 
 	public Driver() {
 
@@ -33,12 +33,12 @@ public class Driver extends AbstractUser implements Serializable {
 		this.car = car;
 	}
 
-	public List<CarOrder> getCallsDriver() {
-		return callsDriver;
+	public List<CarOrder> getOrderDriver() {
+		return orderDriver;
 	}
 
-	public void setCallsDriver(List<CarOrder> callsDriver) {
-		this.callsDriver = callsDriver;
+	public void setOrderDriver(List<CarOrder> orderDriver) {
+		this.orderDriver = orderDriver;
 	}
 
 }

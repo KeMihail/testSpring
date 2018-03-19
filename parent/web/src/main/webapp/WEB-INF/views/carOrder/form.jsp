@@ -7,11 +7,12 @@
 <h4 class="header">Edit CarOrder</h4>
 
 <div class="row">
-	<form:form class="col s12" method="POST" action="/carOrders"
+	<form:form class="col s12" method="POST" action="/carOrder"
 		modelAttribute="carOrderForm">
 
-		<sec:authorize access="hasRole('PASSENGER')">
+		<sec:authorize access="hasAnyRole('PASSENGER','ADMIN')">
 			<form:input path="id" type="hidden" />
+
 
 			<div class="row">
 				<div class="input-field col s12">
@@ -30,9 +31,14 @@
 					<label for="arrivalAddress">arrivalAddress</label>
 				</div>
 			</div>
+
 		</sec:authorize>
 
-		<sec:authorize access="hasRole('DRIVER')">
+		<sec:authorize access="hasAnyRole('DRIVER','ADMIN')">
+			<form:input path="departureAddress" type="hidden" />
+			<form:input path="arrivalAddress" type="hidden" />
+			<form:input path="id" type="hidden" />
+			<form:input path="driverId" type="hidden" />
 
 			<div class="row">
 				<div class="input-field col s12">
@@ -70,21 +76,23 @@
 
 		</sec:authorize>
 
+		<sec:authorize
+			access="hasAnyRole('MANAGER','ADMIN','PASSENGER','DRIVER')">
+			<div class="row">
+				<div class="col s6"></div>
+				<div class="col s3">
+					<c:if test="${!readonly}">
+						<button class="btn waves-effect waves-light right" type="submit">
+							<spring:message code="standard.save" />
+						</button>
+					</c:if>
+				</div>
 
-		<div class="row">
-			<div class="col s6"></div>
-			<div class="col s3">
-				<c:if test="${!readonly}">
-					<button class="btn waves-effect waves-light right" type="submit">
-						<spring:message code="standard.save" />
-					</button>
-				</c:if>
+				<div class="col s3">
+					<a class="btn waves-effect waves-light right" href="/carOrder"><spring:message
+							code="standard.tolist" /><i class="material-icons right"></i> </a>
+				</div>
 			</div>
-
-			<div class="col s3">
-				<a class="btn waves-effect waves-light right" href="/carOrder"><spring:message
-						code="standard.tolist" /><i class="material-icons right"></i> </a>
-			</div>
-		</div>
+		</sec:authorize>
 	</form:form>
 </div>

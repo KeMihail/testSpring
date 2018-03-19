@@ -40,6 +40,9 @@
 	<definition name="driver.edit" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/driver/form.jsp" />
 	</definition>
+	<definition name="driver.order" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/views/driver/order.jsp" />
+	</definition>
 
 	<definition name="orderAssessment.list" extends="DefaultTemplate">
 		<put-attribute name="body"

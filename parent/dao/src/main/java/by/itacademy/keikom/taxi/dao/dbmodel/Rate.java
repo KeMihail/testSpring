@@ -24,14 +24,14 @@ public class Rate extends AbstractModel implements Serializable {
 	private Double priceMinuteWait;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rate")
-	List<CarOrder> calls;
+	List<CarOrder> order;
 
-	public List<CarOrder> getCalls() {
-		return calls;
+	public List<CarOrder> getOrder() {
+		return order;
 	}
 
-	public void setCalls(List<CarOrder> calls) {
-		this.calls = calls;
+	public void setOrder(List<CarOrder> order) {
+		this.order = order;
 	}
 
 	public Rate() {

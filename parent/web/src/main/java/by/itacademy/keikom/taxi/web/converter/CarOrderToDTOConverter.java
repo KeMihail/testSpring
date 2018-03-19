@@ -26,15 +26,18 @@ public class CarOrderToDTOConverter implements Function<CarOrder, CarOrderDTO> {
 		dto.setTotal(dbModel.getTotal());
 		dto.setDeleted(dbModel.getDeleted());
 
-		dto.setRateId(dbModel.getRate().getId());
-		dto.setRateName(dbModel.getRate().getName());
-
 		dto.setClientId(dbModel.getClient().getId());
 		dto.setClientName(dbModel.getClient().getName());
 
-		dto.setDriverId(dbModel.getDriver().getId());
-		dto.setDriverName(dbModel.getDriver().getName());
+		if (dbModel.getDriver() != null) {
+			dto.setDriverId(dbModel.getDriver().getId());
+			dto.setDriverName(dbModel.getDriver().getName());
+		}
 
+		if (dbModel.getRate() != null) {
+			dto.setRateId(dbModel.getRate().getId());
+			dto.setRateName(dbModel.getRate().getName());
+		}
 		return dto;
 	}
 

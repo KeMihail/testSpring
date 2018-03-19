@@ -31,13 +31,18 @@
 					<li><a href="/serviceitem"><spring:message
 								code="menu.service" /></a></li>
 					<li><a href="/driver"><spring:message code="menu.driver" /></a></li>
-					<li><a href="/cars"><spring:message code="menu.car" /></a></li>
-					<li><a href="/carOrders"><spring:message code="menu.order" /></a></li>
+					<li><a href="/car"><spring:message code="menu.car" /></a></li>
+					<li><a href="/carOrder"><spring:message code="menu.order" /></a></li>
 				</sec:authorize>
 
 				<sec:authorize access="hasAnyRole('PASSENGER','DRIVER','ADMIN')">
-					<li><a href="/carOrders"><spring:message code="menu.order" /></a></li>
+					<li><a href="/carOrder"><spring:message code="menu.order" /></a></li>
 				</sec:authorize>
+
+				<%-- <sec:authorize access="hasRole('DRIVER')">
+					<li><a href="/carOrder"><spring:message
+								code="order.action" /></a></li>
+				</sec:authorize> --%>
 
 			</ul>
 		</div>

@@ -17,6 +17,7 @@ public class CarOrderDTO {
 	private Integer inactivityMinutes;
 	private Double total;
 	private Boolean deleted;
+	
 	private Integer rateId;
 	private String rateName;
 

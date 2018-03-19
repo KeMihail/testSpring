@@ -24,13 +24,11 @@ import by.itacademy.keikom.taxi.dao.dbmodel.CarOption;
 import by.itacademy.keikom.taxi.dao.dbmodel.Car_;
 import by.itacademy.keikom.taxi.dao.dbmodel.LegalEntity;
 import by.itacademy.keikom.taxi.dao.dbmodel.Model;
-import by.itacademy.keikom.taxi.dao.dbmodel.User;
 import by.itacademy.keikom.taxi.dao.enums.CarStatus;
 import by.itacademy.keikom.taxi.dao.filter.CarFilter;
 import by.itacademy.keikom.taxi.dao.filter.CarOptionFilter;
 import by.itacademy.keikom.taxi.dao.filter.LegalEntityFilter;
 import by.itacademy.keikom.taxi.dao.filter.ModelFilter;
-import by.itacademy.keikom.taxi.dao.filter.UserFilter;
 import by.itacademy.keikom.taxi.services.ICarOptionServices;
 import by.itacademy.keikom.taxi.services.ICarServices;
 import by.itacademy.keikom.taxi.services.ILegalEntityServices;
@@ -43,7 +41,7 @@ import by.itacademy.keikom.taxi.web.util.ListModel;
 import by.itacademy.keikom.taxi.web.util.SortModel;
 
 @Controller
-@RequestMapping(value = "/cars")
+@RequestMapping(value = "/car")
 public class CarController {
 
 	private static final String LOCAL_LIST_MODEL_NAME = "carListModel";
